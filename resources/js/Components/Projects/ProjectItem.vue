@@ -12,12 +12,12 @@ const ProjectItemTags = styled.section``;
 const ProjectItemH3 = styled.h3``;
 const ProjectItemTagsInnerWrapper = styled.div``;
 const ProjectItemRolesInnerWrapper = styled.div``;
-const Tag = styled.span``;
-const Role = styled.span``;
+const Tag = styled.div``;
+const Role = styled.div``;
 const StyledHeader = styled.h3``;
-const EditProjectLink = styled(InertiaLink);
+const EditProjectLink = styled(InertiaLink)``;
 const ContactButtonWrapper = styled.div``;
-const ContactButton = styled.button``;
+const ContactButton = styled(JetButton)``;
 const ProjectItemCreatedByWrapper = styled.div``;
 const ProjectItemDate = styled.span``;
 const ProjectItemName = styled.span``;
@@ -29,6 +29,9 @@ export default {
     applications: {
       type: Array,
       default: () => [],
+    },
+    currentUser: {
+      type: Object,
     },
   },
   components: {
@@ -56,6 +59,25 @@ export default {
       return dayjs(timestamp).fromNow();
     },
   },
+  computed: {
+    applied() {
+      return this.applications.includes(this.project.id);
+    },
+    isOwner() {
+      return this.project.user_id === this.currentUser.id;
+    },
+    contactButtonLabel() {
+      if (this.applied) {
+        return "Applied";
+      }
+
+      if (this.isOwner) {
+        return "You own this";
+      }
+
+      return "Contact";
+    },
+  },
 };
 </script>
 
@@ -69,7 +91,7 @@ export default {
       <edit-project-link
         class="font-bold"
         :href="`/projects/${project.id}/edit`"
-        v-if="project.user_id === $page.props.user.id"
+        v-if="project.user_id === currentUser.id"
         >Edit</edit-project-link
       >
     </project-item-header>
@@ -79,10 +101,10 @@ export default {
     }}</project-item-description>
 
     <project-item-looking-for-section>
-      <project-item-h3 class="font-bold mt-4">I'm looking for</project-item-h3>
-      <project-item-roles-inner-wrapper class="pt-1 -mb2-2">
+      <project-item-h3 class="font-bold mt-2">I'm looking for</project-item-h3>
+      <project-item-roles-inner-wrapper class="pt-1 -mb-2 flex">
         <role
-          class="inline-block bg-blue-800 rounded-lg py-1 px-2 text-white mr-2 mb-2"
+          class="inline-block bg-blue-800 rounded-md py-1 px-2 text-white mr-2 mb-2"
           v-for="role in project.roles"
           :key="'project-' + project.id + '_role-' + role.id"
           >{{ role.title }}
@@ -91,10 +113,10 @@ export default {
     </project-item-looking-for-section>
 
     <project-item-tags>
-      <project-item-h3 class="font-bold mt-4">Tags</project-item-h3>
-      <project-item-tags-inner-wrapper class="pt-1 -mb-2">
+      <project-item-h3 class="font-bold mt-2">Tags</project-item-h3>
+      <project-item-tags-inner-wrapper class="pt-1 -mb-2 flex">
         <tag
-          class="bg-gray-200 rounded-lg py-1 px-2 mr-2 inline-block mb-2"
+          class="bg-gray-200 rounded-md py-1 px-2 mr-2 inline-block mb-2"
           v-for="tag in project.tags"
           :key="'project-' + project.id + '_tag-' + tag.id"
           >{{ tag.name }}</tag
@@ -102,16 +124,12 @@ export default {
       </project-item-tags-inner-wrapper>
     </project-item-tags>
 
-    <contact-button-wrapper class="mt-4">
+    <contact-button-wrapper class="mt-8">
       <contact-button
-        class="px-4 py-2 bg-gradient-to-r from-blue-600 via-blue-800 to-teal-500 text-white rounded font-semibold uppercase"
-        @click="$emit('contact-button-clicked', project)"
-        :disabled="
-          applications.includes(project.id) ||
-          project.user_id === $page.props.user.id
-        "
+        @click.native="$emit('contact-button-clicked', project)"
+        :disabled="applied || isOwner"
       >
-        Contact
+        {{ contactButtonLabel }}
       </contact-button>
     </contact-button-wrapper>
 

@@ -15,7 +15,7 @@ class RoleAndTagSeeder extends Seeder
      */
     public function run()
     {
-        Role::factory()->count(20)->create();
+        $this->call(RoleSeeder::class);
         Tag::factory()->count(100)->create();
     }
 }

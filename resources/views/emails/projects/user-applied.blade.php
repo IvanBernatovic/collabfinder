@@ -4,7 +4,7 @@
 User {{ $user->name }} applied to your project "{{ $project->name }}".
 
 @component('mail::panel')
-{{ $user->applicationFor($project)->message }}    
+{{ $user->applicationForProject($project)->pivot->message }}    
 @endcomponent
 
 Thanks,<br>

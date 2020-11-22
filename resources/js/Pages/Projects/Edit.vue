@@ -25,6 +25,9 @@ import ProjectForm from "Components/Projects/Form";
 
 export default {
   name: "Edit",
+  metaInfo: {
+    title: "Edit project",
+  },
   props: ["tags", "roles", "project"],
   components: {
     AppLayout,

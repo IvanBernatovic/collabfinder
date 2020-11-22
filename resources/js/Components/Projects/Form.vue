@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="$emit('submit', form)" autocomplete="off">
-    <div class="bg-white rounded-md overflow-hidden shadow-md">
+    <div class="bg-white rounded-md shadow-md">
       <div class="p-10">
         <div>
           <jet-label for="project_name">Name</jet-label>

@@ -20,6 +20,9 @@ import ProjectForm from "Components/Projects/Form";
 
 export default {
   name: "CreateProject",
+  metaInfo: {
+    title: "Create new project",
+  },
   props: ["tags", "roles"],
   components: {
     AppLayout,

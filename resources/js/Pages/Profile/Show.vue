@@ -46,8 +46,10 @@ import UpdatePasswordForm from "./UpdatePasswordForm";
 import UpdateProfileInformationForm from "./UpdateProfileInformationForm.vue";
 
 export default {
+  metaInfo: {
+    title: "Profile",
+  },
   props: ["sessions"],
-
   components: {
     AppLayout,
     DeleteUserForm,

@@ -5,6 +5,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 
 import AppLayout from "./../../Layouts/AppLayout";
 import JetButton from "Jetstream/Button";
+import JetSecondaryButton from "Jetstream/SecondaryButton";
 import JetDialogModal from "Jetstream/DialogModal";
 import JetLabel from "Jetstream/Label";
 import ProjectItem from "Components/Projects/ProjectItem";
@@ -39,6 +40,7 @@ export default {
     JetDialogModal,
     JetLabel,
     JetButton,
+    JetSecondaryButton,
     ProjectList,
     ProjectModal,
     ProjectItem,
@@ -81,9 +83,17 @@ export default {
       this.project = null;
     },
     applyForProject() {
-      this.$inertia.post(`/projects/${this.project.id}/apply`, {
-        message: this.message,
-      });
+      this.$inertia.post(
+        `/projects/${this.project.id}/apply`,
+        {
+          message: this.message,
+        },
+        {
+          preserveScroll: true,
+        }
+      );
+
+      this.closeContactModal();
     },
     applyFilters() {
       this.$inertia.get("/projects", this.parsedFilters);
@@ -108,7 +118,7 @@ export default {
       </h2>
     </template>
 
-    <div class="py-12">
+    <div class="py-5 lg:py-10">
       <project-modal :show="applyingForProject" @close="closeContactModal">
         <template #title>
           <h1 class="font-bold">Contact OP</h1>
@@ -129,6 +139,9 @@ export default {
         </template>
 
         <template #footer>
+          <jet-secondary-button @click.native="closeContactModal">
+            Cancel
+          </jet-secondary-button>
           <jet-button type="primary" @click.native.prevent="applyForProject"
             >Apply</jet-button
           >
@@ -171,6 +184,7 @@ export default {
           :key="`project-item-${i}`"
           :project="project"
           :applications="applications"
+          :current-user="$page.props.user"
           @contact-button-clicked="openContactModal"
         />
 

@@ -36,6 +36,7 @@ class UserApplied extends Mailable
     public function build()
     {
         return $this->replyTo($this->user->email)
+            ->subject("User {$this->user->email} applied for your project")
             ->markdown('emails.projects.user-applied');
     }
 }

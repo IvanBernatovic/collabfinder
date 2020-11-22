@@ -117,10 +117,10 @@ class ProjectController extends Controller
         DB::transaction(function () use ($project) {
             Auth::user()->applications()->attach($project->id, ['message' => request()->get('message')]);
 
-            Mail::to($project->user)->send(new UserApplied($project, auth()->user()));
+            Mail::to($project->user)->queue(new UserApplied($project, auth()->user()));
         });
 
-        return response()->json();
+        return redirect()->route('projects');
     }
 
     public function validateProjectForm()

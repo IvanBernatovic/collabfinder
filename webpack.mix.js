@@ -18,6 +18,18 @@ mix.webpackConfig({
             Jetstream: path.resolve(__dirname, "resources/js/Jetstream"),
             Components: path.resolve(__dirname, "resources/js/Components")
         }
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(postcss)$/,
+                use: [
+                    "vue-style-loader",
+                    { loader: "css-loader", options: { importLoaders: 1 } },
+                    "postcss-loader"
+                ]
+            }
+        ]
     }
 })
     .js("resources/js/app.js", "public/js")
