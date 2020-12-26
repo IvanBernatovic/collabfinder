@@ -89,7 +89,7 @@ export default {
       </styled-header>
 
       <edit-project-link
-        class="font-bold"
+        class="font-bold px-3 py-2 rounded-md hover:bg-gray-100 transition-colors duration-100"
         :href="`/projects/${project.id}/edit`"
         v-if="project.user_id === currentUser.id"
         >Edit</edit-project-link
@@ -104,7 +104,7 @@ export default {
       <project-item-h3 class="font-bold mt-2">I'm looking for</project-item-h3>
       <project-item-roles-inner-wrapper class="pt-1 -mb-2 flex">
         <role
-          class="inline-block bg-blue-800 rounded-md py-1 px-2 text-white mr-2 mb-2"
+          class="inline-block bg-indigo-600 rounded-md py-1 px-2 text-white mr-2 mb-2"
           v-for="role in project.roles"
           :key="'project-' + project.id + '_role-' + role.id"
           >{{ role.title }}
@@ -135,7 +135,7 @@ export default {
 
     <project-item-created-by-wrapper class="mt-8">
       By
-      <project-item-name class="font-semibold text-blue-800">{{
+      <project-item-name class="font-semibold text-indigo-500">{{
         project.user.name
       }}</project-item-name>
       <project-item-date class="text-gray-500">{{

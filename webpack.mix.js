@@ -32,6 +32,12 @@ mix.webpackConfig({
         ]
     }
 })
+    .options({
+        hmrOptions: {
+            host: "localhost",
+            port: 9080
+        }
+    })
     .js("resources/js/app.js", "public/js")
     .postCss("resources/css/app.css", "public/css", [
         require("postcss-import"),
