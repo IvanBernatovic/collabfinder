@@ -98,6 +98,7 @@ return [
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
         'repository' => 'git@github.com:IvanBernatovic/collabfinder.git',
+        'composer_options' => '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader'
     ],
 
     /*
