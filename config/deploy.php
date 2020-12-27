@@ -51,7 +51,7 @@ return [
 
         // Code and composer vendors are ready but nothing is built.
         'build' => [
-            'npm:install',
+            'npm:ci',
             'npm:production',
         ],
 
@@ -65,7 +65,7 @@ return [
 
         // Deployment is done and live
         'done' => [
-            //
+            'supervisor:restart'
         ],
 
         // Deployment succeeded.
@@ -98,7 +98,10 @@ return [
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
         'repository' => 'git@github.com:IvanBernatovic/collabfinder.git',
-        'composer_options' => '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader'
+        'composer_options' => '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader',
+        'env' => [
+            'PATH' => env('DEPLOYER_ENV_PATH', '')
+        ]
     ],
 
     /*
@@ -114,8 +117,8 @@ return [
 
     'hosts' => [
         'app.collabfinder.net' => [
-            'deploy_path' => '/home/ivan/web-apps/app.collabfinder.net',
-            'user' => 'ivan',
+            'deploy_path' => env('DEPLOYER_PATH', ''),
+            'user' => env('DEPLOYER_USER', 'deployer'),
         ],
     ],
 
@@ -146,7 +149,7 @@ return [
     */
 
     'include' => [
-        //
+        'recipes/common.php'
     ],
 
     /*
