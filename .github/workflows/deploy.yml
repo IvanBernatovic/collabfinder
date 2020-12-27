@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: shivammathur/setup-php@b7d1d9c9a92d8d8463ce36d7f60da34d461724f8
+      with:
+        php-version: '7.4'
+    - uses: actions/checkout@v2
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Generate key
+      run: php artisan key:generate
+    - name: Deploy with deployer
+      env:
+        DEPLOYER_PATH: ${{ secrets.DEPLOYER_PATH }}
+        DEPLOYER_USER: ${{ secrets.DEPLOYER_USER }}
+        DEPLOYER_ENV_PATH:  ${{ secrets.DEPLOYER_PATH }}
+      run: php artisan deploy
