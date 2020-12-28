@@ -47,7 +47,7 @@
             :options="tags"
             :multiple="true"
             label="name"
-            track-by="id"
+            track-by="name"
             :taggable="true"
             @tag="addTag"
           ></multiselect>

@@ -138,7 +138,7 @@ class ProjectController extends Controller
             'tags.*.id' => ['required_without:name', 'exists:tags,id'],
             'tags.*.name' => ['required', 'min:2', 'max:30'],
             'roles' => ['required'],
-            'roles.*.id' => ['exists:tags,id']
+            'roles.*.id' => ['exists:roles,id']
         ]);
     }
 
