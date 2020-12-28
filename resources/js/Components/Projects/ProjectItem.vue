@@ -96,7 +96,7 @@ export default {
       >
     </project-item-header>
 
-    <project-item-description>{{
+    <project-item-description class="whitespace-pre-line">{{
       project.description
     }}</project-item-description>
 
