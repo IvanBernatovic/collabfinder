@@ -46,7 +46,7 @@ export default {
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .pagination-button {
   @apply px-4 py-2 bg-white shadow rounded-md uppercase text-sm mx-3 font-semibold transition-colors duration-100;
 
