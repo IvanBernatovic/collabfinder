@@ -48,6 +48,8 @@
             :multiple="true"
             label="name"
             track-by="id"
+            :taggable="true"
+            @tag="addTag"
           ></multiselect>
 
           <jet-input-error :message="form.error('tags')" class="mt-2" />
@@ -109,6 +111,13 @@ export default {
   methods: {
     deleteProject() {
       this.form.delete(`/projects/${this.project.id}`);
+    },
+    addTag(newTag) {
+      const tag = {
+        name: newTag,
+      };
+      this.tags.push(tag);
+      this.form.tags.push(tag);
     },
   },
 };

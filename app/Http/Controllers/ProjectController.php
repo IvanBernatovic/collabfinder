@@ -64,7 +64,10 @@ class ProjectController extends Controller
                 ->projects()
                 ->create(request()->all(['name', 'description']));
 
-            $project->tags()->sync(array_column(request()->get('tags'), 'id'));
+            $tags = request()->get('tags');
+            $newTags = $this->processNewTags($tags);
+
+            $project->tags()->sync(array_column(array_merge($tags, $newTags), 'id'));
             $project->roles()->sync(array_column(request()->get('roles'), 'id'));
         });
 
@@ -94,7 +97,10 @@ class ProjectController extends Controller
         DB::transaction(function () use ($project) {
             $project->update(request()->all(['name', 'description']));
 
-            $project->tags()->sync(array_column(request()->get('tags'), 'id'));
+            $tags = request()->get('tags');
+            $newTags = $this->processNewTags($tags);
+
+            $project->tags()->sync(array_column(array_merge($tags, $newTags), 'id'));
             $project->roles()->sync(array_column(request()->get('roles'), 'id'));
         });
 
@@ -130,8 +136,22 @@ class ProjectController extends Controller
             'description' => ['required', 'min:30'],
             'tags' => ['required', 'max:6'],
             'tags.*.id' => ['required_without:name', 'exists:tags,id'],
+            'tags.*.name' => ['required', 'min:2', 'max:30'],
             'roles' => ['required'],
             'roles.*.id' => ['exists:tags,id']
         ]);
+    }
+
+    public function processNewTags($tags)
+    {
+        $newTags = [];
+
+        foreach ($tags as $tag) {
+            $newTags[] = Tag::updateOrCreate([
+                'name' => $tag['name']
+            ], ['name' => $tag['name']])->toArray();
+        }
+
+        return $newTags;
     }
 }

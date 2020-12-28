@@ -53,7 +53,6 @@ export default {
     const roles = url.searchParams
       .getAll("roles[]")
       .map((roleId) => parseInt(roleId));
-    console.log(url.searchParams.getAll("roles[]"));
     this.filters.roles = this.roles.filter((role) => roles.includes(role.id));
 
     const tags = url.searchParams
