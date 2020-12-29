@@ -176,6 +176,12 @@ export default {
           <jet-button @click.native="applyFilters" type="primary" class="mt-2"
             >Search</jet-button
           >
+
+          <inertia-link href="/projects">
+            <jet-secondary-button type="primary" class="mt-2 ml-2"
+              >Reset filters</jet-secondary-button
+            >
+          </inertia-link>
         </project-filters>
 
         <project-item
