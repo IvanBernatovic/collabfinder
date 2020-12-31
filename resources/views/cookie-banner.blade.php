@@ -3,7 +3,8 @@
         class="px-3 md:px-8 py-3 bg-white w-fulll md:w-2/3 lg:w-2/5 mx-auto shadow-xl flex flex-col md:flex-row items-center">
         <p class="text-center">We use cookies for critical functionality such as identification and security. By using
             this site you
-            agree with our cookie policy.</p>
+            agree with our <a href="/privacy" target="_blank" class="text-indigo-700">privacy and cookies policy</a>.
+        </p>
 
         <button class="mt-3 md:mt-0 md:ml-3 border-2 rounder px-2 py-1 border-indigo-700 text-indigo-700 uppercase"
             onclick="dismissBanner()">Dismiss</button>

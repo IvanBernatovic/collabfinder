@@ -22,6 +22,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'terms' => ['required'],
             'password' => $this->passwordRules(),
             'g-recaptcha-response' => ['required', 'captcha']
         ])->validate();

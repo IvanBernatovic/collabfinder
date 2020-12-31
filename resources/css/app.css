@@ -1,3 +1,19 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+#terms {
+    h1,
+    h2,
+    h3 {
+        @apply mt-4 font-bold;
+    }
+
+    ul {
+        @apply list-inside list-disc pl-6 mb-2;
+    }
+
+    p {
+        @apply mb-2;
+    }
+}

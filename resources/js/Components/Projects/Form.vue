@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="$emit('submit', form)" autocomplete="off">
     <div class="bg-white rounded-md shadow-md">
-      <div class="p-10">
+      <div class="p-5 md:p-10">
         <div>
           <jet-label for="project_name">Name</jet-label>
           <jet-input
@@ -17,6 +17,9 @@
 
         <div class="mt-4">
           <jet-label for="description">Description</jet-label>
+          <small class="text-xs text-gray-500"
+            >To avoid idea theft keep this on a need-to-know basis</small
+          >
           <textarea
             class="form-input w-full"
             rows="5"
@@ -54,6 +57,24 @@
 
           <jet-input-error :message="form.error('tags')" class="mt-2" />
         </div>
+
+        <div class="block mt-4" v-if="!project">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox"
+              v-model="terms"
+              name="terms"
+            />
+            <span class="ml-2 text-sm text-gray-600"
+              >I agree that CollabFinder.net is not liable in case of idea theft
+              as disclosed in
+              <a href="/terms" class="text-indigo-700" target="_blank"
+                >terms of service</a
+              ></span
+            >
+          </label>
+        </div>
       </div>
 
       <div
@@ -65,7 +86,9 @@
           v-if="project"
           >Delete</jet-danger-button
         >
-        <jet-button type="submit">Publish</jet-button>
+        <jet-button type="submit" :disabled="!terms && !project"
+          >Publish</jet-button
+        >
       </div>
     </div>
   </form>
@@ -95,6 +118,7 @@ export default {
   },
   data() {
     return {
+      terms: false,
       form: this.$inertia.form(
         {
           name: this.project?.name || "",

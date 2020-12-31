@@ -32,6 +32,14 @@
                     autocomplete="new-password" />
             </div>
 
+            <div class="block mt-4">
+                <label class="flex items-center">
+                    <input type="checkbox" class="form-checkbox" name="agreement">
+                    <span class="ml-2 text-sm text-gray-600">I agree with your <a href="/terms" class="text-indigo-700"
+                            target="_blank">terms of service</a></span>
+                </label>
+            </div>
+
             <div class="mt-4">
                 {!! app('captcha')->display() !!}
 

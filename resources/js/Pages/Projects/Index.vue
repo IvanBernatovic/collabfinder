@@ -147,7 +147,7 @@ export default {
         </template>
       </project-modal>
 
-      <project-list class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+      <project-list class="max-w-4xl mx-auto sm:px-6 md:px-8">
         <project-filters class="bg-white rounded p-6 mb-6 shadow-md">
           <h2 class="mb-1 font-bold">Filter projects by roles and tags</h2>
           <div class="lg:flex lg:-mx-2">
