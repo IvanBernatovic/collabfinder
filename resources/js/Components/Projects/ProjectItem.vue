@@ -103,7 +103,7 @@ export default {
     }}</project-item-description>
 
     <project-item-looking-for-section>
-      <project-item-h3 class="font-bold mt-4">I'm looking for</project-item-h3>
+      <project-item-h3 class="font-bold mt-4">Roles needed</project-item-h3>
       <project-item-roles-inner-wrapper class="pt-1 -mb-2 flex flex-wrap">
         <role
           class="inline-block bg-indigo-600 rounded-md py-1 px-2 text-white mr-2 mb-2"

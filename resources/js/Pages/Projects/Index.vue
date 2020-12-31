@@ -149,31 +149,36 @@ export default {
 
       <project-list class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <project-filters class="bg-white rounded p-6 mb-6 shadow-md">
+          <h2 class="mb-1 font-bold">Filter projects by roles and tags</h2>
           <div class="lg:flex lg:-mx-2">
             <div class="flex-1 lg:mx-2">
-              <h2 class="font-bold">I'm a</h2>
               <multiselect
                 v-model="filters.roles"
                 :options="roles"
                 :multiple="true"
                 label="title"
                 track-by="id"
+                placeholder="Select roles"
               />
             </div>
 
             <div class="flex-1 mt-2 lg:mx-2 lg:mt-0">
-              <h2 class="font-bold">Tags</h2>
               <multiselect
                 v-model="filters.tags"
                 :options="tags"
                 :multiple="true"
                 label="name"
                 track-by="id"
+                placeholder="Select tags"
               />
             </div>
           </div>
 
-          <jet-button @click.native="applyFilters" type="primary" class="mt-2"
+          <jet-button
+            @click.native="applyFilters"
+            type="primary"
+            class="mt-2"
+            :disabled="!(filters.roles.length || filters.tags.length)"
             >Search</jet-button
           >
 
