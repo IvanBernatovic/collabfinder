@@ -25,6 +25,7 @@
     </div>
 
     @include('cookie-banner')
+    @include('matomo')
 </body>
 
 </html>

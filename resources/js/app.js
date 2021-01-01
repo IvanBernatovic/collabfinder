@@ -7,6 +7,8 @@ import { App, plugin } from "@inertiajs/inertia-vue";
 import { InertiaForm } from "laravel-jetstream";
 import PortalVue from "portal-vue";
 import { InertiaProgress } from "@inertiajs/progress";
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
 
 Vue.use(plugin);
 Vue.use(InertiaForm);
@@ -40,3 +42,16 @@ InertiaProgress.init({
     // Whether the NProgress spinner will be shown.
     showSpinner: false
 });
+
+if (process.env.MIX_APP_ENV === "production") {
+    Sentry.init({
+        Vue,
+        dsn: process.env.MIX_SENTRY_LARAVEL_DSN,
+        autoSessionTracking: true,
+        integrations: [new Integrations.BrowserTracing()],
+
+        // We recommend adjusting this value in production, or using tracesSampler
+        // for finer control
+        tracesSampleRate: 1.0
+    });
+}

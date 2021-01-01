@@ -27,6 +27,8 @@
     },
     "dependencies": {
         "@inertiajs/progress": "^0.1.2",
+        "@sentry/tracing": "^5.29.2",
+        "@sentry/vue": "^5.29.2",
         "autoprefixer": "^9.0.0",
         "dayjs": "^1.9.6",
         "lodash-es": "^4.17.15",

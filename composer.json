@@ -19,7 +19,8 @@
         "laravel/jetstream": "^1.6",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
-        "lorisleiva/laravel-deployer": "^0.3.5"
+        "lorisleiva/laravel-deployer": "^0.3.5",
+        "sentry/sentry-laravel": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
