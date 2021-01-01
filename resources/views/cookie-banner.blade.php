@@ -13,7 +13,9 @@
 
 <script>
     function dismissBanner() {
-        Cookies.set('cookie-dismissed', 'true')
+        Cookies.set('cookie-dismissed', 'true', {
+            expires: 365
+        })
 
         document.getElementById('cookie-banner').classList.replace('fixed', 'hidden')
     }
