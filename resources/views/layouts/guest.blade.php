@@ -24,6 +24,10 @@
         {{ $slot }}
     </div>
 
+    <script src="{{ mix('js/manifest.js') }}"></script>
+    <script src="{{ mix('js/fa-icons.js') }}"></script>
+    <script src="{{ mix('js/icons.js') }}"></script>
+
     @include('cookie-banner')
     @include('matomo')
 </body>

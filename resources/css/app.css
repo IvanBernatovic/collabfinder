@@ -17,3 +17,9 @@
         @apply mb-2;
     }
 }
+
+.line {
+    height: 1px;
+    position: relative;
+    top: 0.7rem;
+}

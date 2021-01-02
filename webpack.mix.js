@@ -40,10 +40,14 @@ mix.webpackConfig({
     })
     .js("resources/js/app.js", "public/js")
     .vue()
+    .js("resources/js/icons.js", "public/js")
     .postCss("resources/css/app.css", "public/css", [
         require("postcss-import"),
         require("tailwindcss")
     ])
     .version();
 
-mix.extract();
+mix.extract({
+    to: "js/fa-icons.js",
+    libraries: /.*fontawesome.*/
+});

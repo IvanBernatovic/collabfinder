@@ -53,5 +53,7 @@
                 </x-jet-button>
             </div>
         </form>
+
+        @include('auth.social-login')
     </x-jet-authentication-card>
 </x-guest-layout>

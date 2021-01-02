@@ -76,4 +76,14 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('project_id', $project->id)
             ->firstOrFail();
     }
+
+    public function social_login()
+    {
+        return $this->hasMany(SocialLogin::class);
+    }
+
+    public function hasSocialLinked($service)
+    {
+        return (bool) $this->social_login->where('service', $service)->count();
+    }
 }
