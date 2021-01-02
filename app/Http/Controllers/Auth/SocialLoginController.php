@@ -34,6 +34,7 @@ class SocialLoginController extends Controller
                     'name' => $serviceUser->getName(),
                     'email' => $email,
                     'password' => '',
+                    'email_verified_at' => now()
                 ]);
             }
 
