@@ -132,6 +132,7 @@ export default {
               name="message"
               id="message"
               v-model="message"
+              required
               placeholder="I would like to be part of this project because..."
             ></textarea>
           </div>
@@ -141,7 +142,10 @@ export default {
           <jet-secondary-button @click.native="closeContactModal">
             Cancel
           </jet-secondary-button>
-          <jet-button type="primary" @click.native.prevent="applyForProject"
+          <jet-button
+            type="submit"
+            @click.native.prevent="applyForProject"
+            :disabled="!message && message.length < 3"
             >Apply</jet-button
           >
         </template>

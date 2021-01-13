@@ -119,6 +119,7 @@ class ProjectController extends Controller
     public function apply(Project $project)
     {
         $this->authorize('apply-for-project', $project);
+        $this->validateContactForm();
 
         DB::transaction(function () use ($project) {
             Auth::user()->applications()->attach($project->id, ['message' => request()->get('message')]);
@@ -139,6 +140,13 @@ class ProjectController extends Controller
             'tags.*.name' => ['required', 'min:2', 'max:30'],
             'roles' => ['required'],
             'roles.*.id' => ['exists:roles,id']
+        ]);
+    }
+
+    public function validateContactForm()
+    {
+        return request()->validate([
+            'message' => 'required|min:3'
         ]);
     }
 
