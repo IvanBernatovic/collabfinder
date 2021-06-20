@@ -45,7 +45,18 @@
           </div>
 
           <div
-            class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg"
+            class="
+              grid
+              gap-1
+              max-w-xl
+              mt-4
+              px-4
+              py-4
+              font-mono
+              text-sm
+              bg-gray-100
+              rounded-lg
+            "
           >
             <div v-for="code in recoveryCodes">
               {{ code }}
@@ -124,20 +135,16 @@ export default {
     enableTwoFactorAuthentication() {
       this.enabling = true;
 
-      this.$inertia
-        .post(
-          "/user/two-factor-authentication",
-          {},
-          {
-            preserveScroll: true,
-          }
-        )
-        .then(() => {
-          return Promise.all([this.showQrCode(), this.showRecoveryCodes()]);
-        })
-        .then(() => {
-          this.enabling = false;
-        });
+      this.$inertia.post(
+        "/user/two-factor-authentication",
+        {},
+        {
+          preserveScroll: true,
+          onSuccess: () =>
+            Promise.all([this.showQrCode(), this.showRecoveryCodes()]),
+          onFinish: () => (this.enabling = false),
+        }
+      );
     },
 
     showQrCode() {

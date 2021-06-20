@@ -12,7 +12,7 @@
             autocomplete="off"
             list="autocompleteOff"
           />
-          <jet-input-error :message="form.error('name')" class="mt-2" />
+          <jet-input-error :message="form.errors.name" class="mt-2" />
         </div>
 
         <div class="mt-4">
@@ -27,7 +27,7 @@
             id="description"
             v-model="form.description"
           ></textarea>
-          <jet-input-error :message="form.error('description')" class="mt-2" />
+          <jet-input-error :message="form.errors.description" class="mt-2" />
         </div>
 
         <div class="mt-4">
@@ -40,7 +40,7 @@
             track-by="id"
           ></multiselect>
 
-          <jet-input-error :message="form.error('roles')" class="mt-2" />
+          <jet-input-error :message="form.errors.roles" class="mt-2" />
         </div>
 
         <div class="mt-4">
@@ -55,7 +55,7 @@
             @tag="addTag"
           ></multiselect>
 
-          <jet-input-error :message="form.error('tags')" class="mt-2" />
+          <jet-input-error :message="form.errors.tags" class="mt-2" />
         </div>
 
         <div class="block mt-4" v-if="!project">

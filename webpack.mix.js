@@ -45,6 +45,7 @@ mix.webpackConfig({
         require("postcss-import"),
         require("tailwindcss")
     ])
+    .webpackConfig(require("./webpack.config"))
     .version();
 
 mix.extract({

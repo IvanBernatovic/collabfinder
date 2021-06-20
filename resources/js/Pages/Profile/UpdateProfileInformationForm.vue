@@ -25,8 +25,8 @@
         <!-- Current Profile Photo -->
         <div class="mt-2" v-show="!photoPreview">
           <img
-            :src="$page.props.user.profile_photo_url"
-            alt="Current Profile Photo"
+            :src="user.profile_photo_url"
+            :alt="user.name"
             class="rounded-full h-20 w-20 object-cover"
           />
         </div>
@@ -47,7 +47,7 @@
         <jet-secondary-button
           class="mt-2 mr-2"
           type="button"
-          @click.native.prevent="selectNewPhoto"
+          @click.prevent="selectNewPhoto"
         >
           Select A New Photo
         </jet-secondary-button>
@@ -55,13 +55,13 @@
         <jet-secondary-button
           type="button"
           class="mt-2"
-          @click.native.prevent="deletePhoto"
-          v-if="$page.props.user.profile_photo_path"
+          @click.prevent="deletePhoto"
+          v-if="user.profile_photo_path"
         >
           Remove Photo
         </jet-secondary-button>
 
-        <jet-input-error :message="form.error('photo')" class="mt-2" />
+        <jet-input-error :message="form.errors.photo" class="mt-2" />
       </div>
 
       <!-- Name -->
@@ -74,7 +74,7 @@
           v-model="form.name"
           autocomplete="name"
         />
-        <jet-input-error :message="form.error('name')" class="mt-2" />
+        <jet-input-error :message="form.errors.name" class="mt-2" />
       </div>
 
       <!-- Email -->
@@ -86,7 +86,7 @@
           class="mt-1 block w-full"
           v-model="form.email"
         />
-        <jet-input-error :message="form.error('email')" class="mt-2" />
+        <jet-input-error :message="form.errors.email" class="mt-2" />
       </div>
     </template>
 
@@ -106,13 +106,13 @@
 </template>
 
 <script>
-import JetButton from "./../../Jetstream/Button";
-import JetFormSection from "./../../Jetstream/FormSection";
-import JetInput from "./../../Jetstream/Input";
-import JetInputError from "./../../Jetstream/InputError";
-import JetLabel from "./../../Jetstream/Label";
-import JetActionMessage from "./../../Jetstream/ActionMessage";
-import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
+import JetButton from "@/Jetstream/Button";
+import JetFormSection from "@/Jetstream/FormSection";
+import JetInput from "@/Jetstream/Input";
+import JetInputError from "@/Jetstream/InputError";
+import JetLabel from "@/Jetstream/Label";
+import JetActionMessage from "@/Jetstream/ActionMessage";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 
 export default {
   components: {
@@ -125,22 +125,16 @@ export default {
     JetSecondaryButton,
   },
 
-  props: ["name", "email"],
+  props: ["user"],
 
   data() {
     return {
-      form: this.$inertia.form(
-        {
-          _method: "PUT",
-          name: this.name,
-          email: this.email,
-          photo: null,
-        },
-        {
-          bag: "updateProfileInformation",
-          resetOnSuccess: false,
-        }
-      ),
+      form: this.$inertia.form({
+        _method: "PUT",
+        name: this.user.name,
+        email: this.user.email,
+        photo: null,
+      }),
 
       photoPreview: null,
     };
@@ -153,7 +147,9 @@ export default {
       }
 
       this.form.post("/user/profile-information", {
+        errorBag: "updateProfileInformation",
         preserveScroll: true,
+        onSuccess: () => this.clearPhotoFileInput(),
       });
     },
 
@@ -162,23 +158,33 @@ export default {
     },
 
     updatePhotoPreview() {
+      const photo = this.$refs.photo.files[0];
+
+      if (!photo) return;
+
       const reader = new FileReader();
 
       reader.onload = (e) => {
         this.photoPreview = e.target.result;
       };
 
-      reader.readAsDataURL(this.$refs.photo.files[0]);
+      reader.readAsDataURL(photo);
     },
 
     deletePhoto() {
-      this.$inertia
-        .delete("/user/profile-photo", {
-          preserveScroll: true,
-        })
-        .then(() => {
+      this.$inertia.delete(route("current-user-photo.destroy"), {
+        preserveScroll: true,
+        onSuccess: () => {
           this.photoPreview = null;
-        });
+          this.clearPhotoFileInput();
+        },
+      });
+    },
+
+    clearPhotoFileInput() {
+      if (this.$refs.photo?.value) {
+        this.$refs.photo.value = null;
+      }
     },
   },
 };

@@ -21,7 +21,7 @@
             autofocus
           />
           <jet-input-error
-            :message="createApiTokenForm.error('name')"
+            :message="createApiTokenForm.errors.name"
             class="mt-2"
           />
         </div>
@@ -93,7 +93,13 @@
                   </div>
 
                   <button
-                    class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none"
+                    class="
+                      cursor-pointer
+                      ml-6
+                      text-sm text-gray-400
+                      underline
+                      focus:outline-none
+                    "
                     @click="manageApiTokenPermissions(token)"
                     v-if="availablePermissions.length > 0"
                   >
@@ -101,7 +107,12 @@
                   </button>
 
                   <button
-                    class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
+                    class="
+                      cursor-pointer
+                      ml-6
+                      text-sm text-red-500
+                      focus:outline-none
+                    "
                     @click="confirmApiTokenDeletion(token)"
                   >
                     Delete
@@ -125,7 +136,15 @@
         </div>
 
         <div
-          class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500"
+          class="
+            mt-4
+            bg-gray-100
+            px-4
+            py-2
+            rounded
+            font-mono
+            text-sm text-gray-500
+          "
           v-if="$page.props.jetstream.flash.token"
         >
           {{ $page.props.jetstream.flash.token }}
@@ -272,15 +291,13 @@ export default {
 
   methods: {
     createApiToken() {
-      this.createApiTokenForm
-        .post("/user/api-tokens", {
-          preserveScroll: true,
-        })
-        .then((response) => {
-          if (!this.createApiTokenForm.hasErrors()) {
-            this.displayingToken = true;
-          }
-        });
+      this.createApiTokenForm.post("/user/api-tokens", {
+        preserveScroll: true,
+        onSuccess: () => {
+          this.displayingToken = true;
+          this.createApiTokenForm.reset();
+        },
+      });
     },
 
     manageApiTokenPermissions(token) {
@@ -290,14 +307,14 @@ export default {
     },
 
     updateApiToken() {
-      this.updateApiTokenForm
-        .put("/user/api-tokens/" + this.managingPermissionsFor.id, {
+      this.updateApiTokenForm.put(
+        "/user/api-tokens/" + this.managingPermissionsFor.id,
+        {
           preserveScroll: true,
           preserveState: true,
-        })
-        .then((response) => {
-          this.managingPermissionsFor = null;
-        });
+          onSuccess: () => (this.managingPermissionsFor = null),
+        }
+      );
     },
 
     confirmApiTokenDeletion(token) {
@@ -305,14 +322,14 @@ export default {
     },
 
     deleteApiToken() {
-      this.deleteApiTokenForm
-        .delete("/user/api-tokens/" + this.apiTokenBeingDeleted.id, {
+      this.deleteApiTokenForm.delete(
+        "/user/api-tokens/" + this.apiTokenBeingDeleted.id,
+        {
           preserveScroll: true,
           preserveState: true,
-        })
-        .then(() => {
-          this.apiTokenBeingDeleted = null;
-        });
+          onSuccess: () => (this.apiTokenBeingDeleted = null),
+        }
+      );
     },
 
     fromNow(timestamp) {
