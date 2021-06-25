@@ -31,4 +31,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::put('/projects/{project}', 'ProjectController@update')->name('project.update');
     Route::delete('/projects/{project}', 'ProjectController@delete')->name('project.delete');
     Route::post('/projects/{project}/apply', 'ProjectController@apply')->name('project.apply');
+
+    Route::get('/my-projects', 'ProjectController@myProjects')->name('my-projects');
 });

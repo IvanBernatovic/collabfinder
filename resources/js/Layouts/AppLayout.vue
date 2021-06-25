@@ -1,22 +1,22 @@
 <script>
-import styled from "vue-styled-components";
-import JetApplicationLogo from "./../Jetstream/ApplicationLogo";
-import JetApplicationMark from "./../Jetstream/ApplicationMark";
-import JetDropdown from "./../Jetstream/Dropdown";
-import JetDropdownLink from "./../Jetstream/DropdownLink";
-import JetNavLink from "./../Jetstream/NavLink";
-import JetResponsiveNavLink from "./../Jetstream/ResponsiveNavLink";
+import styled from 'vue-styled-components'
+import JetApplicationLogo from './../Jetstream/ApplicationLogo'
+import JetApplicationMark from './../Jetstream/ApplicationMark'
+import JetDropdown from './../Jetstream/Dropdown'
+import JetDropdownLink from './../Jetstream/DropdownLink'
+import JetNavLink from './../Jetstream/NavLink'
+import JetResponsiveNavLink from './../Jetstream/ResponsiveNavLink'
 
-const DesktopNavigation = styled.div``;
-const MobileNavigation = styled.div``;
-const Navigation = styled.nav``;
-const PageContent = styled.main``;
-const StyledHeader = styled.header``;
-const HeaderInnerWrapper = styled.div``;
+const DesktopNavigation = styled.div``
+const MobileNavigation = styled.div``
+const Navigation = styled.nav``
+const PageContent = styled.main``
+const StyledHeader = styled.header``
+const HeaderInnerWrapper = styled.div``
 
 export default {
   metaInfo: {
-    titleTemplate: "%s | CollabFinder",
+    titleTemplate: '%s | CollabFinder'
   },
   components: {
     JetApplicationLogo,
@@ -30,43 +30,42 @@ export default {
     Navigation,
     PageContent,
     StyledHeader,
-    HeaderInnerWrapper,
+    HeaderInnerWrapper
   },
 
   data() {
     return {
-      showingNavigationDropdown: false,
-    };
+      showingNavigationDropdown: false
+    }
   },
 
   methods: {
     switchToTeam(team) {
       this.$inertia.put(
-        "/current-team",
+        '/current-team',
         {
-          team_id: team.id,
+          team_id: team.id
         },
         {
-          preserveState: false,
+          preserveState: false
         }
-      );
+      )
     },
 
     logout() {
-      axios.post("/logout").then((response) => {
-        window.location = "/";
-      });
-    },
+      axios.post('/logout').then(response => {
+        window.location = '/'
+      })
+    }
   },
 
   computed: {
     path() {
-      return window.location.pathname;
-    },
-  },
-};
+      return window.location.pathname
+    }
+  }
+}
 </script>
-
 
 <template>
   <div class="min-h-screen bg-gray-100">
@@ -84,18 +83,22 @@ export default {
 
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
-                href="/projects"
-                :active="$page.props.currentRouteName == 'projects'"
-              >
+              <jet-nav-link href="/projects" :active="$page.url == '/projects'">
                 Projects
               </jet-nav-link>
 
               <jet-nav-link
                 href="/projects/create"
-                :active="$page.props.currentRouteName == 'projects.create'"
+                :active="$page.url == '/projects/create'"
               >
                 New project
+              </jet-nav-link>
+
+              <jet-nav-link
+                href="/my-projects"
+                :active="$page.url == '/my-projects'"
+              >
+                My projects
               </jet-nav-link>
             </div>
           </div>
@@ -107,7 +110,17 @@ export default {
                 <template #trigger>
                   <button
                     v-if="$page.props.jetstream.managesProfilePhotos"
-                    class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
+                    class="
+                      flex
+                      text-sm
+                      border-2 border-transparent
+                      rounded-full
+                      focus:outline-none
+                      focus:border-gray-300
+                      transition
+                      duration-150
+                      ease-in-out
+                    "
                   >
                     <img
                       class="h-8 w-8 rounded-full object-cover"
@@ -118,7 +131,21 @@ export default {
 
                   <button
                     v-else
-                    class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                    class="
+                      flex
+                      items-center
+                      text-sm
+                      font-medium
+                      text-gray-500
+                      hover:text-gray-700
+                      hover:border-gray-300
+                      focus:outline-none
+                      focus:text-gray-700
+                      focus:border-gray-300
+                      transition
+                      duration-150
+                      ease-in-out
+                    "
                   >
                     <div>{{ $page.props.user.name }}</div>
 
@@ -224,7 +251,22 @@ export default {
           <div class="-mr-2 flex items-center sm:hidden">
             <button
               @click="showingNavigationDropdown = !showingNavigationDropdown"
-              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+              class="
+                inline-flex
+                items-center
+                justify-center
+                p-2
+                rounded-md
+                text-gray-400
+                hover:text-gray-500
+                hover:bg-gray-100
+                focus:outline-none
+                focus:bg-gray-100
+                focus:text-gray-500
+                transition
+                duration-150
+                ease-in-out
+              "
             >
               <svg
                 class="h-6 w-6"
@@ -235,7 +277,7 @@ export default {
                 <path
                   :class="{
                     hidden: showingNavigationDropdown,
-                    'inline-flex': !showingNavigationDropdown,
+                    'inline-flex': !showingNavigationDropdown
                   }"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -245,7 +287,7 @@ export default {
                 <path
                   :class="{
                     hidden: !showingNavigationDropdown,
-                    'inline-flex': showingNavigationDropdown,
+                    'inline-flex': showingNavigationDropdown
                   }"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -262,7 +304,7 @@ export default {
       <mobile-navigation
         :class="{
           block: showingNavigationDropdown,
-          hidden: !showingNavigationDropdown,
+          hidden: !showingNavigationDropdown
         }"
         class="sm:hidden"
       >

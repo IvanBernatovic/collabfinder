@@ -5,10 +5,10 @@ import ProjectFilters from 'Components/Projects/Filters'
 import ProjectList from 'Components/Projects/List'
 
 export default {
-  name: 'ProjectsIndexPage',
+  name: 'MyProjectsPage',
   metaInfo() {
     return {
-      title: 'Projects'
+      title: 'MyProjects'
     }
   },
   props: {
@@ -67,20 +67,12 @@ export default {
   <app-layout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Projects
+        My Projects
       </h2>
     </template>
 
     <div class="py-5 lg:py-10">
       <div class="max-w-4xl mx-auto sm:px-6 md:px-8">
-        <project-filters
-          :roles="roles"
-          :tags="tags"
-          :selected-roles.sync="filters.roles"
-          :selected-tags.sync="filters.tags"
-          @apply-filters="applyFilters"
-        />
-
         <project-list
           :projects="projects"
           :applications="applications"

@@ -162,4 +162,21 @@ class ProjectController extends Controller
 
         return $newTags;
     }
+
+    public function myProjects()
+    {
+        $projects = auth()->user()->projects()->latest()->with('user', 'roles', 'tags');
+
+        $paginatedProjects = $projects->simplePaginate()
+            ->withQueryString();
+
+        return Inertia::render('Projects/MyProjects', [
+            'projects' => $paginatedProjects->items(),
+            'applications' => Auth::user()->applications()->pluck('project_id'),
+            'links' => [
+                'nextUrl' => $paginatedProjects->nextPageUrl(),
+                'previousUrl' => $paginatedProjects->previousPageUrl()
+            ]
+        ]);
+    }
 }
