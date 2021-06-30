@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: collabfinder
+  annotations:
+    github.com/project-slug: IvanBernatovic/collabfinder
+spec:
+  type: other
+  lifecycle: unknown
+  owner: team-a
