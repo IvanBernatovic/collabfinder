@@ -83,6 +83,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SocialLogin::class);
     }
 
+    public function roles()
+    {
+        return $this->morphToMany(Role::class, 'roleable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function hasSocialLinked($service)
     {
         return (bool) $this->social_login->where('service', $service)->count();

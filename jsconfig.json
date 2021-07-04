@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "Components/*": [
+        "./resources/js/Components/*"
+      ],
+      "Jetstream": [
+        "./resources/js/Jetstream/*"
+      ],
+    }
+  }
+}

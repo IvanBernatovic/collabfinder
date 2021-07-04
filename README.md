@@ -6,11 +6,11 @@ It is made with Laravel PHP framework and Inertia + Vue. CollabFinder is complet
 
 Currently, we would like to find a designer who would contribute a new logo and brand new look and identity.
 
-## Roadmap 2021
+## Features Roadmap
 
--   [ ] new logo and design
--   [ ] public project listing - allow guests to see project if OP decides to make it public
--   [ ] full text search
--   [ ] Twitter profile which automatically shares new project on Twitter
--   [ ] my projects page
--   [ ] custom rules/settings for email notifications so you don't miss out on projects based on a tag or needed role
+- [ ] new logo and design
+- [ ] public project listing - allow guests to see project if OP decides to make it public
+- [ ] full text search
+- [ ] Twitter profile which automatically shares new project on Twitter
+- [x] my projects page
+- [x] custom rules/settings for email notifications so you don't miss out on projects based on a tag or needed role

@@ -1,5 +1,5 @@
-const mix = require("laravel-mix");
-const path = require("path");
+const mix = require('laravel-mix')
+const path = require('path')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,43 +12,44 @@ const path = require("path");
  |
  */
 
-mix.webpackConfig({
+mix
+  .webpackConfig({
     resolve: {
-        alias: {
-            Jetstream: path.resolve(__dirname, "resources/js/Jetstream"),
-            Components: path.resolve(__dirname, "resources/js/Components")
-        }
+      alias: {
+        Jetstream: path.resolve(__dirname, 'resources/js/Jetstream'),
+        Components: path.resolve(__dirname, 'resources/js/Components')
+      }
     },
     module: {
-        rules: [
-            {
-                test: /\.(postcss)$/,
-                use: [
-                    "vue-style-loader",
-                    { loader: "css-loader", options: { importLoaders: 1 } },
-                    "postcss-loader"
-                ]
-            }
-        ]
-    }
-})
-    .options({
-        hmrOptions: {
-            host: "localhost",
-            port: 9080
+      rules: [
+        {
+          test: /\.(postcss)$/,
+          use: [
+            'vue-style-loader',
+            { loader: 'css-loader', options: { importLoaders: 1 } },
+            'postcss-loader'
+          ]
         }
-    })
-    .js("resources/js/app.js", "public/js")
-    .vue()
-    .js("resources/js/icons.js", "public/js")
-    .postCss("resources/css/app.css", "public/css", [
-        require("postcss-import"),
-        require("tailwindcss")
-    ])
-    .webpackConfig(require("./webpack.config"))
-    .version();
+      ]
+    }
+  })
+  .options({
+    hmrOptions: {
+      host: 'localhost',
+      port: 9080
+    }
+  })
+  .js('resources/js/app.js', 'public/js')
+  .vue()
+  .js('resources/js/icons.js', 'public/js')
+  .postCss('resources/css/app.css', 'public/css', [
+    require('postcss-import'),
+    require('tailwindcss')
+  ])
+  .webpackConfig(require('./webpack.config'))
+  .version()
 
 mix.extract({
-    to: "js/fa-icons.js",
-    libraries: /.*fontawesome.*/
-});
+  to: 'js/fa-icons.js',
+  libraries: /.*fontawesome.*/
+})

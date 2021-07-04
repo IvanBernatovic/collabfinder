@@ -20,6 +20,13 @@
 
         <jet-section-border />
 
+        <update-notifications-settings
+          :tags="$page.props.tags"
+          :roles="$page.props.roles"
+          :notification-settings="$page.props.notificationSettings"
+        />
+        <jet-section-border />
+
         <logout-other-browser-sessions-form
           :sessions="sessions"
           class="mt-10 sm:mt-0"
@@ -36,19 +43,20 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import DeleteUserForm from "./DeleteUserForm";
-import JetSectionBorder from "./../../Jetstream/SectionBorder";
-import LogoutOtherBrowserSessionsForm from "./LogoutOtherBrowserSessionsForm";
-import TwoFactorAuthenticationForm from "./TwoFactorAuthenticationForm";
-import UpdatePasswordForm from "./UpdatePasswordForm";
-import UpdateProfileInformationForm from "./UpdateProfileInformationForm.vue";
+import AppLayout from './../../Layouts/AppLayout'
+import DeleteUserForm from './DeleteUserForm'
+import JetSectionBorder from './../../Jetstream/SectionBorder'
+import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
+import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
+import UpdatePasswordForm from './UpdatePasswordForm'
+import UpdateProfileInformationForm from './UpdateProfileInformationForm.vue'
+import UpdateNotificationsSettings from 'Components/Profile/UpdateNotificationsSettings.vue'
 
 export default {
   metaInfo: {
-    title: "Profile",
+    title: 'Profile'
   },
-  props: ["sessions"],
+  props: ['sessions'],
   components: {
     AppLayout,
     DeleteUserForm,
@@ -57,6 +65,9 @@ export default {
     TwoFactorAuthenticationForm,
     UpdatePasswordForm,
     UpdateProfileInformationForm,
-  },
-};
+    UpdateNotificationsSettings
+  }
+}
 </script>
+
+UpdateNotificationsSettings

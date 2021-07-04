@@ -33,4 +33,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/projects/{project}/apply', 'ProjectController@apply')->name('project.apply');
 
     Route::get('/my-projects', 'ProjectController@myProjects')->name('my-projects');
+
+    Route::post('/settings/email-notifications', 'SettingsController@updateNotificationSettings')
+        ->name('settings.email-notifications');
+
+    Route::get('/user/profile', 'UserProfileController@show')
+        ->name('profile.show');
 });

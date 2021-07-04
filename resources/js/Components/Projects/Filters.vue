@@ -11,6 +11,14 @@ export default {
     JetButton,
     JetSecondaryButton,
     Multiselect
+  },
+  methods: {
+    subscribeToFilters() {
+      axios.post('/settings/email-notifications', {
+        roles: this.selectedRoles.map(item => item.id),
+        tags: this.selectedTags.map(item => item.id)
+      })
+    }
   }
 }
 </script>
@@ -44,18 +52,28 @@ export default {
       </div>
     </div>
 
-    <jet-button
-      @click.native="$emit('apply-filters')"
-      type="primary"
-      class="mt-2"
-      :disabled="!(selectedRoles.length || selectedTags.length)"
-      >Search</jet-button
-    >
+    <div class="flex justify-between mt-2">
+      <div>
+        <jet-button
+          @click.native="$emit('apply-filters')"
+          type="primary"
+          :disabled="!(selectedRoles.length || selectedTags.length)"
+          >Search</jet-button
+        >
 
-    <inertia-link href="/projects">
-      <jet-secondary-button type="primary" class="mt-2 ml-2"
-        >Reset filters</jet-secondary-button
+        <inertia-link href="/projects">
+          <jet-secondary-button type="primary" class="ml-2"
+            >Reset filters</jet-secondary-button
+          >
+        </inertia-link>
+      </div>
+
+      <jet-secondary-button
+        type="primary"
+        class="ml-2"
+        @click.native="subscribeToFilters"
+        >Subscribe to these filters</jet-secondary-button
       >
-    </inertia-link>
+    </div>
   </div>
 </template>
