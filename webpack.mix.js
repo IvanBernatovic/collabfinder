@@ -48,6 +48,7 @@ mix
   ])
   .webpackConfig(require('./webpack.config'))
   .version()
+  .disableNotifications()
 
 mix.extract({
   to: 'js/fa-icons.js',

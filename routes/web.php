@@ -26,6 +26,7 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/projects', 'ProjectController@index')->name('projects');
     Route::get('/projects/create', 'ProjectController@create')->name('projects.create');
+    Route::get('/projects/{project}', 'ProjectController@show')->name('projects.show');
     Route::post('/projects', 'ProjectController@store')->name('projects.store');
     Route::get('/projects/{project}/edit', 'ProjectController@edit')->name('projects.edit');
     Route::put('/projects/{project}', 'ProjectController@update')->name('project.update');

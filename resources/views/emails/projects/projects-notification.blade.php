@@ -4,7 +4,7 @@
 __Here's the list of projects you could be interested in:__
 
 @foreach($_projects as $project)
-## {{ $project->name }}
+## [{{ $project->name }}]({{$project->link}})
 {{ substr($project->description, 0, 300) . (strlen($project->description) > 300 ? '...' : '') }}
 <br>
 <br>

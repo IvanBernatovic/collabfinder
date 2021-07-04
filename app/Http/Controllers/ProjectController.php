@@ -44,6 +44,16 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function show(Project $project)
+    {
+        $project->load('tags', 'roles', 'user');
+
+        return Inertia::render('Projects/Show', [
+            'project' => $project,
+            'applications' => authUser()->applications()->pluck('project_id')
+        ]);
+    }
+
     public function create()
     {
         $tags = Tag::all();
@@ -127,7 +137,7 @@ class ProjectController extends Controller
             Mail::to($project->user)->queue(new UserApplied($project, auth()->user()));
         });
 
-        return redirect()->route('projects');
+        return back();
     }
 
     public function validateProjectForm()

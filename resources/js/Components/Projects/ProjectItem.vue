@@ -1,38 +1,37 @@
 <script>
-import styled from "vue-styled-components";
-import { InertiaLink } from "@inertiajs/inertia-vue";
-import JetButton from "Jetstream/Button";
-import dayjs from "../../dayjs";
+import styled from 'vue-styled-components'
+import { InertiaLink } from '@inertiajs/inertia-vue'
+import JetButton from 'Jetstream/Button'
+import dayjs from '../../dayjs'
 
-const ProjectItemWrapper = styled.div``;
-const ProjectItemHeader = styled.div``;
-const ProjectItemDescription = styled.div``;
-const ProjectItemLookingForSection = styled.section``;
-const ProjectItemTags = styled.section``;
-const ProjectItemH3 = styled.h3``;
-const ProjectItemTagsInnerWrapper = styled.div``;
-const ProjectItemRolesInnerWrapper = styled.div``;
-const Tag = styled.div``;
-const Role = styled.div``;
-const StyledHeader = styled.h3``;
-const EditProjectLink = styled(InertiaLink)``;
-const ContactButtonWrapper = styled.div``;
-const ContactButton = styled(JetButton)``;
-const ProjectItemCreatedByWrapper = styled.div``;
-const ProjectItemDate = styled.span``;
-const ProjectItemName = styled.span``;
+const ProjectItemWrapper = styled.div``
+const ProjectItemHeader = styled.div``
+const ProjectItemDescription = styled.div``
+const ProjectItemLookingForSection = styled.section``
+const ProjectItemTags = styled.section``
+const ProjectItemH3 = styled.h3``
+const ProjectItemTagsInnerWrapper = styled.div``
+const ProjectItemRolesInnerWrapper = styled.div``
+const Tag = styled.div``
+const Role = styled.div``
+const EditProjectLink = styled(InertiaLink)``
+const ContactButtonWrapper = styled.div``
+const ContactButton = styled(JetButton)``
+const ProjectItemCreatedByWrapper = styled.div``
+const ProjectItemDate = styled.span``
+const ProjectItemName = styled.span``
 
 export default {
-  name: "ProjectItem",
+  name: 'ProjectItem',
   props: {
     project: Object,
     applications: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     currentUser: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   components: {
     JetButton,
@@ -46,39 +45,38 @@ export default {
     ProjectItemRolesInnerWrapper,
     Tag,
     Role,
-    StyledHeader,
     EditProjectLink,
     ContactButtonWrapper,
     ContactButton,
     ProjectItemCreatedByWrapper,
     ProjectItemDate,
-    ProjectItemName,
+    ProjectItemName
   },
   methods: {
     formattedTimestamp(timestamp) {
-      return dayjs(timestamp).fromNow();
-    },
+      return dayjs(timestamp).fromNow()
+    }
   },
   computed: {
     applied() {
-      return this.applications.includes(this.project.id);
+      return this.applications.includes(this.project.id)
     },
     isOwner() {
-      return this.project.user_id === this.currentUser.id;
+      return this.project.user_id === this.currentUser.id
     },
     contactButtonLabel() {
       if (this.applied) {
-        return "Applied";
+        return 'Applied'
       }
 
       if (this.isOwner) {
-        return "You own this";
+        return 'You own this'
       }
 
-      return "Contact";
-    },
-  },
-};
+      return 'Contact'
+    }
+  }
+}
 </script>
 
 <template>
@@ -86,9 +84,11 @@ export default {
     <project-item-header
       class="flex flex-col-reverse md:flex-row justify-between items-center mb-2"
     >
-      <styled-header class="font-bold text-2xl text-gray-00 leading-tight mb-2">
-        {{ project.name }}
-      </styled-header>
+      <inertia-link
+        class="font-bold text-2xl text-gray-00 leading-tight hover:underline mb-2"
+        :href="`/projects/${project.id}`"
+        >{{ project.name }}</inertia-link
+      >
 
       <edit-project-link
         class="ml-auto md:ml-0 font-bold px-3 py-2 rounded-md hover:bg-gray-100 transition-colors duration-100"

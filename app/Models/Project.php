@@ -57,4 +57,9 @@ class Project extends Model
             $query->whereIn('tags.id', $tagsId);
         });
     }
+
+    public function getLinkAttribute()
+    {
+        return url("/projects/{$this->id}");
+    }
 }
