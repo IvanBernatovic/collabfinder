@@ -1,6 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  mode: 'jit',
   purge: [
     './vendor/laravel/jetstream/**/*.blade.php',
     './storage/framework/views/*.php',
@@ -22,9 +23,5 @@ module.exports = {
     cursor: ['responsive', 'disabled']
   },
 
-  plugins: [require('@tailwindcss/ui')],
-
-  future: {
-    purgeLayersByDefault: true
-  }
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
 }

@@ -5,6 +5,7 @@
         <div>
           <jet-label for="project_name">Name</jet-label>
           <jet-input
+            type="text"
             v-model="form.name"
             name="project_name"
             id="project_name"
@@ -21,7 +22,7 @@
             >To avoid idea theft keep this on a need-to-know basis</small
           >
           <textarea
-            class="form-input w-full"
+            class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
             rows="5"
             name="description"
             id="description"
@@ -95,18 +96,18 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import JetInput from "Jetstream/Input";
-import JetLabel from "Jetstream/Label";
-import JetButton from "Jetstream/Button";
-import JetDangerButton from "Jetstream/DangerButton";
-import JetInputError from "Jetstream/InputError";
-import Multiselect from "vue-multiselect";
-import "vue-multiselect/dist/vue-multiselect.min.css";
+import AppLayout from './../../Layouts/AppLayout'
+import JetInput from '@/Jetstream/Input'
+import JetLabel from 'Jetstream/Label'
+import JetButton from 'Jetstream/Button'
+import JetDangerButton from 'Jetstream/DangerButton'
+import JetInputError from 'Jetstream/InputError'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 export default {
-  name: "ProjectForm",
-  props: ["tags", "roles", "project"],
+  name: 'ProjectForm',
+  props: ['tags', 'roles', 'project'],
   components: {
     AppLayout,
     JetInput,
@@ -114,35 +115,35 @@ export default {
     JetButton,
     JetDangerButton,
     JetInputError,
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
       terms: false,
       form: this.$inertia.form(
         {
-          name: this.project?.name || "",
-          description: this.project?.description || "",
+          name: this.project?.name || '',
+          description: this.project?.description || '',
           roles: this.project?.roles || [],
-          tags: this.project?.tags || [],
+          tags: this.project?.tags || []
         },
         {
-          resetOnSuccess: false,
+          resetOnSuccess: false
         }
-      ),
-    };
+      )
+    }
   },
   methods: {
     deleteProject() {
-      this.form.delete(`/projects/${this.project.id}`);
+      this.form.delete(`/projects/${this.project.id}`)
     },
     addTag(newTag) {
       const tag = {
-        name: newTag,
-      };
-      this.tags.push(tag);
-      this.form.tags.push(tag);
-    },
-  },
-};
+        name: newTag
+      }
+      this.tags.push(tag)
+      this.form.tags.push(tag)
+    }
+  }
+}
 </script>

@@ -55,7 +55,7 @@ export default {
     </template>
 
     <template #form>
-      <div class="lg:flex col-span-full col-gap-4">
+      <div class="lg:flex col-span-full gap-x-4">
         <multiselect
           class="mb-4 lg:mb-0"
           v-model="form.selectedRoles"
