@@ -30,15 +30,4 @@ class ProjectFactory extends Factory
             'description' => $this->faker->sentences(random_int(15, 25), true)
         ];
     }
-
-    public function configure()
-    {
-        $tags = Tag::all();
-        $roles = Role::all();
-
-        return $this->afterCreating(function (Project $project) use ($roles, $tags) {
-            $project->roles()->sync($roles->random(random_int(1, 2))->pluck('id')->toArray());
-            $project->tags()->sync($tags->random(random_int(2, 5))->pluck('id')->toArray());
-        });
-    }
 }

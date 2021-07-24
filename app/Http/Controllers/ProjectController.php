@@ -81,7 +81,7 @@ class ProjectController extends Controller
             $project->roles()->sync(array_column(request()->get('roles'), 'id'));
         });
 
-        return redirect()->route('projects');
+        return redirect()->to(route('projects'));
     }
 
     public function edit(Project $project)
@@ -146,7 +146,6 @@ class ProjectController extends Controller
             'name' => ['required', 'min:5'],
             'description' => ['required', 'min:30'],
             'tags' => ['required', 'max:6'],
-            'tags.*.id' => ['required_without:name', 'exists:tags,id'],
             'tags.*.name' => ['required', 'min:2', 'max:30'],
             'roles' => ['required'],
             'roles.*.id' => ['exists:roles,id']

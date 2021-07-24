@@ -20,25 +20,25 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import ProjectForm from "Components/Projects/Form";
+import AppLayout from './../../Layouts/AppLayout'
+import ProjectForm from 'Components/Projects/Form'
 
 export default {
-  name: "Edit",
+  name: 'Edit',
   metaInfo: {
-    title: "Edit project",
+    title: 'Edit project'
   },
-  props: ["tags", "roles", "project"],
+  props: ['tags', 'roles', 'project'],
   components: {
     AppLayout,
-    ProjectForm,
+    ProjectForm
   },
   methods: {
     updateProject(form) {
       form.put(`/projects/${this.project.id}`, {
-        resetOnSuccess: false,
-      });
-    },
-  },
-};
+        resetOnSuccess: false
+      })
+    }
+  }
+}
 </script>

@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class RoleAndTagSeeder extends Seeder
@@ -16,6 +14,6 @@ class RoleAndTagSeeder extends Seeder
     public function run()
     {
         $this->call(RoleSeeder::class);
-        Tag::factory()->count(100)->create();
+        $this->call(TagSeeder::class);
     }
 }

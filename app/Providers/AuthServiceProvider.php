@@ -26,11 +26,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('update-project', function ($user, $project) {
-            return $user->id === $project->user_id;
+            return $user->id == $project->user_id;
         });
 
         Gate::define('apply-for-project', function ($user, $project) {
-            return $project->user_id !== $user->id && !$user->applications()->where('project_id', $project->id)->count();
+            return $project->user_id != $user->id && !$user->applications()->where('project_id', $project->id)->count();
         });
     }
 }
