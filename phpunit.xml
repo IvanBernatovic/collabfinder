@@ -12,6 +12,12 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+
+    <exclude>
+      <!-- Excluded because these features are not used at all and they bring down code coverage -->
+      <file>./app/Http/Middleware/TrustHosts.php</file>
+      <file>./app/Providers/TelescopeServiceProvider.php</file>
+    </exclude>
   </coverage>
   <php>
     <server name="APP_ENV" value="testing"/>

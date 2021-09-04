@@ -5,17 +5,13 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Support\AuthenticatesUser;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, AuthenticatesUser;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_show_login_page()
     {
         $response = $this->get('/login');
@@ -60,5 +56,13 @@ class LoginTest extends TestCase
         $response->assertSessionHasErrors([
             'email' => 'These credentials do not match our records.'
         ]);
+    }
+
+    public function test_only_guests_can_login()
+    {
+        $response = $this->authenticated()
+            ->get('/login');
+
+        $response->assertRedirect(route('projects'));
     }
 }

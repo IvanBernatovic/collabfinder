@@ -44,6 +44,22 @@ class ProjectsTest extends TestCase
             );
     }
 
+    public function test_only_logged_in_users_can_see_projects()
+    {
+        $project = Project::factory()->create();
+
+        $response = $this->get(route('projects.show', $project));
+
+        $response->assertRedirect('/login');
+
+        $response = $this->get(route('projects'));
+
+        $response->assertRedirect('/login');
+
+        $response = $this->getJson(route('projects'));
+        $response->assertStatus(401);
+    }
+
     public function test_filters_by_tags()
     {
         $tag = Tag::factory()->create([
