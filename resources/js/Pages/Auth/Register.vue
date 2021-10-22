@@ -1,0 +1,125 @@
+<template>
+  <div class="flex">
+    <AuthCarouselSection />
+
+    <section
+      class="flex-grow h-screen items-center flex justify-center"
+      id="login"
+    >
+      <div class="w-[365px]">
+        <form @submit.prevent="submit">
+          <div class="mb-[40px]">
+            <p class="text-sm text-gray-500">Start for free</p>
+            <h1 class="font-bold text-3xl py-3">Sign up</h1>
+            <p class="leading-5 text-gray-700">
+              Already a member?
+              <Link href="/login" class="mx-auto">Sign in</Link>
+            </p>
+          </div>
+
+          <form-group>
+            <form-label for="email">Email</form-label>
+            <text-input
+              v-model="form.email"
+              placeholder="Email"
+              id="email"
+              name="email"
+            />
+          </form-group>
+
+          <form-group>
+            <form-label for="password">Password</form-label>
+            <text-input
+              v-model="form.password"
+              placeholder="Password"
+              type="password"
+              id="password"
+              name="password"
+            />
+          </form-group>
+
+          <form-group>
+            <form-label for="password_confirmation"
+              >Password confirmation</form-label
+            >
+            <text-input
+              v-model="form.password_confirmation"
+              placeholder="Password confirmation"
+              type="password"
+              id="password_confirmation"
+              name="password_confirmation"
+            />
+          </form-group>
+
+          <FormGroup>
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                v-model="form.terms"
+                class="w-4 h-4 mr-2"
+              />
+
+              <label class="text-gray-700" for="terms"
+                >I agree with the
+                <a href="/terms" target="blank">terms of service</a></label
+              >
+            </div>
+          </FormGroup>
+
+          <primary-button class="w-full mb-1"
+            >Create your account</primary-button
+          >
+        </form>
+
+        <social-login text="Or sign up with" />
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+import TextInput from 'Components/Form/TextInput'
+import FormLabel from 'Components/Form/FormLabel'
+import FormGroup from 'Components/Form/FormGroup'
+import PrimaryButton from 'Components/Common/PrimaryButton'
+
+import SocialLogin from 'Components/Common/SocialLogin.vue'
+import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
+import { Link } from '@inertiajs/inertia-vue3'
+
+export default {
+  components: {
+    TextInput,
+    FormLabel,
+    FormGroup,
+    PrimaryButton,
+    SocialLogin,
+    Link,
+    AuthCarouselSection
+  },
+  data() {
+    return {
+      form: this.$inertia.form({
+        email: '',
+        password: '',
+        password_confirmation: false,
+        terms: false
+      })
+    }
+  },
+  methods: {
+    submit() {
+      this.form
+        .transform(data => ({
+          ...data,
+          remember: this.form.remember ? 'on' : ''
+        }))
+        .post('login', {
+          onFinish: () => this.form.reset('password')
+        })
+    }
+  }
+}
+</script>

@@ -1,19 +1,26 @@
-<script>
-import AppLayout from './../../Layouts/AppLayout'
+<template>
+  <div class="py-8">
+    <new-filters
+      :roles="roles"
+      :tags="tags"
+      v-model:period="filters.period"
+      v-model:selected-roles="filters.roles"
+      v-model:selected-tags="filters.tags"
+      @apply-filters="applyFilters"
+    />
+  </div>
+</template>
 
-import ProjectFilters from 'Components/Projects/Filters'
-import ProjectList from 'Components/Projects/List'
+<script>
+import Layout from '@/Layouts/Layout.vue'
+import NewFilters from '@/Components/Projects/NewFilters.vue'
+import { removeFalsy } from '@/helpers'
 
 export default {
-  name: 'ProjectsIndexPage',
-  metaInfo() {
-    return {
-      title: 'Projects'
-    }
-  },
+  components: { NewFilters },
+  layout: Layout,
   props: {
     projects: Array,
-    applications: Array,
     roles: {
       type: Array,
       default: () => []
@@ -21,73 +28,38 @@ export default {
     tags: {
       type: Array,
       default: () => []
-    },
-    links: Object
+    }
   },
-  components: {
-    AppLayout,
-    ProjectFilters,
-    ProjectList
-  },
-  mounted() {
-    const url = new URL(window.location)
-    const roles = url.searchParams
-      .getAll('roles[]')
-      .map(roleId => parseInt(roleId))
-    this.filters.roles = this.roles.filter(role => roles.includes(role.id))
-
-    const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
-    this.filters.tags = this.tags.filter(tag => tags.includes(tag.id))
+  created() {
+    this.setInitFiltersFromUrl()
   },
   data() {
     return {
       filters: {
         roles: [],
-        tags: []
+        tags: [],
+        period: null
       }
     }
   },
   methods: {
+    setInitFiltersFromUrl() {
+      const url = new URL(window.location)
+      const roles = url.searchParams
+        .getAll('roles[]')
+        .map(roleId => parseInt(roleId))
+
+      this.filters.roles = roles
+
+      const tags = url.searchParams
+        .getAll('tags[]')
+        .map(tagId => parseInt(tagId))
+      this.filters.tags = tags
+      this.filters.period = url.searchParams.get('period')
+    },
     applyFilters() {
-      this.$inertia.get('/projects', this.parsedFilters)
-    }
-  },
-  computed: {
-    parsedFilters() {
-      return {
-        roles: this.filters.roles.map(role => role.id),
-        tags: this.filters.tags.map(tag => tag.id)
-      }
+      this.$inertia.get('/projects', removeFalsy(this.filters))
     }
   }
 }
 </script>
-
-<template>
-  <app-layout>
-    <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Projects
-      </h2>
-    </template>
-
-    <div class="py-5 lg:py-10">
-      <div class="max-w-4xl mx-auto sm:px-6 md:px-8">
-        <project-filters
-          :roles="roles"
-          :tags="tags"
-          :selected-roles.sync="filters.roles"
-          :selected-tags.sync="filters.tags"
-          @apply-filters="applyFilters"
-        />
-
-        <project-list
-          :projects="projects"
-          :applications="applications"
-          :links="links"
-          :user="$page.props.user"
-        />
-      </div>
-    </div>
-  </app-layout>
-</template>

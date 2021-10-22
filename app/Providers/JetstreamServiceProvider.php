@@ -33,12 +33,12 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
 
-        Fortify::loginView(function () {
-            return view('auth/login', [
-                'canResetPassword' => Route::has('password.request'),
-                'status' => session('status'),
-            ]);
-        });
+        // Fortify::loginView(function () {
+        //     return view('auth/login', [
+        //         'canResetPassword' => Route::has('password.request'),
+        //         'status' => session('status'),
+        //     ]);
+        // });
 
         Fortify::requestPasswordResetLinkView(function () {
             return view('auth/forgot-password', [
@@ -53,9 +53,9 @@ class JetstreamServiceProvider extends ServiceProvider
             ]);
         });
 
-        Fortify::registerView(function () {
-            return view('auth/register');
-        });
+        // Fortify::registerView(function () {
+        //     return view('auth/register');
+        // });
 
         Fortify::verifyEmailView(function () {
             return view('auth/verify-email', [

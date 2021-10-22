@@ -1,25 +1,39 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './vars.css';
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
 
 #terms {
-    h1,
-    h2,
-    h3 {
-        @apply mt-4 font-bold;
-    }
+  h1,
+  h2,
+  h3 {
+    @apply mt-4 font-bold;
+  }
 
-    ul {
-        @apply list-inside list-disc pl-6 mb-2;
-    }
+  ul {
+    @apply list-inside list-disc pl-6 mb-2;
+  }
 
-    p {
-        @apply mb-2;
-    }
+  p {
+    @apply mb-2;
+  }
 }
 
 .line {
-    height: 1px;
-    position: relative;
-    top: 0.7rem;
+  height: 1px;
+  position: relative;
+  top: 0.7rem;
+}
+
+a {
+  @apply text-primary;
+}
+
+.secondary-btn {
+  @apply px-4 py-2 flex items-center justify-center bg-white text-gray-700 leading-5 text-center box-border border border-gray-300 rounded-md;
 }
