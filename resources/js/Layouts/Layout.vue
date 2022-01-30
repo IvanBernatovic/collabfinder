@@ -5,21 +5,21 @@
         <div class="max-w-screen-lg mx-auto grid grid-cols-3">
           <div class="flex items-center">
             <logo width="41" height="40" />
-            <Link class="text-lg uppercase font-bold ml-2 text-black"
+            <Link class="text-lg uppercase font-bold ml-2 text-black" href="/"
               >CollabFinder</Link
             >
           </div>
 
           <div class="flex gap-4 justify-center items-center">
-            <nav-link
+            <NavLink
               href="/projects"
               :active="$page.component === 'Projects/Index'"
-              >Projects</nav-link
+              >Projects</NavLink
             >
-            <nav-link
+            <NavLink
               href="/my-projects"
               :active="$page.component === 'Projects/MyProjects'"
-              >My Projects</nav-link
+              >My Projects</NavLink
             >
           </div>
 

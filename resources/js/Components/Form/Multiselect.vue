@@ -137,7 +137,7 @@ export default {
   }
 
   &.is-selected {
-    @apply bg-green-600 text-white;
+    @apply bg-primary text-white;
   }
 
   &.is-disabled {
@@ -145,11 +145,11 @@ export default {
   }
 
   &.is-selected.is-pointed {
-    @apply bg-green-600 text-white opacity-90;
+    @apply bg-primary text-white opacity-90;
   }
 
   &.is-selected.is-disabled {
-    @apply text-green-100 bg-green-600 bg-opacity-50 cursor-not-allowed;
+    @apply text-green-100 bg-primary bg-opacity-50 cursor-not-allowed;
   }
 }
 
@@ -165,7 +165,7 @@ export default {
   }
 
   &.is-selected {
-    @apply text-white bg-green-500;
+    @apply text-white bg-primary;
   }
 
   &.is-disabled {
@@ -173,11 +173,11 @@ export default {
   }
 
   &.is-selected.is-pointed {
-    @apply text-white bg-green-500 opacity-90;
+    @apply text-white bg-primary opacity-90;
   }
 
   &.is-selected.is-disabled {
-    @apply text-green-100 bg-green-500 bg-opacity-50 cursor-not-allowed;
+    @apply text-green-100 bg-primary bg-opacity-50 cursor-not-allowed;
   }
 }
 

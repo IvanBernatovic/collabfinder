@@ -30,4 +30,18 @@ class ProjectFactory extends Factory
             'description' => $this->faker->sentences(random_int(15, 25), true)
         ];
     }
+
+    public function withRoles()
+    {
+        $roles = Role::all();
+
+        return $this->hasAttached($roles->random(random_int(1, 2)));
+    }
+
+    public function withTags()
+    {
+        $tags = Tag::all();
+
+        return $this->hasAttached($tags->random(random_int(1, 5)));
+    }
 }

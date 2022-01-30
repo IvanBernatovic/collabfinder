@@ -1,36 +1,44 @@
 <template>
-  <div class="bg-white rounded-md p-4 shadow-xl">
-    <div class="flex gap-4">
-      <Multiselect
-        v-model="selectedRoles"
-        @input="$emit('update:selectedRoles', $event)"
-        :options="roles"
-        valueProp="id"
-        trackBy="title"
-        label="title"
-        mode="tags"
-        :searchable="true"
-        placeholder="Search by roles"
-      />
+  <div>
+    <div class="bg-white rounded-md p-4 shadow-lg mb-10">
+      <div class="mb-4">
+        <label class="font-semibold mb-1 inline-block">Roles</label>
+        <Multiselect
+          v-model="selectedRoles"
+          @input="$emit('update:selectedRoles', $event)"
+          :options="roles"
+          valueProp="id"
+          trackBy="title"
+          label="title"
+          mode="tags"
+          :searchable="true"
+          :hideSelected="false"
+          :closeOnSelect="false"
+          placeholder="Search by roles"
+          :caret="false"
+        />
+      </div>
 
-      <Multiselect
-        v-model="selectedTags"
-        @input="$emit('update:selectedTags', $event)"
-        :options="tags"
-        mode="tags"
-        valueProp="id"
-        trackBy="name"
-        label="name"
-        :searchable="true"
-        :createTag="true"
-        placeholder="Search by tags"
-      />
+      <div class="mb-4">
+        <label for="" class="font-semibold mb-1 inline-block">Tags</label>
+        <Multiselect
+          v-model="selectedTags"
+          @input="$emit('update:selectedTags', $event)"
+          :options="tags"
+          mode="tags"
+          valueProp="id"
+          trackBy="name"
+          label="name"
+          :searchable="true"
+          :createTag="true"
+          placeholder="Search by tags"
+          :caret="false"
+          :closeOnSelect="false"
+          :hideSelected="false"
+        />
+      </div>
 
       <PrimaryButton @click="$emit('apply-filters')">Search</PrimaryButton>
-    </div>
-
-    <div class="pt-6">
-      <DateFilter v-model="periodModel" @search="$emit('applyFilters')" />
     </div>
   </div>
 </template>
@@ -38,13 +46,11 @@
 <script>
 import Multiselect from '@/Components/Form/Multiselect.vue'
 import PrimaryButton from 'Components/Common/PrimaryButton'
-import DateFilter from 'Components/Common/DateFilter.vue'
 
 export default {
   components: {
     Multiselect,
-    PrimaryButton,
-    DateFilter
+    PrimaryButton
   },
   props: {
     roles: {

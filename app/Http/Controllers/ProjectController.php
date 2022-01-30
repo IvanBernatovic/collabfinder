@@ -25,6 +25,14 @@ class ProjectController extends Controller
             $projects->withRolesId($rolesParam);
         }
 
+        if ($periodParam = request()->get('period')) {
+            $period = $this->getPeriod($periodParam);
+
+            if ($period) {
+                $projects->where('created_at', '>=', $period);
+            }
+        }
+
         if ($tagsParam = request()->get('tags')) {
             $projects->withTagsId($tagsParam);
         }
@@ -187,5 +195,22 @@ class ProjectController extends Controller
                 'previousUrl' => $paginatedProjects->previousPageUrl()
             ]
         ]);
+    }
+
+    public function getPeriod($periodParam)
+    {
+        if ($periodParam === 'day') {
+            return now()->subDay();
+        }
+
+        if ($periodParam === 'week') {
+            return now()->subWeek();
+        }
+
+        if ($periodParam === 'month') {
+            return now()->subMonth();
+        }
+
+        return null;
     }
 }
