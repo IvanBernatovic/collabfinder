@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectResource;
 use App\Mail\UserApplied;
 use App\Models\Project;
 use App\Models\Role;
@@ -41,7 +42,7 @@ class ProjectController extends Controller
             ->withQueryString();
 
         return Inertia::render('Projects/Index', [
-            'projects' => $paginatedProjects->items(),
+            'projects' => ProjectResource::collection($paginatedProjects->items()),
             'applications' => Auth::user()->applications()->pluck('project_id'),
             'roles' => $roles,
             'tags' => $tags,
@@ -57,8 +58,8 @@ class ProjectController extends Controller
         $project->load('tags', 'roles', 'user');
 
         return Inertia::render('Projects/Show', [
-            'project' => $project,
-            'applications' => authUser()->applications()->pluck('project_id')
+            'project' => new ProjectResource($project),
+            'applied' => $project->didUserApply(authUser())
         ]);
     }
 
@@ -137,10 +138,16 @@ class ProjectController extends Controller
     public function apply(Project $project)
     {
         $this->authorize('apply-for-project', $project);
-        $this->validateContactForm();
+        $params = $this->validateContactForm();
 
-        DB::transaction(function () use ($project) {
-            Auth::user()->applications()->attach($project->id, ['message' => request()->get('message')]);
+        DB::transaction(function () use ($project, $params) {
+            if ($params['file']) {
+                $path = $params['file']->storePublicly('uploads');
+            }
+
+            Auth::user()
+                ->applications()
+                ->attach($project->id, ['message' => $params['message'], 'file' => $path ?? null]);
 
             Mail::to($project->user)->queue(new UserApplied($project, auth()->user()));
         });
@@ -163,7 +170,8 @@ class ProjectController extends Controller
     public function validateContactForm()
     {
         return request()->validate([
-            'message' => 'required|min:3'
+            'message' => 'required|min:3',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,odt'
         ]);
     }
 

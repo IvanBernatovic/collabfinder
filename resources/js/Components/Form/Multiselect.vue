@@ -114,7 +114,7 @@ export default {
 }
 
 .multiselect-options {
-  @apply flex flex-col gap-3 p-4 m-0 list-none;
+  @apply flex flex-col gap-1 p-2 m-0 list-none;
 
   &.is-top {
     @apply flex-col-reverse;
@@ -158,7 +158,7 @@ export default {
 }
 
 .multiselect-option {
-  @apply flex items-center justify-start box-border text-left cursor-pointer text-sm leading-snug py-2 px-3;
+  @apply flex items-center justify-start box-border text-left cursor-pointer text-sm leading-snug py-2 px-3 rounded-md;
 
   &.is-pointed {
     @apply text-gray-800 bg-gray-100;

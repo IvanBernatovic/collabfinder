@@ -2,9 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const svgToDataUri = require('mini-svg-data-uri')
 
 module.exports = {
-  // important: true,
-  mode: 'jit',
-  purge: [
+  content: [
     './vendor/laravel/jetstream/**/*.blade.php',
     './storage/framework/views/*.php',
     './resources/views/**/*.blade.php',

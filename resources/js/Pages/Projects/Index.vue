@@ -97,6 +97,7 @@ export default {
       const tags = url.searchParams
         .getAll('tags[]')
         .map(tagId => parseInt(tagId))
+
       this.filters.tags = tags
       this.filters.period = url.searchParams.get('period')
     },

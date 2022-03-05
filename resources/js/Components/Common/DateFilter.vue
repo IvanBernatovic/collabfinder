@@ -2,12 +2,12 @@
   <Popover v-slot="{ open }">
     <PopoverButton
       :class="open ? '' : 'text-opacity-90'"
-      class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-700 border border-gray-200 font-medium bg-orange-700 rounded group hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 bg-white w-40"
+      class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-700 border border-gray-200 font-medium rounded group hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 bg-white w-40"
     >
       <span>{{ selectedLabel || 'Date Posted' }}</span>
       <ChevronDownIcon
         :class="open ? '' : 'text-opacity-70'"
-        class="w-5 h-5 ml-2 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80"
+        class="w-5 h-5 ml-2 transition duration-150 ease-in-out group-hover:text-opacity-80"
         aria-hidden="true"
       />
     </PopoverButton>
