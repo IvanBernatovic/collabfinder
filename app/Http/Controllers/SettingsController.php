@@ -15,7 +15,7 @@ class SettingsController extends Controller
             'roles.*.id' => ['exists:roles,id']
         ]);
 
-        $user = authUser();
+        $user = user();
         $user->tags()->sync($request->get('tags'));
         $user->roles()->sync($request->get('roles'));
 

@@ -20,7 +20,7 @@ class UserProfileController extends Controller
      */
     public function show(Request $request)
     {
-        $user = authUser();
+        $user = user();
 
         $notificationSettings = [
             'roles' => $user->roles,

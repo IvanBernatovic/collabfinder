@@ -28,6 +28,8 @@
             v-for="project in projects"
             :key="project.id"
             :project="project"
+            :saved="project.id in savedProjects"
+            @save-project="saveProject"
           />
 
           <NoResults v-if="!projects.length" />
@@ -45,65 +47,96 @@
 
 <script>
 import Layout from '@/Layouts/Layout.vue'
+
+export default {
+  layout: Layout
+}
+</script>
+
+<script setup>
+import { toRefs, reactive, onMounted } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+
 import NewFilters from '@/Components/Projects/NewFilters.vue'
 import DateFilter from '@/Components/Common/DateFilter.vue'
-import { removeFalsy } from '@/helpers'
+import { removeFalsy, useImmer } from '@/helpers'
 import SimplePagination from '@/Components/Shared/SimplePagination.vue'
 import Project from '@/Components/Projects/Project.vue'
 import NoResults from '@/Components/Common/NoResults.vue'
 
-export default {
-  components: {
-    NewFilters,
-    DateFilter,
-    SimplePagination,
-    Project,
-    NoResults
+const props = defineProps({
+  projects: Array,
+  roles: {
+    type: Array,
+    default: () => []
   },
-  layout: Layout,
-  props: {
-    projects: Array,
-    roles: {
-      type: Array,
-      default: () => []
-    },
-    tags: {
-      type: Array,
-      default: () => []
-    },
-    links: Object
+  tags: {
+    type: Array,
+    default: () => []
   },
-  created() {
-    this.setInitFiltersFromUrl()
-  },
-  data() {
-    return {
-      filters: {
-        roles: [],
-        tags: [],
-        period: null
-      }
-    }
-  },
-  methods: {
-    setInitFiltersFromUrl() {
-      const url = new URL(window.location)
-      const roles = url.searchParams
-        .getAll('roles[]')
-        .map(roleId => parseInt(roleId))
-
-      this.filters.roles = roles
-
-      const tags = url.searchParams
-        .getAll('tags[]')
-        .map(tagId => parseInt(tagId))
-
-      this.filters.tags = tags
-      this.filters.period = url.searchParams.get('period')
-    },
-    applyFilters() {
-      this.$inertia.get('/projects', removeFalsy(this.filters))
-    }
+  links: Object,
+  savedProjects: {
+    type: Array,
+    default: () => []
   }
+})
+
+const {
+  projects: projectsProps,
+  roles,
+  tags,
+  links,
+  savedProjects: savedProjectsProp
+} = toRefs(props)
+
+const [projects, updateProjects] = useImmer(projectsProps)
+const [savedProjects, updateSaved] = useImmer(
+  savedProjectsProp.value.reduce((res, id) => {
+    res[id] = true
+
+    return res
+  }, {})
+)
+
+const filters = reactive({
+  roles: [],
+  tags: [],
+  period: null
+})
+
+const setInitFiltersFromUrl = () => {
+  const url = new URL(window.location)
+  const roles = url.searchParams
+    .getAll('roles[]')
+    .map(roleId => parseInt(roleId))
+
+  filters.roles = roles
+
+  const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
+
+  filters.tags = tags
+  filters.period = url.searchParams.get('period')
 }
+
+const applyFilters = () => {
+  Inertia.get('/projects', removeFalsy(filters))
+}
+
+const saveProject = async project => {
+  await axios.post(`/projects/${project.id}/save`)
+
+  if (project.id in savedProjects.value) {
+    return updateSaved(saved => {
+      delete saved[project.id]
+    })
+  }
+
+  return updateSaved(saved => {
+    saved[project.id] = true
+  })
+}
+
+onMounted(() => {
+  setInitFiltersFromUrl()
+})
 </script>

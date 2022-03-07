@@ -46,8 +46,12 @@
         </p>
       </div>
 
-      <button class="text-gray-500 border border-gray-200 rounded p-1.5">
-        <BookmarkIcon class="w-4 h-4" />
+      <button
+        class="text-gray-500 border border-gray-200 rounded p-1.5"
+        @click="$emit('saveProject', project)"
+      >
+        <BookmarkIcon class="w-4 h-4" v-if="!saved" />
+        <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
       </button>
     </div>
 
@@ -75,9 +79,11 @@ import { computed } from 'vue'
 import dayjs from '@/dayjs'
 import { InertiaLink } from '@inertiajs/inertia-vue3'
 import { BookmarkIcon } from '@heroicons/vue/outline'
+import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
 
 const props = defineProps({
-  project: Object
+  project: Object,
+  saved: Boolean
 })
 
 const createdAtDiff = computed(() => dayjs(props.project.created_at).fromNow())

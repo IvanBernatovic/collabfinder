@@ -20,11 +20,11 @@ export default {
 
 <template>
   <div class="flex justify-center items-center py-4">
-    <inertia-link
+    <InertiaLink
       v-if="previousUrl"
       :href="previousUrl"
       class="pagination-button"
-      >Previous</inertia-link
+      >Previous</InertiaLink
     >
     <button
       class="pagination-button"
@@ -33,8 +33,8 @@ export default {
     >
       Previous
     </button>
-    <inertia-link v-if="nextUrl" class="pagination-button" :href="nextUrl"
-      >Next</inertia-link
+    <InertiaLink v-if="nextUrl" class="pagination-button" :href="nextUrl"
+      >Next</InertiaLink
     >
     <button class="pagination-button" v-if="!nextUrl" disabled="!nextUrl">
       Next

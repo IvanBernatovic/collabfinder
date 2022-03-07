@@ -19,7 +19,7 @@ function customRequestCaptcha()
  * @return User|null 
  * @throws BindingResolutionException 
  */
-function authUser()
+function user()
 {
     return auth()->user();
 }

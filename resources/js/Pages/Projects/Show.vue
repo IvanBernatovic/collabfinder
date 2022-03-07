@@ -57,7 +57,9 @@
           :disabled="applied"
           >{{ applied ? 'Applied' : 'Apply now' }}</PrimaryButton
         >
-        <SecondaryButton class="flex-1">Save</SecondaryButton>
+        <SecondaryButton class="flex-1" @click="toggleSave">{{
+          saved ? 'Unsave' : 'Save'
+        }}</SecondaryButton>
       </div>
 
       <div class="mt-8">
@@ -215,7 +217,7 @@ export default {
 
 <script setup>
 import { ShareIcon, CloudUploadIcon } from '@heroicons/vue/outline'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import {
   TransitionRoot,
   TransitionChild,
@@ -228,12 +230,18 @@ import dayjs from '@/dayjs'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Common/SecondaryButton.vue'
 
-const { project, applied } = defineProps({
+const {
+  project,
+  applied,
+  saved: savedProp
+} = defineProps({
   project: Object,
-  applied: Boolean
+  applied: Boolean,
+  saved: Boolean
 })
 
 const isOpen = ref(false)
+const saved = ref(savedProp)
 const form = useForm({
   message: '',
   file: null
@@ -253,5 +261,11 @@ const apply = () => {
   form.post(`/projects/${project.id}/apply`)
 
   closeModal()
+}
+
+const toggleSave = async () => {
+  await axios.post(`/projects/${project.id}/save`)
+
+  saved.value = !saved.value
 }
 </script>

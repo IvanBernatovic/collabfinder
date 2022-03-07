@@ -6,6 +6,7 @@ use App\Http\Resources\ProjectResource;
 use App\Mail\UserApplied;
 use App\Models\Project;
 use App\Models\Role;
+use App\Models\SavedProject;
 use App\Models\Tag;
 use App\Models\User;
 use Auth;
@@ -38,6 +39,7 @@ class ProjectController extends Controller
             $projects->withTagsId($tagsParam);
         }
 
+        $projects->simplePaginate();
         $paginatedProjects = $projects->simplePaginate()
             ->withQueryString();
 
@@ -46,6 +48,9 @@ class ProjectController extends Controller
             'applications' => Auth::user()->applications()->pluck('project_id'),
             'roles' => $roles,
             'tags' => $tags,
+            'savedProjects' => SavedProject::whereIn('project_id', $paginatedProjects->getCollection()->pluck('id')->toArray())
+                ->where('user_id', user()->id)
+                ->pluck('project_id'),
             'links' => [
                 'nextUrl' => $paginatedProjects->nextPageUrl(),
                 'previousUrl' => $paginatedProjects->previousPageUrl()
@@ -57,9 +62,14 @@ class ProjectController extends Controller
     {
         $project->load('tags', 'roles', 'user');
 
+        $user = user();
+
         return Inertia::render('Projects/Show', [
             'project' => new ProjectResource($project),
-            'applied' => $project->didUserApply(authUser())
+            'applied' => $project->didUserApply($user),
+            'saved' => (bool) SavedProject::where('user_id', $user->id)
+                ->where('project_id', $project->id)
+                ->count()
         ]);
     }
 
@@ -190,10 +200,9 @@ class ProjectController extends Controller
 
     public function myProjects()
     {
-        $projects = auth()->user()->projects()->latest()->with('user', 'roles', 'tags');
+        $projects = user()->projects()->latest()->with('user', 'roles', 'tags');
 
-        $paginatedProjects = $projects->simplePaginate()
-            ->withQueryString();
+        $paginatedProjects = $projects->simplePaginate()->withQueryString();
 
         return Inertia::render('Projects/MyProjects', [
             'projects' => $paginatedProjects->items(),
@@ -220,5 +229,10 @@ class ProjectController extends Controller
         }
 
         return null;
+    }
+
+    public function save(Project $project)
+    {
+        return user()->saved_projects()->toggle($project);
     }
 }
