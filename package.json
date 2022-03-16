@@ -36,6 +36,9 @@
     "@inertiajs/progress": "^0.2.6",
     "@sentry/tracing": "^6.12.0",
     "@sentry/vue": "^6.12.0",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.48",
+    "@tiptap/starter-kit": "^2.0.0-beta.183",
+    "@tiptap/vue-3": "^2.0.0-beta.90",
     "@vueform/multiselect": "^2.2.0",
     "dayjs": "^1.9.6",
     "immer": "^9.0.12",
@@ -44,5 +47,8 @@
     "vue-multiselect": "^2.1.6",
     "vue-styled-components": "^1.5.1",
     "vue3-styled-components": "^1.2.1"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }

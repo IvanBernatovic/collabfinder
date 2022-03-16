@@ -1,9 +1,7 @@
 <template>
-  <div class="flex flex-col mb-[24px]">
+  <div class="flex flex-col">
     <slot></slot>
   </div>
 </template>
 
-<script>
-export default {}
-</script>
+<script setup></script>

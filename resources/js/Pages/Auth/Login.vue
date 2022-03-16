@@ -19,6 +19,7 @@
           <form-group>
             <form-label for="email">Email</form-label>
             <text-input
+              class="!p-[16px]"
               v-model="form.email"
               placeholder="Email"
               id="email"
@@ -29,6 +30,7 @@
           <form-group>
             <form-label for="password">Password</form-label>
             <text-input
+              class="!p-[16px]"
               v-model="form.password"
               placeholder="Password"
               type="password"
@@ -76,6 +78,7 @@ import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
 import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
+  layout: null,
   components: {
     TextInput,
     FormLabel,

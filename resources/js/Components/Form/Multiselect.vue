@@ -14,7 +14,7 @@ export default {
 
 <style lang="postcss">
 .multiselect {
-  @apply relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-white text-sm leading-snug outline-none;
+  @apply relative mx-auto w-full flex items-center justify-end box-border cursor-pointer border border-gray-300 rounded bg-[#F8F9FA] text-sm leading-snug outline-none;
 
   &.is-disabled {
     @apply cursor-default bg-gray-100;
@@ -29,7 +29,12 @@ export default {
   }
 
   &.is-active {
-    @apply ring ring-green-500 ring-opacity-30;
+    /* @apply ring ring-green-500 ring-opacity-30; */
+    @apply border-[#495057] bg-white;
+
+    .multiselect-tags-search {
+      @apply bg-white;
+    }
   }
 }
 
@@ -42,7 +47,7 @@ export default {
 }
 
 .multiselect-search {
-  @apply w-full absolute inset-0 outline-none appearance-none box-border border-0 font-sans bg-white rounded pl-3.5;
+  @apply w-full absolute inset-0 outline-none appearance-none box-border border-0 font-sans rounded pl-3.5;
 }
 
 .multiselect-tags {
@@ -70,7 +75,7 @@ export default {
 }
 
 .multiselect-tags-search {
-  @apply absolute inset-0 border-0 outline-none appearance-none p-0 text-sm font-sans box-border w-full;
+  @apply absolute inset-0 border-0 outline-none appearance-none p-0 text-sm font-sans box-border w-full bg-[#F8F9FA];
 }
 
 .multiselect-tags-search-copy {

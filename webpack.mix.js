@@ -46,6 +46,7 @@ mix
   .js('resources/js/icons.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css')
   .webpackConfig(require('./webpack.config'))
+  .sourceMaps()
   .version()
   .disableNotifications()
 

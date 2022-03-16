@@ -15,7 +15,8 @@ module.exports = {
         sans: ['Nunito', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        primary: '#51CF66'
+        primary: '#51CF66',
+        darkgrey: '#495057'
       },
       backgroundImage: theme => ({
         'multiselect-caret': `url("${svgToDataUri(

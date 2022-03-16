@@ -8,7 +8,7 @@
     >
       <div class="w-[365px]">
         <form @submit.prevent="submit">
-          <div class="mb-[40px]">
+          <div class="mb-[20px]">
             <p class="text-sm text-gray-500">Start for free</p>
             <h1 class="font-bold text-3xl py-3">Sign up</h1>
             <p class="leading-5 text-gray-700">
@@ -17,56 +17,61 @@
             </p>
           </div>
 
-          <form-group>
-            <form-label for="email">Email</form-label>
-            <text-input
-              v-model="form.email"
-              placeholder="Email"
-              id="email"
-              name="email"
-            />
-          </form-group>
-
-          <form-group>
-            <form-label for="password">Password</form-label>
-            <text-input
-              v-model="form.password"
-              placeholder="Password"
-              type="password"
-              id="password"
-              name="password"
-            />
-          </form-group>
-
-          <form-group>
-            <form-label for="password_confirmation"
-              >Password confirmation</form-label
-            >
-            <text-input
-              v-model="form.password_confirmation"
-              placeholder="Password confirmation"
-              type="password"
-              id="password_confirmation"
-              name="password_confirmation"
-            />
-          </form-group>
-
-          <FormGroup>
-            <div class="flex items-center">
-              <input
-                type="checkbox"
-                id="terms"
-                name="terms"
-                v-model="form.terms"
-                class="w-4 h-4 mr-2"
+          <div class="py-6 flex flex-col gap-6">
+            <form-group>
+              <form-label for="email">Email</form-label>
+              <text-input
+                class="!p-[16px]"
+                v-model="form.email"
+                placeholder="Email"
+                id="email"
+                name="email"
               />
+            </form-group>
 
-              <label class="text-gray-700" for="terms"
-                >I agree with the
-                <a href="/terms" target="blank">terms of service</a></label
+            <form-group>
+              <form-label for="password">Password</form-label>
+              <text-input
+                class="!p-[16px]"
+                v-model="form.password"
+                placeholder="Password"
+                type="password"
+                id="password"
+                name="password"
+              />
+            </form-group>
+
+            <form-group>
+              <form-label for="password_confirmation"
+                >Password confirmation</form-label
               >
-            </div>
-          </FormGroup>
+              <text-input
+                class="!p-[16px]"
+                v-model="form.password_confirmation"
+                placeholder="Password confirmation"
+                type="password"
+                id="password_confirmation"
+                name="password_confirmation"
+              />
+            </form-group>
+
+            <FormGroup>
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  v-model="form.terms"
+                  class="w-4 h-4 mr-2"
+                />
+
+                <label class="text-gray-700" for="terms"
+                  >I agree with the
+                  <a href="/terms" target="blank">terms of service</a></label
+                >
+              </div>
+            </FormGroup>
+          </div>
 
           <primary-button class="w-full mb-1"
             >Create your account</primary-button
@@ -90,6 +95,7 @@ import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
 import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
+  layout: null,
   components: {
     TextInput,
     FormLabel,
