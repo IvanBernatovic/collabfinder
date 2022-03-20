@@ -13,7 +13,9 @@
         <template v-slot:footer>
           <div class="p-6 flex gap-2">
             <PrimaryButton type="submit">Update</PrimaryButton>
-            <Link class="secondary-btn" :href="`/projects/${project.id}`"
+            <Link
+              class="secondary-btn"
+              :href="backLink || `/projects/${project.id}`"
               >Cancel</Link
             >
           </div>
@@ -29,10 +31,13 @@ import { Link } from '@inertiajs/inertia-vue3'
 
 import FormV2 from '@/Components/Projects/FormV2.vue'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import { useParams } from '@/helpers'
 
 const props = defineProps(['project', 'roles', 'tags'])
 
 const { project, roles, tags } = toRefs(props)
+
+const { backLink } = useParams()
 
 const updateProject = form => {
   console.log(form)

@@ -5,12 +5,8 @@
         <InertiaLink
           class="font-semibold text-[15px] text-black hover:underline"
           :href="`/projects/${project.id}`"
-          >{{ project.name }}</InertiaLink
-        >
-        <!-- <span class="text-sm text-gray-800">{{
-                  project.user.name
-                }}</span> -->
-
+          >{{ project.name }}
+        </InertiaLink>
         <p class="flex items-center mt-1">
           <svg
             v-if="project.roles.length === 1"
@@ -46,13 +42,19 @@
         </p>
       </div>
 
-      <button
-        class="text-gray-500 border border-gray-200 rounded p-1.5"
-        @click="$emit('saveProject', project)"
-      >
-        <BookmarkIcon class="w-4 h-4" v-if="!saved" />
-        <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
-      </button>
+      <div class="actions">
+        <InertiaLink
+          :href="`/projects/${project.id}/edit`"
+          :data="{ backLink }"
+          v-if="project.user.id === user.id"
+        >
+          <PencilIcon class="w-4 h-4" />
+        </InertiaLink>
+        <button v-if="!hideSaved" @click="$emit('saveProject', project)">
+          <BookmarkIcon class="w-4 h-4" v-if="!saved" />
+          <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
+        </button>
+      </div>
     </div>
 
     <div class="flex items-center justify-between mt-6">
@@ -74,17 +76,35 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { InertiaLink } from '@inertiajs/inertia-vue3'
+import { BookmarkIcon, PencilIcon } from '@heroicons/vue/outline'
+import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
 
 import dayjs from '@/dayjs'
-import { InertiaLink } from '@inertiajs/inertia-vue3'
-import { BookmarkIcon } from '@heroicons/vue/outline'
-import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
+import { useUser } from '@/helpers'
 
 const props = defineProps({
   project: Object,
-  saved: Boolean
+  saved: Boolean,
+  hideSaved: {
+    type: Boolean,
+    default: false
+  },
+  user: Object,
+  backLink: String
 })
 
-const createdAtDiff = computed(() => dayjs(props.project.created_at).fromNow())
+const user = useUser()
+
+const createdAtDiff = dayjs(props.project.created_at).fromNow()
 </script>
+
+<style lang="postcss" scoped>
+.actions {
+  @apply flex gap-1.5;
+
+  > * {
+    @apply text-gray-500 border border-gray-200 rounded p-1.5;
+  }
+}
+</style>

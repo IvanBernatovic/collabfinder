@@ -8,10 +8,8 @@ use App\Models\Project;
 use App\Models\Role;
 use App\Models\SavedProject;
 use App\Models\Tag;
-use App\Models\User;
 use Auth;
 use DB;
-use Request;
 use Inertia\Inertia;
 use Mail;
 
@@ -200,12 +198,14 @@ class ProjectController extends Controller
 
     public function myProjects()
     {
-        $projects = user()->projects()->latest()->with('user', 'roles', 'tags');
+        $projects = request()->get('section') === 'saved' ?
+            user()->saved_projects()->withCoreRelationships()->latest() :
+            user()->projects()->withCoreRelationships()->latest();
 
         $paginatedProjects = $projects->simplePaginate()->withQueryString();
 
         return Inertia::render('Projects/MyProjects', [
-            'projects' => $paginatedProjects->items(),
+            'projects' => ProjectResource::collection($paginatedProjects->items()),
             'applications' => Auth::user()->applications()->pluck('project_id'),
             'links' => [
                 'nextUrl' => $paginatedProjects->nextPageUrl(),
