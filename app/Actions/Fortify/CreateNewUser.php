@@ -32,10 +32,16 @@ class CreateNewUser implements CreatesNewUsers
 
         Validator::make($input, $rules)->validate();
 
-        return User::create([
+        $data = [
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-        ]);
+        ];
+
+        if (!app()->environment('production')) {
+            $data['email_verified_at'] = now();
+        }
+
+        return User::create($data);
     }
 }
