@@ -63,6 +63,7 @@ import { removeFalsy, useImmer } from '@/helpers'
 import SimplePagination from '@/Components/Shared/SimplePagination.vue'
 import Project from '@/Components/Projects/Project.vue'
 import NoResults from '@/Components/Common/NoResults.vue'
+import { useToast } from 'vue-toastification'
 
 const props = defineProps({
   projects: Array,
@@ -89,7 +90,7 @@ const {
   savedProjects: savedProjectsProp
 } = toRefs(props)
 
-const [projects, updateProjects] = useImmer(projectsProps)
+const [projects] = useImmer(projectsProps)
 const [savedProjects, updateSaved] = useImmer(
   savedProjectsProp.value.reduce((res, id) => {
     res[id] = true
@@ -103,6 +104,8 @@ const filters = reactive({
   tags: [],
   period: null
 })
+
+const toast = useToast()
 
 const setInitFiltersFromUrl = () => {
   const url = new URL(window.location)
@@ -126,14 +129,22 @@ const saveProject = async project => {
   await axios.post(`/projects/${project.id}/save`)
 
   if (project.id in savedProjects.value) {
-    return updateSaved(saved => {
+    updateSaved(saved => {
       delete saved[project.id]
     })
+
+    toast.success(`Removed "${project.name}" from saved.`)
+
+    return
   }
 
-  return updateSaved(saved => {
+  updateSaved(saved => {
     saved[project.id] = true
   })
+
+  toast.success(`Saved "${project.name}".`)
+
+  return
 }
 
 onMounted(() => {

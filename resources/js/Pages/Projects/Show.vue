@@ -113,6 +113,7 @@ import dayjs from '@/dayjs'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Common/SecondaryButton.vue'
 import ProjectModal from '@/Components/Projects/ProjectModal.vue'
+import { useToast } from 'vue-toastification'
 
 const {
   project,
@@ -129,6 +130,7 @@ const saved = ref(savedProp)
 
 const createdAtDiff = dayjs(project.created_at).fromNow()
 const user = usePage().props.value.user
+const toast = useToast()
 
 const isOwner = project.user.id === user.id
 const applyDisabled = applied || isOwner
@@ -151,6 +153,12 @@ const toggleSave = async () => {
   await axios.post(`/projects/${project.id}/save`)
 
   saved.value = !saved.value
+
+  if (saved.value) {
+    toast.success(`Saved "${project.name}".`)
+  } else {
+    toast.success(`Removed "${project.name}" from saved.`)
+  }
 }
 
 const getApplyLabel = () => {

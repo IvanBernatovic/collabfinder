@@ -29,7 +29,8 @@ createInertiaApp({
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(Toast, {
-        transition: 'Vue-Toastification__fade'
+        transition: 'Vue-Toastification__fade',
+        timeout: 2500
       })
       .mount(el)
 
