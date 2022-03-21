@@ -16,7 +16,7 @@
             </p>
           </div>
 
-          <form-group>
+          <form-group class="mb-6">
             <form-label for="email">Email</form-label>
             <text-input
               class="!p-[16px]"
@@ -39,7 +39,7 @@
             />
           </form-group>
 
-          <div class="flex justify-between mb-[40px]">
+          <div class="flex justify-between mb-[40px] mt-4">
             <div class="flex items-center">
               <input
                 type="checkbox"
@@ -54,11 +54,13 @@
             <a href="/forgot" class="font-medium">Forgot your password?</a>
           </div>
 
-          <primary-button class="w-full mb-1">Sign in</primary-button>
+          <primary-button class="w-full mb-1" :disabled="form.processing"
+            >Sign in</primary-button
+          >
         </form>
 
-        <div class="text-center">
-          <Link href="/register" class="mx-auto">New user? Sign up here</Link>
+        <div class="text-center mt-2">
+          New user? <Link href="/register" class="mx-auto">Sign up here</Link>
         </div>
 
         <social-login text="Or sign in with" />

@@ -19,13 +19,18 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        Validator::make($input, [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'agreement' => ['required'],
-            'password' => $this->passwordRules(),
-            'g-recaptcha-response' => ['required', 'captcha']
-        ])->validate();
+            'agreement' => ['required', 'accepted'],
+            'password' => $this->passwordRules()
+        ];
+
+        if (app()->environment('production')) {
+            $rules['g-recaptcha-response'] = ['required', 'captcha'];
+        }
+
+        Validator::make($input, $rules)->validate();
 
         return User::create([
             'name' => $input['name'],

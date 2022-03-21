@@ -19,6 +19,17 @@
 
           <div class="py-6 flex flex-col gap-6">
             <form-group>
+              <form-label for="name">Name</form-label>
+              <text-input
+                class="!p-[16px]"
+                v-model="form.name"
+                placeholder="Name"
+                id="name"
+                name="name"
+              />
+            </form-group>
+
+            <form-group>
               <form-label for="email">Email</form-label>
               <text-input
                 class="!p-[16px]"
@@ -26,6 +37,7 @@
                 placeholder="Email"
                 id="email"
                 name="email"
+                type="email"
               />
             </form-group>
 
@@ -63,6 +75,7 @@
                   name="terms"
                   v-model="form.terms"
                   class="w-4 h-4 mr-2"
+                  required
                 />
 
                 <label class="text-gray-700" for="terms"
@@ -73,10 +86,15 @@
             </FormGroup>
           </div>
 
-          <primary-button class="w-full mb-1"
+          <primary-button class="w-full mb-1" :disabled="form.processing"
             >Create your account</primary-button
           >
         </form>
+
+        <p class="mt-2 text-gray-700 text-center">
+          Already a member?
+          <Link href="/login" class="mx-auto">Sign in</Link>
+        </p>
 
         <social-login text="Or sign up with" />
       </div>
@@ -108,9 +126,10 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
+        name: '',
         email: '',
         password: '',
-        password_confirmation: false,
+        password_confirmation: '',
         terms: false
       })
     }
@@ -120,9 +139,9 @@ export default {
       this.form
         .transform(data => ({
           ...data,
-          remember: this.form.remember ? 'on' : ''
+          agreement: this.form.terms
         }))
-        .post('login', {
+        .post('register', {
           onFinish: () => this.form.reset('password')
         })
     }

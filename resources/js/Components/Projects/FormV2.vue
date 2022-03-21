@@ -55,7 +55,7 @@
       </FormGroup>
     </div>
 
-    <slot name="footer"></slot>
+    <slot name="footer" :form="form"></slot>
   </form>
 </template>
 

@@ -75,13 +75,3 @@ const props = defineProps({
   }
 })
 </script>
-
-<style lang="postcss">
-.side-link {
-  @apply p-2 text-[#495057] rounded font-medium;
-
-  &.active {
-    @apply bg-[#E9ECEF];
-  }
-}
-</style>
