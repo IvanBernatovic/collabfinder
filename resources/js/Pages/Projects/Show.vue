@@ -107,7 +107,7 @@ export default {
 <script setup>
 import { ShareIcon, PencilIcon } from '@heroicons/vue/outline'
 import { Link } from '@inertiajs/inertia-vue3'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/inertia-vue3'
 import dayjs from '@/dayjs'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
@@ -115,25 +115,22 @@ import SecondaryButton from '@/Components/Common/SecondaryButton.vue'
 import ProjectModal from '@/Components/Projects/ProjectModal.vue'
 import { useToast } from 'vue-toastification'
 
-const {
-  project,
-  applied,
-  saved: savedProp
-} = defineProps({
+const props = defineProps({
   project: Object,
   applied: Boolean,
   saved: Boolean
 })
 
 const isOpen = ref(false)
-const saved = ref(savedProp)
+const saved = ref(props.saved)
+const project = props.project
 
 const createdAtDiff = dayjs(project.created_at).fromNow()
 const user = usePage().props.value.user
 const toast = useToast()
 
 const isOwner = project.user.id === user.id
-const applyDisabled = applied || isOwner
+const applyDisabled = computed(() => props.applied || isOwner)
 
 const closeModal = () => {
   isOpen.value = false
@@ -144,9 +141,12 @@ const openModal = () => {
 }
 
 const apply = form => {
-  form.post(`/projects/${project.id}/apply`)
-
-  closeModal()
+  form.post(`/projects/${project.id}/apply`, {
+    onSuccess: () => {
+      closeModal()
+      toast.success('Applied for project. The project owner will be contacted.')
+    }
+  })
 }
 
 const toggleSave = async () => {
@@ -161,7 +161,7 @@ const toggleSave = async () => {
   }
 }
 
-const getApplyLabel = () => {
+const getApplyLabel = (isOwner, applied) => {
   if (isOwner) {
     return 'You own this'
   }
@@ -173,7 +173,7 @@ const getApplyLabel = () => {
   return 'Apply now'
 }
 
-const applyBtnLabel = getApplyLabel()
+const applyBtnLabel = computed(() => getApplyLabel(isOwner, props.applied))
 </script>
 
 <style lang="postcss" scoped>

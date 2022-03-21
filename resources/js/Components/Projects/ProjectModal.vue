@@ -110,7 +110,7 @@
               <div class="px-4 py-6 flex gap-2">
                 <PrimaryButton
                   @click="$emit('apply', form)"
-                  :disabled="form.message.length < 3"
+                  :disabled="form.message.length < 3 || form.processing"
                   >Submit application</PrimaryButton
                 >
                 <SecondaryButton @click="$emit('close')"
