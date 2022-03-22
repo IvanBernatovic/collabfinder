@@ -5,12 +5,22 @@
     <form @submit.prevent="submit" class="flex flex-col gap-6">
       <div class="form-group">
         <label for="name" class="form-label">Name</label>
-        <text-input name="name" id="name" v-model="form.name" />
+        <text-input name="name" id="name" v-model="form.name" minlength="2" />
+
+        <input-error :message="form.errors?.updateProfileInformation?.name" />
       </div>
 
       <div class="form-group">
         <label for="email" class="form-label">Email</label>
-        <text-input name="email" type="email" id="email" v-model="form.email" />
+        <text-input
+          name="email"
+          type="email"
+          id="email"
+          v-model="form.email"
+          required
+        />
+
+        <input-error :message="form.errors?.updateProfileInformation?.email" />
       </div>
 
       <div>
@@ -30,6 +40,7 @@ import { useToast } from 'vue-toastification'
 import { useUser } from '@/helpers'
 import { useForm } from '@inertiajs/inertia-vue3'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
 const toast = useToast()
 const user = useUser()

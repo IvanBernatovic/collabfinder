@@ -26,7 +26,12 @@
                 placeholder="Name"
                 id="name"
                 name="name"
+                required
+                minlength="2"
+                autocomplete="off"
               />
+
+              <InputError :message="form.errors.name" />
             </form-group>
 
             <form-group>
@@ -38,22 +43,39 @@
                 id="email"
                 name="email"
                 type="email"
+                required
               />
             </form-group>
 
             <form-group>
-              <form-label for="password">Password</form-label>
+              <div class="flex justify-between items-center pb-2">
+                <form-label class="pb-0" for="new-password"
+                  >Password</form-label
+                >
+                <button
+                  type="button"
+                  @click="togglePasswordType"
+                  class="text-sm text-primary"
+                >
+                  {{ togglePasswordLabel }}
+                </button>
+              </div>
               <text-input
                 class="!p-[16px]"
                 v-model="form.password"
                 placeholder="Password"
-                type="password"
-                id="password"
-                name="password"
+                :type="password_type"
+                autocomplete="new-password"
+                id="new-password"
+                name="new-password"
+                required
+                minlength="8"
               />
+
+              <InputError :message="form.errors.password" />
             </form-group>
 
-            <form-group>
+            <!-- <form-group>
               <form-label for="password_confirmation"
                 >Password confirmation</form-label
               >
@@ -61,11 +83,15 @@
                 class="!p-[16px]"
                 v-model="form.password_confirmation"
                 placeholder="Password confirmation"
-                type="password"
+                :type="password_type"
                 id="password_confirmation"
                 name="password_confirmation"
+                required
+                minlength="8"
               />
-            </form-group>
+
+              <InputError :message="form.errors.password_confirmation" />
+            </form-group> -->
 
             <FormGroup>
               <div class="flex items-center">
@@ -83,6 +109,8 @@
                   <a href="/terms" target="blank">terms of service</a></label
                 >
               </div>
+
+              <InputError :message="form.errors.terms_of_service" />
             </FormGroup>
           </div>
 
@@ -111,6 +139,7 @@ import PrimaryButton from 'Components/Common/PrimaryButton'
 import SocialLogin from 'Components/Common/SocialLogin.vue'
 import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import InputError from '@/Components/Form/InputError.vue'
 
 export default {
   layout: null,
@@ -121,7 +150,8 @@ export default {
     PrimaryButton,
     SocialLogin,
     Link,
-    AuthCarouselSection
+    AuthCarouselSection,
+    InputError
   },
   data() {
     return {
@@ -129,9 +159,10 @@ export default {
         name: '',
         email: '',
         password: '',
-        password_confirmation: '',
+        // password_confirmation: '',
         terms: false
-      })
+      }),
+      password_type: 'password'
     }
   },
   methods: {
@@ -139,11 +170,22 @@ export default {
       this.form
         .transform(data => ({
           ...data,
-          agreement: this.form.terms
+          terms_of_service: this.form.terms
         }))
         .post('register', {
           onFinish: () => this.form.reset('password')
         })
+    },
+    togglePasswordType() {
+      this.password_type =
+        this.password_type === 'password' ? 'text' : 'password'
+    }
+  },
+  computed: {
+    togglePasswordLabel() {
+      return this.password_type === 'password'
+        ? 'Show password'
+        : 'Hide password'
     }
   }
 }

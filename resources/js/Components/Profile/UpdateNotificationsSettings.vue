@@ -23,6 +23,8 @@
           :caret="false"
           :object="true"
         />
+
+        <input-error :message="form.errors?.roles" />
       </div>
 
       <div class="form-group mt-4">
@@ -41,6 +43,8 @@
           :hideSelected="false"
           :object="true"
         />
+
+        <input-error :message="form.errors?.tags" />
       </div>
 
       <div class="mt-6 flex gap-2">
@@ -66,6 +70,7 @@ import { useToast } from 'vue-toastification'
 import Multiselect from '@/Components/Form/Multiselect.vue'
 import FormSection from '@/Components/Common/FormSection.vue'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
 const props = defineProps(['roles', 'tags', 'notificationSettings'])
 

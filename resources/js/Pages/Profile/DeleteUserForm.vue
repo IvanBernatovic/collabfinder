@@ -8,7 +8,7 @@
 
         <div class="mt-6 bg-gray-100 p-2 flex items-center">
           <svg
-            class="w-6 h-6 ml-2 mr-4"
+            class="w-16 h-16 ml-1 mr-4"
             viewBox="0 0 14 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,14 @@
 
         <div class="mt-4 form-group">
           <label class="form-label">Password</label>
-          <text-input type="password" v-model="form.password" />
+          <text-input
+            type="password"
+            v-model="form.password"
+            required
+            minlength="8"
+          />
+
+          <input-error :message="form.errors.password" />
         </div>
 
         <div class="flex gap-3 mt-4">
@@ -82,6 +89,7 @@ import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import FormSection from '@/Components/Common/FormSection.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import Modal from '@/Components/Common/Modal.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
 const form = useForm({
   password: ''

@@ -46,10 +46,17 @@
       <form @submit.prevent="logoutOtherBrowserSessions" class="py-6">
         <div class="form-group">
           <label class="form-label">Password</label>
-          <text-input type="password" v-model="form.password" />
+          <text-input
+            type="password"
+            v-model="form.password"
+            required
+            minlength="8"
+          />
+
+          <input-error :message="form.errors.password" />
         </div>
 
-        <div class="flex gap-3 mt-4">
+        <div class="flex gap-3 mt-6">
           <button class="secondary-btn" @click="closeModal" type="button">
             Cancel
           </button>
@@ -72,6 +79,7 @@ import FormSection from '@/Components/Common/FormSection.vue'
 import Modal from '@/Components/Common/Modal.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
 const props = defineProps(['sessions'])
 

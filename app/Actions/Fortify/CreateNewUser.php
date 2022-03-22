@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -22,8 +23,8 @@ class CreateNewUser implements CreatesNewUsers
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'agreement' => ['required', 'accepted'],
-            'password' => $this->passwordRules()
+            'terms_of_service' => ['required', 'accepted'],
+            'password' => ['required', 'string', new Password(8)]
         ];
 
         if (app()->environment('production')) {

@@ -13,6 +13,11 @@
             id="current_password"
             type="password"
             v-model="form.current_password"
+            minlength="8"
+          />
+
+          <input-error
+            :message="form.errors?.updatePassword?.current_password"
           />
         </div>
 
@@ -23,7 +28,10 @@
             id="password"
             type="password"
             v-model="form.password"
+            minlength="8"
           />
+
+          <input-error :message="form.errors?.updatePassword?.password" />
         </div>
 
         <div class="form-group">
@@ -35,6 +43,10 @@
             id="password_confirmation"
             type="password"
             v-model="form.password_confirmation"
+            minlength="8"
+          />
+          <input-error
+            :message="form.errors?.updatePassword?.password_confirmation"
           />
         </div>
 
@@ -55,6 +67,7 @@ import { useToast } from 'vue-toastification'
 
 import { useForm } from '@inertiajs/inertia-vue3'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
 const toast = useToast()
 const form = useForm({

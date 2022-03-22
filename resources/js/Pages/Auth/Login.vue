@@ -24,19 +24,38 @@
               placeholder="Email"
               id="email"
               name="email"
+              type="email"
+              required
+              aria-required="true"
             />
+
+            <InputError :message="form.errors.email" />
           </form-group>
 
           <form-group>
-            <form-label for="password">Password</form-label>
+            <div class="flex justify-between items-center pb-2">
+              <form-label class="pb-0" for="password">Password</form-label>
+              <button
+                type="button"
+                @click="togglePasswordType"
+                class="text-sm text-primary"
+              >
+                {{ togglePasswordLabel }}
+              </button>
+            </div>
             <text-input
               class="!p-[16px]"
               v-model="form.password"
               placeholder="Password"
-              type="password"
+              :type="password_type"
               id="password"
               name="password"
+              required
+              aria-required="true"
+              minlength="8"
+              autocomplete="current-password"
             />
+            <InputError :message="form.errors.password" />
           </form-group>
 
           <div class="flex justify-between mb-[40px] mt-4">
@@ -78,6 +97,7 @@ import PrimaryButton from 'Components/Common/PrimaryButton'
 import SocialLogin from 'Components/Common/SocialLogin.vue'
 import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import InputError from '@/Components/Form/InputError.vue'
 
 export default {
   layout: null,
@@ -88,7 +108,8 @@ export default {
     PrimaryButton,
     SocialLogin,
     Link,
-    AuthCarouselSection
+    AuthCarouselSection,
+    InputError
   },
   data() {
     return {
@@ -96,7 +117,8 @@ export default {
         email: '',
         password: '',
         remember: false
-      })
+      }),
+      password_type: 'password'
     }
   },
   methods: {
@@ -107,9 +129,37 @@ export default {
           remember: this.form.remember ? 'on' : ''
         }))
         .post('login', {
+          preserveState: true,
           onFinish: () => this.form.reset('password')
         })
+    },
+    togglePasswordType() {
+      this.password_type =
+        this.password_type === 'password' ? 'text' : 'password'
+    }
+  },
+  computed: {
+    togglePasswordLabel() {
+      return this.password_type === 'password'
+        ? 'Show password'
+        : 'Hide password'
     }
   }
 }
 </script>
+
+<style lang="postcss">
+button#toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* Media query isn't shown here. */
+  font-size: var(--mobile-font-size);
+  font-weight: 300;
+  padding: 0;
+  /* Display at the top right of the container */
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>
