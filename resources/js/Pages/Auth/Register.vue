@@ -45,6 +45,8 @@
                 type="email"
                 required
               />
+
+              <InputError :message="form.errors.email" />
             </form-group>
 
             <form-group>
