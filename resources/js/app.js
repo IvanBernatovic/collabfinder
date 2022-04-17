@@ -9,6 +9,7 @@ import { Integrations } from '@sentry/tracing'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import Toast from 'vue-toastification'
+
 import 'vue-toastification/dist/index.css'
 
 import Layout from './Layouts/Layout'

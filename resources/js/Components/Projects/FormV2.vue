@@ -84,6 +84,4 @@ const form = useForm({
   roles: project?.value?.roles || [],
   tags: project?.value?.tags || []
 })
-
-console.log(form)
 </script>
