@@ -11,8 +11,8 @@
       <DateFilter v-model="filters.period" @search="applyFilters" />
     </div>
 
-    <div class="flex gap-6">
-      <div class="w-2/5">
+    <div class="sm:flex gap-6">
+      <div class="sm:w-2/5">
         <NewFilters
           :roles="roles"
           :tags="tags"
@@ -22,7 +22,7 @@
           @apply-filters="applyFilters"
         />
       </div>
-      <div class="w-3/5">
+      <div class="sm:w-3/5">
         <div>
           <Project
             v-for="project in projects"

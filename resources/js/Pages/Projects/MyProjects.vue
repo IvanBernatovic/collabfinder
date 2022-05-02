@@ -1,6 +1,6 @@
 <template>
-  <div class="py-6 flex gap-5">
-    <div class="w-2/5 mt-[70px] flex flex-col side-links">
+  <div class="py-6 sm:flex gap-5">
+    <div class="sm:w-2/5 sm:mt-[70px] flex flex-col side-links">
       <InertiaLink
         href="/my-projects"
         class="side-link"
@@ -15,7 +15,7 @@
       >
     </div>
 
-    <div class="w-3/5">
+    <div class="sm:w-3/5">
       <div class="py-4 flex justify-between items-center">
         <h2 class="text-darkgrey text-lg font-semibold">My projects</h2>
 
@@ -39,7 +39,7 @@
         </InertiaLink>
       </div>
 
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col">
         <Project
           v-for="project in projects"
           :key="project.id"
@@ -72,6 +72,7 @@ const props = defineProps({
   savedProjects: {
     type: Array,
     default: () => []
-  }
+  },
+  page: {}
 })
 </script>

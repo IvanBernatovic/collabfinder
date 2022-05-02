@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex px-3 sm:p-0">
     <AuthCarouselSection />
 
     <section

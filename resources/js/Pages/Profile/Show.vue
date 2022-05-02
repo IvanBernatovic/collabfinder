@@ -1,7 +1,7 @@
 <template>
-  <div class="flex gap-4 py-6">
+  <div class="sm:flex gap-4 py-6">
     <div class="w-2/5">
-      <div class="fixed">
+      <div class="hidden sm:block sm:fixed">
         <a
           v-for="link in sideLinks"
           :href="`#${link.id}`"
@@ -10,7 +10,7 @@
         >
       </div>
     </div>
-    <div class="w-3/5">
+    <div class="sm:w-3/5">
       <update-profile-information-form id="profile-info" />
 
       <update-password-form class="mt-10" id="update-password" />

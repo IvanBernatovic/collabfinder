@@ -30,10 +30,10 @@
           >
             <div class="bg-white">
               <div class="px-4">
-                <div class="h-10">
+                <div class="h-10 relative">
                   <XIcon
                     @click="close"
-                    class="w-7 h-7 p-1 cursor-pointer absolute top-2 right-2"
+                    class="w-7 h-7 p-1 cursor-pointer absolute top-2 right-0"
                   />
                 </div>
 
