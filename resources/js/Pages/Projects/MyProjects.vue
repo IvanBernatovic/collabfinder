@@ -41,6 +41,7 @@
 
       <div class="flex flex-col">
         <Project
+          v-if="projects.length"
           v-for="project in projects"
           :key="project.id"
           :project="project"
@@ -48,6 +49,10 @@
           :hide-saved="true"
           back-link="/my-projects"
         />
+
+        <div v-else>
+          You have no projects yet.
+        </div>
       </div>
     </div>
   </div>
