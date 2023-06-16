@@ -44,6 +44,16 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_applications');
     }
 
+    public function didUserApply($user)
+    {
+        return (bool) $this->applications()->where('user_id', $user->id)->count();
+    }
+
+    public function scopeWithCoreRelationships($query)
+    {
+        return $query->with('user', 'roles', 'tags');
+    }
+
     public function scopeWithRolesId($projectsQuery, $rolesId)
     {
         return $projectsQuery->whereHas('roles', function ($query) use ($rolesId) {

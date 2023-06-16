@@ -11,11 +11,11 @@ class SettingsController extends Controller
         $request->validate([
             'tags' => 'array',
             'roles' => 'array',
-            'tags.*.id' => ['exists:tags,id'],
-            'roles.*.id' => ['exists:roles,id']
+            'tags.*' => ['exists:tags,id'],
+            'roles.*' => ['exists:roles,id']
         ]);
 
-        $user = authUser();
+        $user = user();
         $user->tags()->sync($request->get('tags'));
         $user->roles()->sync($request->get('roles'));
 

@@ -1,85 +1,83 @@
-<script>
-import AppLayout from './../../Layouts/AppLayout'
-
-import ProjectFilters from 'Components/Projects/Filters'
-import ProjectList from 'Components/Projects/List'
-
-export default {
-  name: 'MyProjectsPage',
-  metaInfo() {
-    return {
-      title: 'MyProjects'
-    }
-  },
-  props: {
-    projects: Array,
-    applications: Array,
-    roles: {
-      type: Array,
-      default: () => []
-    },
-    tags: {
-      type: Array,
-      default: () => []
-    },
-    links: Object
-  },
-  components: {
-    AppLayout,
-    ProjectFilters,
-    ProjectList
-  },
-  mounted() {
-    const url = new URL(window.location)
-    const roles = url.searchParams
-      .getAll('roles[]')
-      .map(roleId => parseInt(roleId))
-    this.filters.roles = this.roles.filter(role => roles.includes(role.id))
-
-    const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
-    this.filters.tags = this.tags.filter(tag => tags.includes(tag.id))
-  },
-  data() {
-    return {
-      filters: {
-        roles: [],
-        tags: []
-      }
-    }
-  },
-  methods: {
-    applyFilters() {
-      this.$inertia.get('/projects', this.parsedFilters)
-    }
-  },
-  computed: {
-    parsedFilters() {
-      return {
-        roles: this.filters.roles.map(role => role.id),
-        tags: this.filters.tags.map(tag => tag.id)
-      }
-    }
-  }
-}
-</script>
-
 <template>
-  <app-layout>
-    <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        My Projects
-      </h2>
-    </template>
+  <div class="py-6 sm:flex gap-5">
+    <div class="sm:w-2/5 sm:mt-[70px] flex flex-col side-links">
+      <InertiaLink
+        href="/my-projects"
+        class="side-link"
+        :class="{ active: $page.url === '/my-projects' }"
+        >My projects</InertiaLink
+      >
+      <InertiaLink
+        href="/my-projects?section=saved"
+        :class="{ active: $page.url === '/my-projects?section=saved' }"
+        class="side-link"
+        >Saved projects</InertiaLink
+      >
+    </div>
 
-    <div class="py-5 lg:py-10">
-      <div class="max-w-4xl mx-auto sm:px-6 md:px-8">
-        <project-list
-          :projects="projects"
-          :applications="applications"
-          :links="links"
-          :user="$page.props.user"
+    <div class="sm:w-3/5">
+      <div class="py-4 flex justify-between items-center">
+        <h2 class="text-darkgrey text-lg font-semibold">My projects</h2>
+
+        <InertiaLink
+          href="/projects/create"
+          class="px-3 py-2 flex items-center gap-2 font-medium border border-gray-300 text-darkgrey rounded-md"
+        >
+          <svg
+            width="12"
+            height="14"
+            viewBox="0 0 12 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.276 9.66689L9.03733 2.90555L8.09467 1.96288L1.33333 8.72422V9.66689H2.276ZM2.82867 11.0002H0V8.17155L7.62333 0.548218C7.74835 0.423238 7.91789 0.353027 8.09467 0.353027C8.27144 0.353027 8.44098 0.423238 8.566 0.548218L10.452 2.43422C10.577 2.55924 10.6472 2.72878 10.6472 2.90555C10.6472 3.08233 10.577 3.25187 10.452 3.37689L2.82867 11.0002ZM0 12.3336H12V13.6669H0V12.3336Z"
+              fill="#495057"
+            />
+          </svg>
+          Create new project
+        </InertiaLink>
+      </div>
+
+      <div class="flex flex-col">
+        <Project
+          v-if="projects.length"
+          v-for="project in projects"
+          :key="project.id"
+          :project="project"
+          :saved="project.id in savedProjects"
+          :hide-saved="true"
+          back-link="/my-projects"
         />
+
+        <div v-else>
+          You have no projects yet.
+        </div>
       </div>
     </div>
-  </app-layout>
+  </div>
 </template>
+
+<script setup>
+import { InertiaLink } from '@inertiajs/inertia-vue3'
+
+import Project from '@/Components/Projects/Project.vue'
+
+const props = defineProps({
+  projects: Array,
+  roles: {
+    type: Array,
+    default: () => []
+  },
+  tags: {
+    type: Array,
+    default: () => []
+  },
+  links: Object,
+  savedProjects: {
+    type: Array,
+    default: () => []
+  },
+  page: {}
+})
+</script>

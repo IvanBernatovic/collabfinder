@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::put('/projects/{project}', 'ProjectController@update')->name('projects.update');
     Route::delete('/projects/{project}', 'ProjectController@delete')->name('projects.delete');
     Route::post('/projects/{project}/apply', 'ProjectController@apply')->name('projects.apply');
+    Route::post('/projects/{project}/save', 'ProjectController@save')->name('projects.save');
 
     Route::get('/my-projects', 'ProjectController@myProjects')->name('my-projects');
 

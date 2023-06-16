@@ -17,7 +17,9 @@ mix
     resolve: {
       alias: {
         Jetstream: path.resolve(__dirname, 'resources/js/Jetstream'),
-        Components: path.resolve(__dirname, 'resources/js/Components')
+        Components: path.resolve(__dirname, 'resources/js/Components'),
+        Icons: path.resolve(__dirname, 'resources/js/Icons'),
+        '@': path.resolve(__dirname, 'resources/js')
       }
     },
     module: {
@@ -42,15 +44,15 @@ mix
   .js('resources/js/app.js', 'public/js')
   .vue()
   .js('resources/js/icons.js', 'public/js')
-  .postCss('resources/css/app.css', 'public/css', [
-    require('postcss-import'),
-    require('tailwindcss')
-  ])
+  .postCss('resources/css/app.css', 'public/css')
   .webpackConfig(require('./webpack.config'))
+  .sourceMaps()
   .version()
   .disableNotifications()
 
-mix.extract({
-  to: 'js/fa-icons.js',
-  libraries: /.*fontawesome.*/
-})
+mix
+  .extract({
+    to: 'js/fa-icons.js',
+    libraries: /.*fontawesome.*/
+  })
+  .version()

@@ -1,187 +1,114 @@
 <template>
-  <jet-action-section>
-    <template #title> Browser Sessions </template>
+  <div>
+    <form-section>
+      <template #title>Active sessions</template>
+      <div>
+        <p class="text-gray-600">
+          Manage and logout your active sessions on other browsers and devices.
+        </p>
 
-    <template #description>
-      Manage and logout your active sessions on other browsers and devices.
-    </template>
-
-    <template #content>
-      <div class="max-w-xl text-sm text-gray-600">
-        If necessary, you may logout of all of your other browser sessions
-        across all of your devices. If you feel your account has been
-        compromised, you should also update your password.
-      </div>
-
-      <!-- Other Browser Sessions -->
-      <div class="mt-5 space-y-6" v-if="sessions.length > 0">
-        <div class="flex items-center" v-for="session in sessions">
-          <div>
-            <svg
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class="w-8 h-8 text-gray-500"
-              v-if="session.agent.is_desktop"
-            >
-              <path
-                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              ></path>
-            </svg>
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-8 h-8 text-gray-500"
-              v-else
-            >
-              <path d="M0 0h24v24H0z" stroke="none"></path>
-              <rect x="7" y="4" width="10" height="16" rx="1"></rect>
-              <path d="M11 5h2M12 17v.01"></path>
-            </svg>
-          </div>
-
-          <div class="ml-3">
-            <div class="text-sm text-gray-600">
+        <div
+          v-for="session in sessions"
+          class="flex py-4 items-center border-b border-gray-300 text-sm font-medium"
+        >
+          <desktop-computer-icon
+            class="w-10 h-10 mr-4 text-gray-500"
+            v-if="session.agent.is_desktop"
+          />
+          <device-mobile-icon
+            class="w-10 h-10 mr-4 text-gray-500"
+            v-if="!session.agent.is_desktop"
+          />
+          <div class="flex flex-col justify-between h-11 flex-1">
+            <div class="text-gray-800">
               {{ session.agent.platform }} - {{ session.agent.browser }}
             </div>
-
-            <div>
-              <div class="text-xs text-gray-500">
-                {{ session.ip_address }},
-
-                <span
-                  class="text-green-500 font-semibold"
-                  v-if="session.is_current_device"
-                  >This device</span
-                >
-                <span v-else>Last active {{ session.last_active }}</span>
-              </div>
+            <div class="text-gray-400">
+              {{ session.ip_address }}
+              <span v-if="session.is_current_device" class="text-primary"
+                >This device</span
+              >
             </div>
           </div>
         </div>
+
+        <div class="mt-6">
+          <button class="secondary-btn" @click="confirmLogout">
+            Logout other sessions
+          </button>
+        </div>
       </div>
+    </form-section>
 
-      <div class="flex items-center mt-5">
-        <jet-button @click.native="confirmLogout">
-          Logout Other Browser Sessions
-        </jet-button>
+    <modal :is-open="confirmingLogout" @close="closeModal">
+      <template #title>Logout other browser sessions</template>
 
-        <jet-action-message :on="form.recentlySuccessful" class="ml-3">
-          Done.
-        </jet-action-message>
-      </div>
+      <form @submit.prevent="logoutOtherBrowserSessions" class="py-6">
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <text-input
+            type="password"
+            v-model="form.password"
+            required
+            minlength="8"
+          />
 
-      <!-- Logout Other Devices Confirmation Modal -->
-      <jet-dialog-modal
-        :show="confirmingLogout"
-        @close="confirmingLogout = false"
-      >
-        <template #title> Logout Other Browser Sessions </template>
+          <input-error :message="form.errors.password" />
+        </div>
 
-        <template #content>
-          Please enter your password to confirm you would like to logout of your
-          other browser sessions across all of your devices.
-
-          <div class="mt-4">
-            <jet-input
-              type="password"
-              class="mt-1 block w-3/4"
-              placeholder="Password"
-              ref="password"
-              v-model="form.password"
-              @keyup.enter.native="logoutOtherBrowserSessions"
-            />
-
-            <jet-input-error :message="form.errors.password" class="mt-2" />
-          </div>
-        </template>
-
-        <template #footer>
-          <jet-secondary-button @click.native="confirmingLogout = false">
-            Nevermind
-          </jet-secondary-button>
-
-          <jet-button
-            class="ml-2"
-            @click.native="logoutOtherBrowserSessions"
-            :class="{ 'opacity-25': form.processing }"
-            :disabled="form.processing"
+        <div class="flex gap-3 mt-6">
+          <button class="secondary-btn" @click="closeModal" type="button">
+            Cancel
+          </button>
+          <primary-button :disabled="form.processing"
+            >Logout other browser sessions</primary-button
           >
-            Logout Other Browser Sessions
-          </jet-button>
-        </template>
-      </jet-dialog-modal>
-    </template>
-  </jet-action-section>
+        </div>
+      </form>
+    </modal>
+  </div>
 </template>
 
-<script>
-import JetActionMessage from "./../../Jetstream/ActionMessage";
-import JetActionSection from "./../../Jetstream/ActionSection";
-import JetButton from "./../../Jetstream/Button";
-import JetDialogModal from "./../../Jetstream/DialogModal";
-import JetInput from "./../../Jetstream/Input";
-import JetInputError from "./../../Jetstream/InputError";
-import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
+<script setup>
+import { ref } from 'vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+import { DesktopComputerIcon, DeviceMobileIcon } from '@heroicons/vue/solid'
+import { useToast } from 'vue-toastification'
 
-export default {
-  props: ["sessions"],
+import FormSection from '@/Components/Common/FormSection.vue'
+import Modal from '@/Components/Common/Modal.vue'
+import TextInput from '@/Components/Form/TextInput.vue'
+import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
-  components: {
-    JetActionMessage,
-    JetActionSection,
-    JetButton,
-    JetDialogModal,
-    JetInput,
-    JetInputError,
-    JetSecondaryButton,
-  },
+const props = defineProps(['sessions'])
 
-  data() {
-    return {
-      confirmingLogout: false,
+const form = useForm({
+  password: ''
+})
 
-      form: this.$inertia.form(
-        {
-          _method: "DELETE",
-          password: "",
-        },
-        {
-          bag: "logoutOtherBrowserSessions",
-        }
-      ),
-    };
-  },
+const toast = useToast()
 
-  methods: {
-    confirmLogout() {
-      this.confirmingLogout = true;
+const confirmingLogout = ref(false)
 
-      setTimeout(() => this.$refs.password.focus(), 250);
+const confirmLogout = () => {
+  confirmingLogout.value = true
+}
+
+const closeModal = () => {
+  confirmingLogout.value = false
+
+  form.reset()
+}
+
+const logoutOtherBrowserSessions = () => {
+  form.delete('/user/other-browser-sessions', {
+    preserveScroll: true,
+    onSuccess: () => {
+      closeModal()
+      toast.success('Logged out of other browsers successfully.')
     },
-    closeModal() {
-      this.confirmingLogout = false;
-
-      this.form.reset();
-    },
-
-    logoutOtherBrowserSessions() {
-      this.form.post("/user/other-browser-sessions", {
-        preserveScroll: true,
-        onSuccess: () => this.closeModal(),
-        onError: () => this.$refs.password.focus(),
-        onFinish: () => this.form.reset(),
-      });
-    },
-  },
-};
+    onFinish: () => form.reset()
+  })
+}
 </script>

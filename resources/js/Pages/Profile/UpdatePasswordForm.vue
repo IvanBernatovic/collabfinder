@@ -1,116 +1,87 @@
 <template>
-  <jet-form-section @submitted="updatePassword">
-    <template #title> Update Password </template>
+  <div>
+    <form-section>
+      <template #title>Update password</template>
 
-    <template #description>
-      Ensure your account is using a long, random password to stay secure.
-    </template>
+      <form @submit.prevent="submit" class="flex flex-col gap-6">
+        <div class="form-group">
+          <label for="current_password" class="form-label"
+            >Current password</label
+          >
+          <text-input
+            name="current_password"
+            id="current_password"
+            type="password"
+            v-model="form.current_password"
+            minlength="8"
+          />
 
-    <template #form>
-      <div class="col-span-6 sm:col-span-4">
-        <jet-label for="current_password" value="Current Password" />
-        <jet-input
-          id="current_password"
-          type="password"
-          class="mt-1 block w-full"
-          v-model="form.current_password"
-          ref="current_password"
-          autocomplete="current-password"
-        />
-        <jet-input-error :message="form.errors.current_password" class="mt-2" />
-      </div>
+          <input-error
+            :message="form.errors?.updatePassword?.current_password"
+          />
+        </div>
 
-      <div class="col-span-6 sm:col-span-4">
-        <jet-label for="password" value="New Password" />
-        <jet-input
-          id="password"
-          type="password"
-          class="mt-1 block w-full"
-          v-model="form.password"
-          ref="password"
-          autocomplete="new-password"
-        />
-        <jet-input-error :message="form.errors.password" class="mt-2" />
-      </div>
+        <div class="form-group">
+          <label for="password" class="form-label">New password</label>
+          <text-input
+            name="password"
+            id="password"
+            type="password"
+            v-model="form.password"
+            minlength="8"
+          />
 
-      <div class="col-span-6 sm:col-span-4">
-        <jet-label for="password_confirmation" value="Confirm Password" />
-        <jet-input
-          id="password_confirmation"
-          type="password"
-          class="mt-1 block w-full"
-          v-model="form.password_confirmation"
-          autocomplete="new-password"
-        />
-        <jet-input-error
-          :message="form.errors.password_confirmation"
-          class="mt-2"
-        />
-      </div>
-    </template>
+          <input-error :message="form.errors?.updatePassword?.password" />
+        </div>
 
-    <template #actions>
-      <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-        Saved.
-      </jet-action-message>
+        <div class="form-group">
+          <label for="password_confirmation" class="form-label"
+            >Confirm password</label
+          >
+          <text-input
+            name="password_confirmation"
+            id="password_confirmation"
+            type="password"
+            v-model="form.password_confirmation"
+            minlength="8"
+          />
+          <input-error
+            :message="form.errors?.updatePassword?.password_confirmation"
+          />
+        </div>
 
-      <jet-button
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Save
-      </jet-button>
-    </template>
-  </jet-form-section>
+        <div>
+          <primary-button type="submit" :disabled="form.processing"
+            >Save</primary-button
+          >
+        </div>
+      </form>
+    </form-section>
+  </div>
 </template>
 
-<script>
-import JetActionMessage from "@/Jetstream/ActionMessage";
-import JetButton from "@/Jetstream/Button";
-import JetFormSection from "@/Jetstream/FormSection";
-import JetInput from "@/Jetstream/Input";
-import JetInputError from "@/Jetstream/InputError";
-import JetLabel from "@/Jetstream/Label";
+<script setup>
+import FormSection from '@/Components/Common/FormSection.vue'
+import TextInput from '@/Components/Form/TextInput.vue'
+import { useToast } from 'vue-toastification'
 
-export default {
-  components: {
-    JetActionMessage,
-    JetButton,
-    JetFormSection,
-    JetInput,
-    JetInputError,
-    JetLabel,
-  },
+import { useForm } from '@inertiajs/inertia-vue3'
+import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
 
-  data() {
-    return {
-      form: this.$inertia.form({
-        current_password: "",
-        password: "",
-        password_confirmation: "",
-      }),
-    };
-  },
+const toast = useToast()
+const form = useForm({
+  current_password: '',
+  password: '',
+  password_confirmation: ''
+})
 
-  methods: {
-    updatePassword() {
-      this.form.put(route("user-password.update"), {
-        errorBag: "updatePassword",
-        preserveScroll: true,
-        onSuccess: () => this.form.reset(),
-        onError: () => {
-          if (this.form.errors.password) {
-            this.form.reset("password", "password_confirmation");
-            this.$refs.password.focus();
-          }
-
-          if (this.form.errors.current_password) {
-            this.form.reset("current_password");
-            this.$refs.current_password.focus();
-          }
-        },
-      });
-    },
-  },
-};
+const submit = () =>
+  form.put('/user/password', {
+    preserveScroll: true,
+    onSuccess() {
+      toast.success('Password updated.')
+      form.reset()
+    }
+  })
 </script>

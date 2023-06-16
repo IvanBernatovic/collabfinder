@@ -1,55 +1,58 @@
 require('./bootstrap')
 
 import Vue from 'vue'
-import VueMeta from 'vue-meta'
 
-import { App, plugin } from '@inertiajs/inertia-vue'
-import PortalVue from 'portal-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
 
-Vue.use(plugin)
-Vue.use(PortalVue)
-Vue.use(VueMeta)
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import Toast from 'vue-toastification'
 
-const app = document.getElementById('app')
+import 'vue-toastification/dist/index.css'
 
-new Vue({
-  render: h =>
-    h(App, {
-      props: {
-        initialPage: JSON.parse(app.dataset.page),
-        resolveComponent: name =>
-          import(`./Pages/${name}`).then(module => module.default)
-      }
-    })
-}).$mount(app)
+import Layout from './Layouts/Layout'
 
-InertiaProgress.init({
-  // The delay after which the progress bar will
-  // appear during navigation, in milliseconds.
-  delay: 250,
+createInertiaApp({
+  resolve: name => {
+    const page = require(`./Pages/${name}`).default
 
-  // The color of the progress bar.
-  color: '#29d',
+    if (page.layout === null) {
+      return page
+    }
 
-  // Whether to include the default NProgress styles.
-  includeCSS: true,
+    page.layout = page.layout || Layout
 
-  // Whether the NProgress spinner will be shown.
-  showSpinner: false
+    return page
+  },
+  setup({ el, App, props, plugin }) {
+    const app = createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(Toast, {
+        transition: 'Vue-Toastification__fade',
+        timeout: 2500
+      })
+      .mount(el)
+
+    if (process.env.MIX_APP_ENV === 'production') {
+      Sentry.init({
+        Vue,
+        dsn: process.env.MIX_SENTRY_LARAVEL_DSN,
+        autoSessionTracking: true,
+        integrations: [new Integrations.BrowserTracing()],
+
+        // We recommend adjusting this value in production, or using tracesSampler
+        // for finer control
+        tracesSampleRate: 1.0
+      })
+    }
+  }
 })
 
-if (process.env.MIX_APP_ENV === 'production') {
-  Sentry.init({
-    Vue,
-    dsn: process.env.MIX_SENTRY_LARAVEL_DSN,
-    autoSessionTracking: true,
-    integrations: [new Integrations.BrowserTracing()],
-
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0
-  })
-}
+InertiaProgress.init({
+  delay: 250,
+  color: '#29d',
+  includeCSS: true,
+  showSpinner: false
+})

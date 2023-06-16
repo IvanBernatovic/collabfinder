@@ -2,8 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/*": [
+        "./resources/js/*"
+      ],
       "Components/*": [
         "./resources/js/Components/*"
+      ],
+      "Icons/*": [
+        "./resources/js/Icons/*"
       ],
       "Jetstream": [
         "./resources/js/Jetstream/*"

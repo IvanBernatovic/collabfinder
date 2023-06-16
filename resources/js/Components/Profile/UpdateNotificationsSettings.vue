@@ -1,102 +1,107 @@
-<script>
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
-
-import JetButton from '@/Jetstream/Button'
-import JetFormSection from '@/Jetstream/FormSection'
-import JetActionMessage from '@/Jetstream/ActionMessage'
-import JetSecondaryButton from '@/Jetstream/SecondaryButton'
-
-export default {
-  props: ['roles', 'tags', 'notificationSettings'],
-  components: {
-    JetActionMessage,
-    JetButton,
-    JetFormSection,
-    Multiselect,
-    JetSecondaryButton
-  },
-  data() {
-    return {
-      form: this.$inertia.form({
-        selectedRoles: [...this.notificationSettings.roles],
-        selectedTags: [...this.notificationSettings.tags]
-      })
-    }
-  },
-  methods: {
-    updateNotificationSettings() {
-      this.form
-        .transform(data => {
-          return {
-            roles: data.selectedRoles.map(item => item.id),
-            tags: data.selectedTags.map(item => item.id)
-          }
-        })
-        .post('/settings/email-notifications', {
-          preserveScroll: true
-        })
-    },
-    unsubscribeFromAll() {
-      this.form.selectedRoles = []
-      this.form.selectedTags = []
-      this.updateNotificationSettings()
-    }
-  }
-}
-</script>
-
 <template>
-  <jet-form-section @submitted="updateNotificationSettings">
+  <form-section @submitted="updateNotificationSettings">
     <template #title>Notifications settings </template>
 
-    <template #description>
+    <p class="text-darkgrey">
       Receive weekly emails about new projects for selected filters.
-    </template>
+    </p>
 
-    <template #form>
-      <div class="lg:flex col-span-full gap-x-4">
+    <form @submit.prevent="() => updateNotificationSettings()">
+      <div class="form-group mt-6">
+        <label for="roles" class="form-label">Roles</label>
         <multiselect
-          class="mb-4 lg:mb-0"
-          v-model="form.selectedRoles"
+          v-model="form.roles"
           :options="roles"
-          :multiple="true"
+          valueProp="id"
+          trackBy="title"
           label="title"
-          track-by="id"
-          placeholder="Select roles"
+          mode="tags"
+          :searchable="true"
+          :hideSelected="false"
+          :closeOnSelect="false"
+          placeholder="Search by roles"
+          :caret="false"
+          :object="true"
         />
 
-        <multiselect
-          v-model="form.selectedTags"
-          :options="tags"
-          :multiple="true"
-          label="name"
-          track-by="id"
-          placeholder="Select tags"
-        />
+        <input-error :message="form.errors?.roles" />
       </div>
-    </template>
 
-    <template #actions>
-      <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-        Saved.
-      </jet-action-message>
+      <div class="form-group mt-4">
+        <label for="tags" class="form-label">Tags</label>
+        <multiselect
+          v-model="form.tags"
+          :options="tags"
+          mode="tags"
+          valueProp="id"
+          trackBy="name"
+          label="name"
+          :searchable="true"
+          placeholder="Search by tags"
+          :caret="false"
+          :closeOnSelect="false"
+          :hideSelected="false"
+          :object="true"
+        />
 
-      <jet-secondary-button
-        @click.native="unsubscribeFromAll"
-        class="mr-4"
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Unsubscribe
-      </jet-secondary-button>
+        <input-error :message="form.errors?.tags" />
+      </div>
 
-      <jet-button
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Save
-      </jet-button>
-    </template>
-  </jet-form-section>
+      <div class="mt-6 flex gap-2">
+        <primary-button
+          type="submit"
+          :disabled="
+            form.processing || (!form.roles.length && !form.tags.length)
+          "
+          >Subscribe</primary-button
+        >
+        <button class="secondary-btn" type="button" @click="unsubscribeFromAll">
+          Reset
+        </button>
+      </div>
+    </form>
+  </form-section>
 </template>
+
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
+import { useToast } from 'vue-toastification'
+
+import Multiselect from '@/Components/Form/Multiselect.vue'
+import FormSection from '@/Components/Common/FormSection.vue'
+import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
+import InputError from '@/Components/Form/InputError.vue'
+
+const props = defineProps(['roles', 'tags', 'notificationSettings'])
+
+const form = useForm({
+  roles: [...props.notificationSettings.roles],
+  tags: [...props.notificationSettings.tags]
+})
+
+const toast = useToast()
+
+const updateNotificationSettings = (reset = false) => {
+  form
+    .transform(data => ({
+      roles: data.roles.map(role => role.id),
+      tags: data.tags.map(tag => tag.id)
+    }))
+    .post('/settings/email-notifications', {
+      preserveScroll: true
+    })
+
+  if (reset) {
+    toast.success('Reset subscription filters.')
+  } else {
+    toast.success('Subscribed to selected filters.')
+  }
+}
+
+const unsubscribeFromAll = () => {
+  form.roles = []
+  form.tags = []
+
+  updateNotificationSettings(true)
+}
+</script>

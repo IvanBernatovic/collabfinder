@@ -1,93 +1,153 @@
-<script>
-import AppLayout from './../../Layouts/AppLayout'
+<template>
+  <div class="py-8">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        Showing:
+        <span class="text-primary font-medium"
+          >{{ projects.length }} projects</span
+        >
+      </div>
 
-import ProjectFilters from 'Components/Projects/Filters'
-import ProjectList from 'Components/Projects/List'
+      <DateFilter v-model="filters.period" @search="applyFilters" />
+    </div>
+
+    <div class="sm:flex gap-6">
+      <div class="sm:w-2/5">
+        <NewFilters
+          :roles="roles"
+          :tags="tags"
+          v-model:period="filters.period"
+          v-model:selected-roles="filters.roles"
+          v-model:selected-tags="filters.tags"
+          @apply-filters="applyFilters"
+        />
+      </div>
+      <div class="sm:w-3/5">
+        <div>
+          <Project
+            v-for="project in projects"
+            :key="project.id"
+            :project="project"
+            :saved="project.id in savedProjects"
+            @save-project="saveProject"
+          />
+
+          <NoResults v-if="!projects.length" />
+
+          <SimplePagination
+            v-if="links.nextUrl || links.previousUrl"
+            :next-url="links.nextUrl"
+            :previous-url="links.previousUrl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Layout from '@/Layouts/Layout.vue'
 
 export default {
-  name: 'ProjectsIndexPage',
-  metaInfo() {
-    return {
-      title: 'Projects'
-    }
-  },
-  props: {
-    projects: Array,
-    applications: Array,
-    roles: {
-      type: Array,
-      default: () => []
-    },
-    tags: {
-      type: Array,
-      default: () => []
-    },
-    links: Object
-  },
-  components: {
-    AppLayout,
-    ProjectFilters,
-    ProjectList
-  },
-  mounted() {
-    const url = new URL(window.location)
-    const roles = url.searchParams
-      .getAll('roles[]')
-      .map(roleId => parseInt(roleId))
-    this.filters.roles = this.roles.filter(role => roles.includes(role.id))
-
-    const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
-    this.filters.tags = this.tags.filter(tag => tags.includes(tag.id))
-  },
-  data() {
-    return {
-      filters: {
-        roles: [],
-        tags: []
-      }
-    }
-  },
-  methods: {
-    applyFilters() {
-      this.$inertia.get('/projects', this.parsedFilters)
-    }
-  },
-  computed: {
-    parsedFilters() {
-      return {
-        roles: this.filters.roles.map(role => role.id),
-        tags: this.filters.tags.map(tag => tag.id)
-      }
-    }
-  }
+  layout: Layout
 }
 </script>
 
-<template>
-  <app-layout>
-    <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Projects
-      </h2>
-    </template>
+<script setup>
+import { toRefs, reactive, onMounted } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
 
-    <div class="py-5 lg:py-10">
-      <div class="max-w-4xl mx-auto sm:px-6 md:px-8">
-        <project-filters
-          :roles="roles"
-          :tags="tags"
-          :selected-roles.sync="filters.roles"
-          :selected-tags.sync="filters.tags"
-          @apply-filters="applyFilters"
-        />
+import NewFilters from '@/Components/Projects/NewFilters.vue'
+import DateFilter from '@/Components/Common/DateFilter.vue'
+import { removeFalsy, useImmer } from '@/helpers'
+import SimplePagination from '@/Components/Shared/SimplePagination.vue'
+import Project from '@/Components/Projects/Project.vue'
+import NoResults from '@/Components/Common/NoResults.vue'
+import { useToast } from 'vue-toastification'
 
-        <project-list
-          :projects="projects"
-          :applications="applications"
-          :links="links"
-          :user="$page.props.user"
-        />
-      </div>
-    </div>
-  </app-layout>
-</template>
+const props = defineProps({
+  projects: Array,
+  roles: {
+    type: Array,
+    default: () => []
+  },
+  tags: {
+    type: Array,
+    default: () => []
+  },
+  links: Object,
+  savedProjects: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const {
+  projects: projectsProps,
+  roles,
+  tags,
+  links,
+  savedProjects: savedProjectsProp
+} = toRefs(props)
+
+const [projects] = useImmer(projectsProps)
+const [savedProjects, updateSaved] = useImmer(
+  savedProjectsProp.value.reduce((res, id) => {
+    res[id] = true
+
+    return res
+  }, {})
+)
+
+const filters = reactive({
+  roles: [],
+  tags: [],
+  period: null
+})
+
+const toast = useToast()
+
+const setInitFiltersFromUrl = () => {
+  const url = new URL(window.location)
+  const roles = url.searchParams
+    .getAll('roles[]')
+    .map(roleId => parseInt(roleId))
+
+  filters.roles = roles
+
+  const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
+
+  filters.tags = tags
+  filters.period = url.searchParams.get('period')
+}
+
+const applyFilters = () => {
+  Inertia.get('/projects', removeFalsy(filters))
+}
+
+const saveProject = async project => {
+  await axios.post(`/projects/${project.id}/save`)
+
+  if (project.id in savedProjects.value) {
+    updateSaved(saved => {
+      delete saved[project.id]
+    })
+
+    toast.success(`Removed "${project.name}" from saved.`)
+
+    return
+  }
+
+  updateSaved(saved => {
+    saved[project.id] = true
+  })
+
+  toast.success(`Saved "${project.name}".`)
+
+  return
+}
+
+onMounted(() => {
+  setInitFiltersFromUrl()
+})
+</script>
