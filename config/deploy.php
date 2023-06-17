@@ -99,7 +99,7 @@ return [
         'application' => env('APP_NAME', 'Laravel'),
         'repository' => 'git@github.com:IvanBernatovic/collabfinder.git',
         'bin/php' => '/usr/bin/php7.4',
-        'bin/composer' => '/usr/bin/php7.4 /usr/local/bin/composer --version',
+        'bin/composer' => '/usr/bin/php7.4 /usr/local/bin/composer',
         'composer_options' => '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader',
         'env' => [
             'PATH' => env('DEPLOYER_ENV_PATH', '')
