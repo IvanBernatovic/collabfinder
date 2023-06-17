@@ -48,6 +48,15 @@
         My projects
       </Link>
       <Link
+        href="/projects/create"
+        class="text-gray-900 group flex rounded-md items-center w-full px-2 py-2 text-sm"
+        :class="{
+          'text-primary font-medium': $page.url === '/projects/create'
+        }"
+      >
+        Create new project
+      </Link>
+      <Link
         href="/user/profile"
         class="text-gray-900 group flex rounded-md items-center w-full px-2 py-2 text-sm"
         :class="{
@@ -86,6 +95,12 @@
           :active="$page.component === 'Projects/MyProjects'"
           >My Projects</NavLink
         >
+        <NavLink
+          href="/projects/create"
+          :active="$page.component === 'Projects/Create'"
+          >
+          New project
+        </NavLink>
       </div>
 
       <div class="flex justify-end items-center">

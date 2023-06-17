@@ -43,6 +43,12 @@
       </div>
 
       <div class="actions">
+        
+        <button v-if="!hideSaved" @click="$emit('saveProject', project)">
+          <BookmarkIcon class="w-4 h-4" v-if="!saved" />
+          <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
+        </button>
+
         <InertiaLink
           :href="`/projects/${project.id}/edit`"
           :data="{ backLink }"
@@ -50,9 +56,12 @@
         >
           <PencilIcon class="w-4 h-4" />
         </InertiaLink>
-        <button v-if="!hideSaved" @click="$emit('saveProject', project)">
-          <BookmarkIcon class="w-4 h-4" v-if="!saved" />
-          <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
+
+        <button
+          v-if="project.user.id === user.id"
+          @click="$emit('deleteProject', project)"
+          >
+          <TrashIcon class="w-4 h-4" />
         </button>
       </div>
     </div>
@@ -77,7 +86,7 @@
 
 <script setup>
 import { InertiaLink } from '@inertiajs/inertia-vue3'
-import { BookmarkIcon, PencilIcon } from '@heroicons/vue/outline'
+import { BookmarkIcon, PencilIcon, TrashIcon } from '@heroicons/vue/outline'
 import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
 
 import dayjs from '@/dayjs'

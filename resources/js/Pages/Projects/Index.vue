@@ -30,6 +30,7 @@
             :project="project"
             :saved="project.id in savedProjects"
             @save-project="saveProject"
+            @delete-project="deleteProject"
           />
 
           <NoResults v-if="!projects.length" />
@@ -145,6 +146,10 @@ const saveProject = async project => {
   toast.success(`Saved "${project.name}".`)
 
   return
+}
+
+const deleteProject = async project => {
+  Inertia.delete(`/projects/${project.id}`)
 }
 
 onMounted(() => {
