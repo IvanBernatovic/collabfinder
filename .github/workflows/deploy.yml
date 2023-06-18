@@ -29,4 +29,5 @@ jobs:
           DEPLOYER_PATH: ${{ secrets.DEPLOYER_PATH }}
           DEPLOYER_USER: ${{ secrets.DEPLOYER_USER }}
           DEPLOYER_ENV_PATH: ${{ secrets.DEPLOYER_ENV_PATH }}
-        run: php artisan deploy
+          NPM_BIN: ${{ secrets.NPM_BIN }}
+        run: vendor/bin/dep deploy
