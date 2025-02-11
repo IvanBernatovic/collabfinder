@@ -9,7 +9,7 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\TagSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\Support\AuthenticatesUser;
 use Tests\TestCase;
 
@@ -23,7 +23,7 @@ class ProjectFormTest extends TestCase
             ->get('/projects/create');
 
         $response->assertStatus(200)
-            ->assertInertia(fn (Assert $page) => $page->component('Projects/Create'));
+            ->assertInertia(fn(Assert $page) => $page->component('Projects/Create'));
     }
 
     public function test_creating_new_project()
@@ -120,7 +120,7 @@ class ProjectFormTest extends TestCase
             ->get(route('projects.edit', $project));
 
         $response->assertStatus(200)
-            ->assertInertia(fn (Assert $page) => $page->component('Projects/Edit'));
+            ->assertInertia(fn(Assert $page) => $page->component('Projects/Edit'));
     }
 
     public function test_updating_project()
@@ -195,6 +195,6 @@ class ProjectFormTest extends TestCase
             ->delete(route('projects.delete', $project));
 
         $response->assertRedirect(route('projects'));
-        $this->assertDatabaseMissing('projects', ['name' => 'Test project']);
+        $this->assertDatabaseMissing('projects', [['name' => 'Test project']]);
     }
 }

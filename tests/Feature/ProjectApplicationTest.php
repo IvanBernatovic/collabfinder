@@ -6,7 +6,6 @@ use App\Mail\UserApplied;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Mail;
 use Tests\Support\AuthenticatesUser;
 use Tests\TestCase;

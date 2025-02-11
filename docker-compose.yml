@@ -1,0 +1,71 @@
+
+services:
+  app:
+    build:
+      args:
+        user: collabfinder
+        uid: 1000
+        app_env: "${APP_ENV}"
+      context: ./
+      dockerfile: ./docker/app/Dockerfile
+    working_dir: /var/www/
+    environment:
+      APP_ENV: "${APP_ENV}"
+      CONTAINER_ROLE: app
+    volumes:
+      - "./:/var/www"
+      - composer_cache:/home/collabfinder/.composer
+
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - "./:/var/www"
+      - "./docker/nginx/conf.d:/etc/nginx/conf.d"
+
+  db:
+    image: 'mysql:8.3.0'
+    environment:
+      - "MYSQL_DATABASE=${DB_DATABASE}"
+      - "MYSQL_USER=${DB_USERNAME}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
+    volumes:
+      - collabfinder-db-data:/var/lib/mysql
+      - "./docker/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+        - "3306:3306"
+
+  redis:
+    image: 'redis:7.2.4-alpine'
+
+  mailpit:
+    image: axllent/mailpit
+    volumes:
+      - mailpit-data:/data
+    ports:
+      - 8025:8025
+      - 1025:1025
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+#   worker:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.worker
+#     volumes:
+#       - .:/var/www/html
+#     working_dir: /var/www/html
+#     networks:
+#       - laravel
+networks:
+  laravel:
+
+volumes:
+    composer_cache:
+    collabfinder-db-data:
+    mailpit-data:

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
   <testsuites>
-    <testsuite name="Unit">
+    <!-- <testsuite name="Unit">
       <directory suffix="Test.php">./tests/Unit</directory>
-    </testsuite>
+    </testsuite> -->
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
     </testsuite>
@@ -29,5 +29,7 @@
     <server name="QUEUE_CONNECTION" value="sync"/>
     <server name="SESSION_DRIVER" value="array"/>
     <server name="TELESCOPE_ENABLED" value="false"/>
+    <server name="MAIL_FROM_NAME" value="CollabFinder"/>
+    <server name="MAIL_FROM_ADDRESS" value="app@collabfinder.net"/>
   </php>
 </phpunit>

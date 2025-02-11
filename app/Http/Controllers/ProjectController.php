@@ -149,7 +149,7 @@ class ProjectController extends Controller
         $params = $this->validateContactForm();
 
         DB::transaction(function () use ($project, $params) {
-            if ($params['file']) {
+            if (isset($params['file'])) {
                 $path = $params['file']->storePublicly('uploads');
             }
 

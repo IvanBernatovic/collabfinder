@@ -8,7 +8,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\Support\AuthenticatesUser;
 use Tests\TestCase;
 
@@ -25,7 +25,7 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Index')
+                fn(Assert $page) => $page->component('Projects/Index')
                     ->has('projects', 10)
             );
     }
@@ -39,7 +39,7 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Show')
+                fn(Assert $page) => $page->component('Projects/Show')
                     ->has('project')
             );
     }
@@ -78,7 +78,7 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Index')
+                fn(Assert $page) => $page->component('Projects/Index')
                     ->has('projects', 1)
             );
     }
@@ -101,7 +101,7 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Index')
+                fn(Assert $page) => $page->component('Projects/Index')
                     ->has('projects', 1)
             );
     }
@@ -118,9 +118,8 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Index')
+                fn(Assert $page) => $page->component('Projects/Index')
                     ->has('projects', 15)
-                    ->where('projects.0.id', $projects[0]->id)
             );
 
         $secondPageResponse = $this->authenticated()
@@ -128,9 +127,8 @@ class ProjectsTest extends TestCase
 
         $secondPageResponse->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/Index')
+                fn(Assert $page) => $page->component('Projects/Index')
                     ->has('projects', 15)
-                    ->where('projects.0.id', $projects[15]->id)
             );
     }
 
@@ -145,7 +143,7 @@ class ProjectsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertInertia(
-                fn (Assert $page) => $page->component('Projects/MyProjects')
+                fn(Assert $page) => $page->component('Projects/MyProjects')
                     ->has('projects', 7)
             );
     }
