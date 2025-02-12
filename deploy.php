@@ -24,21 +24,29 @@ host('app.collabfinder.net')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
     ->set('bin/php', '/usr/bin/php8.1')
     ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
+    ->set('bin/npm', 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 14 && npm')
     ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader');
 
 // Tasks
 desc('Install npm packages in CI mode');
 task('npm:ci', function () {
-    run('export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"');
-    run('nvm use 14');
     if (has('previous_release')) {
         if (test('[ -d {{previous_release}}/node_modules ]')) {
             run('cp -R {{previous_release}}/node_modules {{release_path}}');
         }
     }
-    run("cd {{release_path}} && npm ci");
+    run('cd {{release_path}} && {{bin/npm}} ci');
 });
+
+task('npm:production', function () {
+    run('cd {{release_path}} && {{bin/npm}} run production');
+});
+
+task('deploy_assets', [
+    'npm:ci',
+    'npm:production',
+]);
 
 task('supervisor:restart', function () {
     run('supervisorctl restart "collabfinder-worker:*"');
@@ -47,5 +55,5 @@ task('supervisor:restart', function () {
 
 // Hooks
 after('deploy:failed', 'deploy:unlock');
-after('deploy:vendors', 'npm:ci');
+after('deploy:vendors', 'deploy_assets');
 after('deploy:publish', 'supervisor:restart');
