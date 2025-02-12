@@ -24,8 +24,7 @@ host('app.collabfinder.net')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
     ->set('bin/php', '/usr/bin/php8.1')
     ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
-    ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader')
-    ->set('bin/npm', getenv('NPM_BIN'));
+    ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader');
 
 // Tasks
 desc('Install npm packages in CI mode');
@@ -35,7 +34,7 @@ task('npm:ci', function () {
             run('cp -R {{previous_release}}/node_modules {{release_path}}');
         }
     }
-    run("cd {{release_path}} && {{bin/npm}} ci");
+    run("cd {{release_path}} && \${NPM_BIN} ci");
 });
 
 task('supervisor:restart', function () {
