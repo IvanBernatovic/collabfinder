@@ -6,7 +6,7 @@ require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'git@github.com:IvanBernatovic/collabfinder.git');
+set('repository', 'https://github.com/IvanBernatovic/collabfinder.git');
 
 add('shared_files', []);
 add('shared_dirs', []);
@@ -24,8 +24,8 @@ host('app.collabfinder.net')
     ])
     ->set('remote_user', 'ivan')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
-    ->set('bin/php', '/usr/bin/php7.4')
-    ->set('bin/composer', '/usr/bin/php7.4 /usr/local/bin/composer')
+    ->set('bin/php', '/usr/bin/php8.1')
+    ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
     ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader')
     ->set('bin/npm', getenv('NPM_BIN'));
 
