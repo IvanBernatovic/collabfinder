@@ -29,12 +29,15 @@ host('app.collabfinder.net')
 // Tasks
 desc('Install npm packages in CI mode');
 task('npm:ci', function () {
+    run('export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"');
+    run('nvm use 14');
     if (has('previous_release')) {
         if (test('[ -d {{previous_release}}/node_modules ]')) {
             run('cp -R {{previous_release}}/node_modules {{release_path}}');
         }
     }
-    run("cd {{release_path}} && \${NPM_BIN} ci");
+    run("cd {{release_path}} && npm ci");
 });
 
 task('supervisor:restart', function () {
