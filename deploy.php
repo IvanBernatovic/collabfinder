@@ -13,23 +13,19 @@ add('shared_dirs', []);
 add('writable_dirs', []);
 
 
-echo 'Deployer path: ' . getenv('DEPLOYER_PATH') . PHP_EOL;
-echo 'NPM bin: ' . getenv('NPM_BIN') . PHP_EOL;
 
 // Hosts
 host('app.collabfinder.net')
+    ->set('dotenv', '{{current_path}}/.env')
     ->set('env', [
-        'NPM_BIN' => getenv('NPM_BIN'),
         'DEPLOYER_PATH' => getenv('DEPLOYER_PATH'),
     ])
     ->set('remote_user', 'ivan')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
     ->set('bin/php', '/usr/bin/php8.1')
     ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
-    ->set('bin/npm', getenv('NPM_BIN'))
     ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader')
     ->set('bin/npm', getenv('NPM_BIN'));
-
 
 // Tasks
 desc('Install npm packages in CI mode');
