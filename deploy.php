@@ -26,6 +26,7 @@ host('app.collabfinder.net')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
     ->set('bin/php', '/usr/bin/php8.1')
     ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
+    ->set('bin/npm', getenv('NPM_BIN'))
     ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader')
     ->set('bin/npm', getenv('NPM_BIN'));
 
