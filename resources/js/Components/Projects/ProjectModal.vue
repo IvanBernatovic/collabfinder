@@ -134,7 +134,7 @@ import {
   DialogOverlay,
   DialogTitle
 } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Common/SecondaryButton.vue'

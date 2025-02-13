@@ -174,7 +174,7 @@
 import { ref } from 'vue'
 import md5 from 'md5'
 
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { CogIcon, LogoutIcon } from '@heroicons/vue/solid'
 import Logo from 'Icons/Logo.vue'

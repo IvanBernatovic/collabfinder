@@ -96,7 +96,7 @@ import PrimaryButton from 'Components/Common/PrimaryButton'
 
 import SocialLogin from 'Components/Common/SocialLogin.vue'
 import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import InputError from '@/Components/Form/InputError.vue'
 
 export default {

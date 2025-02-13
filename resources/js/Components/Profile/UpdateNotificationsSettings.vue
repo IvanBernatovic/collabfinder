@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
 import Multiselect from '@/Components/Form/Multiselect.vue'

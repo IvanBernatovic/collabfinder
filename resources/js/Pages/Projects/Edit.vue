@@ -29,7 +29,7 @@
 
 <script setup>
 import { toRefs } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
 import FormV2 from '@/Components/Projects/FormV2.vue'

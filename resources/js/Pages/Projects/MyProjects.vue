@@ -50,16 +50,14 @@
           back-link="/my-projects"
         />
 
-        <div v-else>
-          You have no projects yet.
-        </div>
+        <div v-else>You have no projects yet.</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { InertiaLink } from '@inertiajs/inertia-vue3'
+import { Link as InertiaLink } from '@inertiajs/vue3'
 
 import Project from '@/Components/Projects/Project.vue'
 

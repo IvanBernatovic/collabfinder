@@ -43,7 +43,6 @@
       </div>
 
       <div class="actions">
-        
         <button v-if="!hideSaved" @click="$emit('saveProject', project)">
           <BookmarkIcon class="w-4 h-4" v-if="!saved" />
           <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
@@ -60,7 +59,7 @@
         <button
           v-if="project.user.id === user.id"
           @click="$emit('deleteProject', project)"
-          >
+        >
           <TrashIcon class="w-4 h-4" />
         </button>
       </div>
@@ -85,7 +84,7 @@
 </template>
 
 <script setup>
-import { InertiaLink } from '@inertiajs/inertia-vue3'
+import { Link as InertiaLink } from '@inertiajs/vue3'
 import { BookmarkIcon, PencilIcon, TrashIcon } from '@heroicons/vue/outline'
 import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
 

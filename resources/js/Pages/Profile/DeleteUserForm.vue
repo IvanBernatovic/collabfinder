@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'

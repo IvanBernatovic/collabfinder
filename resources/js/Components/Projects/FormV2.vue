@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import TextInput from '@/Components/Form/TextInput.vue'
 import FormGroup from '@/Components/Form/FormGroup.vue'
 import FormLabel from '@/Components/Form/FormLabel.vue'

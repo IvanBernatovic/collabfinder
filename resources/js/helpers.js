@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage } from '@inertiajs/vue3'
 import produce from 'immer'
 import { shallowRef } from 'vue'
 
@@ -20,7 +20,7 @@ export function useImmer(baseState) {
   return [state, update]
 }
 
-export const useUser = () => usePage().props.value.user
+export const useUser = () => usePage().props.user
 
 export const useParams = () => {
   const url = new URL(window.location)

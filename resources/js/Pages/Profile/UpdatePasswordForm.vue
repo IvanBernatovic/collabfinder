@@ -65,7 +65,7 @@ import FormSection from '@/Components/Common/FormSection.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import { useToast } from 'vue-toastification'
 
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import InputError from '@/Components/Form/InputError.vue'
 

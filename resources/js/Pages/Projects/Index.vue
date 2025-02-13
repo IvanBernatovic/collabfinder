@@ -56,7 +56,7 @@ export default {
 
 <script setup>
 import { toRefs, reactive, onMounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 
 import NewFilters from '@/Components/Projects/NewFilters.vue'
 import DateFilter from '@/Components/Common/DateFilter.vue'
@@ -123,7 +123,7 @@ const setInitFiltersFromUrl = () => {
 }
 
 const applyFilters = () => {
-  Inertia.get('/projects', removeFalsy(filters))
+  router.get('/projects', removeFalsy(filters))
 }
 
 const saveProject = async project => {
@@ -149,7 +149,7 @@ const saveProject = async project => {
 }
 
 const deleteProject = async project => {
-  Inertia.delete(`/projects/${project.id}`)
+  router.delete(`/projects/${project.id}`)
 }
 
 onMounted(() => {

@@ -218,9 +218,9 @@ export default {
 
 <script setup>
 import { ShareIcon, PencilIcon } from '@heroicons/vue/outline'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage } from '@inertiajs/vue3'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 
 import dayjs from '@/dayjs'
@@ -241,7 +241,7 @@ const saved = ref(props.saved)
 const project = props.project
 
 const createdAtDiff = dayjs(project.created_at).fromNow()
-const user = usePage().props.value.user
+const user = usePage().props.user
 const toast = useToast()
 
 const isOwner = project.user.id === user.id

@@ -2,12 +2,11 @@ require('./bootstrap')
 
 import Vue from 'vue'
 
-import { InertiaProgress } from '@inertiajs/progress'
 import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
 
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { createInertiaApp } from '@inertiajs/vue3'
 import Toast from 'vue-toastification'
 
 import 'vue-toastification/dist/index.css'
@@ -15,6 +14,12 @@ import 'vue-toastification/dist/index.css'
 import Layout from './Layouts/Layout'
 
 createInertiaApp({
+  progress: {
+    delay: 250,
+    color: '#29d',
+    includeCSS: true,
+    showSpinner: false
+  },
   resolve: name => {
     const page = require(`./Pages/${name}`).default
 
@@ -48,11 +53,4 @@ createInertiaApp({
       })
     }
   }
-})
-
-InertiaProgress.init({
-  delay: 250,
-  color: '#29d',
-  includeCSS: true,
-  showSpinner: false
 })

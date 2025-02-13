@@ -38,7 +38,7 @@ import TextInput from '@/Components/Form/TextInput.vue'
 import { useToast } from 'vue-toastification'
 
 import { useUser } from '@/helpers'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import InputError from '@/Components/Form/InputError.vue'
 
