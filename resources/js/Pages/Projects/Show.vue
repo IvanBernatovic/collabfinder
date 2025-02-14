@@ -241,7 +241,7 @@ const saved = ref(props.saved)
 const project = props.project
 
 const createdAtDiff = dayjs(project.created_at).fromNow()
-const user = usePage().props.user
+const user = usePage().props.auth.user
 const toast = useToast()
 
 const isOwner = project.user.id === user.id

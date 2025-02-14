@@ -20,7 +20,7 @@ export function useImmer(baseState) {
   return [state, update]
 }
 
-export const useUser = () => usePage().props.user
+export const useUser = () => usePage().props.auth.user
 
 export const useParams = () => {
   const url = new URL(window.location)
