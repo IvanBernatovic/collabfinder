@@ -1,8 +1,8 @@
 <x-guest-layout>
-  <x-jet-authentication-card>
+  <x-authentication-card>
     <x-slot name="logo">
       <div class="flex flex-col items-center">
-        <x-jet-authentication-card-logo />
+        <x-authentication-card-logo />
 
         <h1 class="mt-4 text-3xl font-bold">Log in to your account</h1>
         <p>Or <a href="/register" class="text-indigo-700 font-semibold">register a new account</a></p>
@@ -10,7 +10,7 @@
 
     </x-slot>
 
-    <x-jet-validation-errors class="mb-4" />
+    <x-validation-errors class="mb-4" />
 
     @if (session('status'))
     <div class="mb-4 font-medium text-sm text-green-600">
@@ -22,13 +22,13 @@
       @csrf
 
       <div>
-        <x-jet-label value="{{ __('Email') }}" />
-        <x-jet-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+        <x-label value="{{ __('Email') }}" />
+        <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
       </div>
 
       <div class="mt-4">
-        <x-jet-label value="{{ __('Password') }}" />
-        <x-jet-input class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+        <x-label value="{{ __('Password') }}" />
+        <x-input class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
       </div>
 
       <div class="block mt-4">
@@ -45,12 +45,12 @@
         </a>
         @endif
 
-        <x-jet-button class="ml-4">
+        <x-button class="ml-4">
           {{ __('Login') }}
-        </x-jet-button>
+        </x-button>
       </div>
     </form>
 
     @include('auth.social-login')
-  </x-jet-authentication-card>
+  </x-authentication-card>
 </x-guest-layout>

@@ -1,34 +1,34 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
+    <x-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <x-authentication-card-logo />
         </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+        <x-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
             <div>
-                <x-jet-label value="{{ __('Name') }}" />
-                <x-jet-input class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus
+                <x-label value="{{ __('Name') }}" />
+                <x-input class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus
                     autocomplete="name" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label value="{{ __('Email') }}" />
-                <x-jet-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-label value="{{ __('Email') }}" />
+                <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
             <div class="mt-4">
-                <x-jet-label value="{{ __('Password') }}" />
-                <x-jet-input class="block mt-1 w-full" type="password" name="password" required
+                <x-label value="{{ __('Password') }}" />
+                <x-input class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label value="{{ __('Confirm Password') }}" />
-                <x-jet-input class="block mt-1 w-full" type="password" name="password_confirmation" required
+                <x-label value="{{ __('Confirm Password') }}" />
+                <x-input class="block mt-1 w-full" type="password" name="password_confirmation" required
                     autocomplete="new-password" />
             </div>
 
@@ -50,12 +50,12 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-button class="ml-4">
                     {{ __('Register') }}
-                </x-jet-button>
+                </x-button>
             </div>
         </form>
 
         @include('auth.social-login', ['action' => 'sign up'])
-    </x-jet-authentication-card>
+    </x-authentication-card>
 </x-guest-layout>
