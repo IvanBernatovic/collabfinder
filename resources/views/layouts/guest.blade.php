@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @vite('resources/css/app.css')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>
@@ -24,9 +24,7 @@
         {{ $slot }}
     </div>
 
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/fa-icons.js') }}"></script>
-    <script src="{{ mix('js/icons.js') }}"></script>
+    @vite(['resources/js/app.js', 'resources/js/icons.js'])
 
     @include('cookie-banner')
     @include('matomo')

@@ -133,15 +133,15 @@
 </template>
 
 <script>
-import TextInput from 'Components/Form/TextInput'
-import FormLabel from 'Components/Form/FormLabel'
-import FormGroup from 'Components/Form/FormGroup'
-import PrimaryButton from 'Components/Common/PrimaryButton'
+import { Link } from '@inertiajs/vue3'
+import TextInput from 'Components/Form/TextInput.vue'
+import FormGroup from 'Components/Form/FormGroup.vue'
+import PrimaryButton from 'Components/Common/PrimaryButton.vue'
 
 import SocialLogin from 'Components/Common/SocialLogin.vue'
 import AuthCarouselSection from 'Components/Common/AuthCarouselSection.vue'
-import { Link } from '@inertiajs/vue3'
 import InputError from '@/Components/Form/InputError.vue'
+import FormLabel from '@/Components/Form/FormLabel.vue'
 
 export default {
   layout: null,

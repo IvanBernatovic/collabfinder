@@ -7,7 +7,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Jenssegers\Agent\Agent;
+use Laravel\Jetstream\Agent;
 use Laravel\Jetstream\Jetstream;
 
 class UserProfileController extends Controller

@@ -48,23 +48,23 @@
 </template>
 
 <script>
-import JetButton from "./Button";
-import JetDialogModal from "./DialogModal";
-import JetInput from "./Input";
-import JetInputError from "./InputError";
-import JetSecondaryButton from "./SecondaryButton";
+import JetButton from './Button.vue'
+import JetDialogModal from './DialogModal.vue'
+import JetInput from './Input.vue'
+import JetInputError from './InputError.vue'
+import JetSecondaryButton from './SecondaryButton.vue'
 
 export default {
   props: {
     title: {
-      default: "Confirm Password",
+      default: 'Confirm Password'
     },
     content: {
-      default: "For your security, please confirm your password to continue.",
+      default: 'For your security, please confirm your password to continue.'
     },
     button: {
-      default: "Confirm",
-    },
+      default: 'Confirm'
+    }
   },
 
   components: {
@@ -72,7 +72,7 @@ export default {
     JetDialogModal,
     JetInput,
     JetInputError,
-    JetSecondaryButton,
+    JetSecondaryButton
   },
 
   data() {
@@ -81,54 +81,54 @@ export default {
 
       form: this.$inertia.form(
         {
-          password: "",
-          error: "",
+          password: '',
+          error: ''
         },
         {
-          bag: "confirmPassword",
+          bag: 'confirmPassword'
         }
-      ),
-    };
+      )
+    }
   },
 
   methods: {
     startConfirmingPassword() {
-      this.form.error = "";
+      this.form.error = ''
 
-      axios.get("/user/confirmed-password-status").then((response) => {
+      axios.get('/user/confirmed-password-status').then(response => {
         if (response.data.confirmed) {
-          this.$emit("confirmed");
+          this.$emit('confirmed')
         } else {
-          this.confirmingPassword = true;
-          this.form.password = "";
+          this.confirmingPassword = true
+          this.form.password = ''
 
           setTimeout(() => {
-            this.$refs.password.focus();
-          }, 250);
+            this.$refs.password.focus()
+          }, 250)
         }
-      });
+      })
     },
 
     confirmPassword() {
-      this.form.processing = true;
+      this.form.processing = true
 
       axios
-        .post("/user/confirm-password", {
-          password: this.form.password,
+        .post('/user/confirm-password', {
+          password: this.form.password
         })
-        .then((response) => {
-          this.confirmingPassword = false;
-          this.form.password = "";
-          this.form.error = "";
-          this.form.processing = false;
+        .then(response => {
+          this.confirmingPassword = false
+          this.form.password = ''
+          this.form.error = ''
+          this.form.processing = false
 
-          this.$nextTick(() => this.$emit("confirmed"));
+          this.$nextTick(() => this.$emit('confirmed'))
         })
-        .catch((error) => {
-          this.form.processing = false;
-          this.form.error = error.response.data.errors.password[0];
-        });
-    },
-  },
-};
+        .catch(error => {
+          this.form.processing = false
+          this.form.error = error.response.data.errors.password[0]
+        })
+    }
+  }
+}
 </script>

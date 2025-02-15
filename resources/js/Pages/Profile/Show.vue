@@ -39,9 +39,9 @@
 </template>
 
 <script setup>
-import DeleteUserForm from './DeleteUserForm'
-import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
-import UpdatePasswordForm from './UpdatePasswordForm'
+import DeleteUserForm from './DeleteUserForm.vue'
+import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm.vue'
+import UpdatePasswordForm from './UpdatePasswordForm.vue'
 import UpdateProfileInformationForm from './UpdateProfileInformationForm.vue'
 import UpdateNotificationsSettings from '@/Components/Profile/UpdateNotificationsSettings.vue'
 

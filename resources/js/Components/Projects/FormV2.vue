@@ -65,13 +65,14 @@
 </template>
 
 <script setup>
+import { toRefs } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+
 import TextInput from '@/Components/Form/TextInput.vue'
 import FormGroup from '@/Components/Form/FormGroup.vue'
 import FormLabel from '@/Components/Form/FormLabel.vue'
 import Editor from '@/Components/Form/Editor.vue'
 import Multiselect from '@/Components/Form/Multiselect.vue'
-import { toRefs } from 'vue'
 import InputError from '../Form/InputError.vue'
 
 const props = defineProps(['project', 'roles', 'tags'])

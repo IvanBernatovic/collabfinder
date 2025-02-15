@@ -20,6 +20,7 @@
     "laravel/socialite": "^5.1",
     "laravel/tinker": "^2.0",
     "league/flysystem-aws-s3-v3": "^3.0",
+    "mobiledetect/mobiledetectlib": "^4.8",
     "sentry/sentry-laravel": "^4.0",
     "symfony/http-client": "^6.0",
     "symfony/mailgun-mailer": "^6.0",

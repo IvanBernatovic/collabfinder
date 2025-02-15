@@ -48,6 +48,7 @@
           :saved="project.id in savedProjects"
           :hide-saved="true"
           back-link="/my-projects"
+          @delete-project="deleteProject"
         />
 
         <div v-else>You have no projects yet.</div>
@@ -57,7 +58,7 @@
 </template>
 
 <script setup>
-import { Link as InertiaLink } from '@inertiajs/vue3'
+import { Link as InertiaLink, router } from '@inertiajs/vue3'
 
 import Project from '@/Components/Projects/Project.vue'
 
@@ -78,4 +79,8 @@ const props = defineProps({
   },
   page: {}
 })
+
+const deleteProject = async project => {
+  router.delete(`/projects/${project.id}`)
+}
 </script>

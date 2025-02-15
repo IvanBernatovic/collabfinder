@@ -13,5 +13,5 @@
 </template>
 
 <script setup>
-import Navigation from '@/Components/Common/Navigation.vue'
+import Navigation from 'Components/Common/Navigation.vue'
 </script>

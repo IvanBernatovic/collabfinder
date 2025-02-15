@@ -1,5 +1,5 @@
-const dayjs = require('dayjs')
-const relativeTime = require('dayjs/plugin/relativeTime')
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default dayjs

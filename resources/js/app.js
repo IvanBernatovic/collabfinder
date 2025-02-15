@@ -1,6 +1,5 @@
-require('./bootstrap')
-
-import Vue from 'vue'
+import('./bootstrap')
+import 'vue-toastification/dist/index.css'
 
 import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
@@ -9,9 +8,9 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import Toast from 'vue-toastification'
 
-import 'vue-toastification/dist/index.css'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 
-import Layout from './Layouts/Layout'
+import Layout from '@/Layouts/Layout.vue'
 
 createInertiaApp({
   progress: {
@@ -20,15 +19,20 @@ createInertiaApp({
     includeCSS: true,
     showSpinner: false
   },
-  resolve: name => {
-    const page = require(`./Pages/${name}`).default
+  resolve: async name => {
+    const page = await resolvePageComponent(
+      `./Pages/${name}.vue`,
+      import.meta.glob('./Pages/**/*.vue')
+    )
 
     if (page.layout === null) {
       return page
     }
 
-    page.layout = page.layout || Layout
-
+    if (page.default.layout === null) {
+      return page
+    }
+    page.default.layout = page.default.layout || Layout
     return page
   },
   setup({ el, App, props, plugin }) {
@@ -40,10 +44,10 @@ createInertiaApp({
       })
       .mount(el)
 
-    if (process.env.MIX_APP_ENV === 'production') {
+    if (import.meta.env.VITE_APP_ENV === 'production') {
       Sentry.init({
         Vue,
-        dsn: process.env.MIX_SENTRY_LARAVEL_DSN,
+        dsn: import.meta.env.VITE_SENTRY_LARAVEL_DSN,
         autoSessionTracking: true,
         integrations: [new Integrations.BrowserTracing()],
 

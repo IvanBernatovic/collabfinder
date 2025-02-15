@@ -222,12 +222,12 @@ import { Link } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { useToast } from 'vue-toastification'
 
 import dayjs from '@/dayjs'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Common/SecondaryButton.vue'
 import ProjectModal from '@/Components/Projects/ProjectModal.vue'
-import { useToast } from 'vue-toastification'
 import TextInput from '@/Components/Form/TextInput.vue'
 
 const props = defineProps({

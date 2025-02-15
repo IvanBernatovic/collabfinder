@@ -45,7 +45,7 @@
 
 <script>
 import Multiselect from '@/Components/Form/Multiselect.vue'
-import PrimaryButton from 'Components/Common/PrimaryButton'
+import PrimaryButton from 'Components/Common/PrimaryButton.vue'
 
 export default {
   components: {

@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+  @vite('resources/css/app.css')
 </head>
 
 <body class="antialiased">
@@ -24,10 +24,8 @@
 
   <!-- Scripts -->
   @routes()
-  <script src="{{ mix('js/manifest.js') }}"></script>
-  <script src="{{ mix('js/app.js') }}" defer></script>
-  <script src="{{ mix('js/fa-icons.js') }}"></script>
-  <script src="{{ mix('js/icons.js') }}"></script>
+
+  @vite(['resources/js/app.js', 'resources/js/icons.js'])
 
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
   @include('cookie-banner')
