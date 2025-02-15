@@ -39,13 +39,13 @@ task('npm:ci', function () {
     run('cd {{release_path}} && {{bin/npm}} ci');
 });
 
-task('npm:production', function () {
-    run('cd {{release_path}} && {{bin/npm}} run production');
+task('npm:build', function () {
+    run('cd {{release_path}} && {{bin/npm}} run build');
 });
 
-task('deploy_assets', [
+task('deploy:assets', [
     'npm:ci',
-    'npm:production',
+    'npm:build',
 ]);
 
 task('supervisor:restart', function () {
@@ -55,5 +55,5 @@ task('supervisor:restart', function () {
 
 // Hooks
 after('deploy:failed', 'deploy:unlock');
-after('deploy:vendors', 'deploy_assets');
+after('deploy:vendors', 'deploy:assets');
 after('deploy:publish', 'supervisor:restart');
