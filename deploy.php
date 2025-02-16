@@ -22,8 +22,8 @@ host('app.collabfinder.net')
     ])
     ->set('remote_user', 'ivan')
     ->set('deploy_path', getenv('DEPLOYER_PATH') ?: '')
-    ->set('bin/php', '/usr/bin/php8.1')
-    ->set('bin/composer', '/usr/bin/php8.1 /usr/local/bin/composer')
+    ->set('bin/php', '/usr/bin/php8.3')
+    ->set('bin/composer', '/usr/bin/php8.3 /usr/local/bin/composer')
     ->set('bin/npm', 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 20 && npm')
     ->set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader');
