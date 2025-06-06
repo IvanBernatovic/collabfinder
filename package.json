@@ -11,7 +11,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/compiler-sfc": "^3.2.29",
     "autoprefixer": "^10.4.2",
-    "axios": "^0.19",
+    "axios": "^1.9",
     "cross-env": "^7.0",
     "laravel-vite-plugin": "^1.2.0",
     "lodash": "^4.17.19",
