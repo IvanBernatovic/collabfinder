@@ -30,6 +30,7 @@
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
   @include('cookie-banner')
   @include('matomo')
+  @include('posthog')
 </body>
 
 </html>

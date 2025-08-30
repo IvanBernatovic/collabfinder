@@ -41,6 +41,7 @@
     "immer": "^9.0.12",
     "lodash-es": "^4.17.15",
     "md5": "^2.3.0",
+    "posthog-js": "^1.261.0",
     "vue-meta": "^2.4.0",
     "vue-multiselect": "^2.1.6",
     "vue-social-sharing": "^4.0.0-alpha4",
