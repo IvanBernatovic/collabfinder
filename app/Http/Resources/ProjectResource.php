@@ -21,7 +21,9 @@ class ProjectResource extends JsonResource
             'created_at' => $this->created_at,
             'user' => new UserResource($this->user),
             'roles' => RoleResource::collection($this->roles),
-            'tags' => TagResource::collection($this->tags)
+            'tags' => TagResource::collection($this->tags),
+            'comments_count' => $this->comments_count,
+            'applications_count' => $this->applications_count
         ];
     }
 }

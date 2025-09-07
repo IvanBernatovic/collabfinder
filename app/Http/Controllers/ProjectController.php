@@ -17,7 +17,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::latest()->with('user', 'roles', 'tags');
+        $projects = Project::latest()->with('user', 'roles', 'tags')->withCount('comments', 'applications');
         $roles = Role::all();
         $tags = Tag::all();
 
@@ -59,6 +59,22 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $project->load('tags', 'roles', 'user');
+        $project->loadCount('comments', 'applications');
+
+        // Load parent comments with their replies and users
+        $parentComments = $project->comments()
+            ->whereNull('parent_id')
+            ->with('user')
+            ->latest()
+            ->get();
+
+        // For each parent comment, load all nested replies flattened
+        $comments = $parentComments->map(function ($comment) {
+            // Get all replies recursively and flatten them
+            $allReplies = $this->getAllRepliesFlattened($comment);
+            $comment->replies = $allReplies->sortBy('created_at')->values();
+            return $comment;
+        });
 
         $user = user();
 
@@ -67,7 +83,8 @@ class ProjectController extends Controller
             'applied' => $project->didUserApply($user),
             'saved' => (bool) SavedProject::where('user_id', $user->id)
                 ->where('project_id', $project->id)
-                ->count()
+                ->count(),
+            'comments' => $comments
         ]);
     }
 
@@ -234,5 +251,22 @@ class ProjectController extends Controller
     public function save(Project $project)
     {
         return user()->saved_projects()->toggle($project);
+    }
+
+    private function getAllRepliesFlattened($comment)
+    {
+        $replies = collect();
+
+        // Get direct replies
+        $directReplies = $comment->replies()->with('user')->get();
+
+        foreach ($directReplies as $reply) {
+            $replies->push($reply);
+            // Recursively get replies to this reply
+            $nestedReplies = $this->getAllRepliesFlattened($reply);
+            $replies = $replies->concat($nestedReplies);
+        }
+
+        return $replies;
     }
 }

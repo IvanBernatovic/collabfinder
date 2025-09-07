@@ -37,6 +37,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/projects/{project}/apply', 'ProjectController@apply')->name('projects.apply');
     Route::post('/projects/{project}/save', 'ProjectController@save')->name('projects.save');
 
+    // Comment routes
+    Route::post('/projects/{project}/comments', 'CommentController@store')->name('comments.store');
+    Route::put('/comments/{comment}', 'CommentController@update')->name('comments.update');
+    Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
+
     Route::get('/my-projects', 'ProjectController@myProjects')->name('my-projects');
 
     Route::post('/settings/email-notifications', 'SettingsController@updateNotificationSettings')
