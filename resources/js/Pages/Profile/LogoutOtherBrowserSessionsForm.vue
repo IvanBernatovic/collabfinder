@@ -12,10 +12,10 @@
           <desktop-computer-icon class="w-10 h-10 mr-4 text-gray-500" v-if="session.agent.is_desktop" />
           <device-mobile-icon class="w-10 h-10 mr-4 text-gray-500" v-if="!session.agent.is_desktop" />
           <div class="flex flex-col justify-between h-11 flex-1">
-            <div class="text-gray-800">
+            <div class="text-gray-800 dark:text-gray-100">
               {{ session.agent.platform }} - {{ session.agent.browser }}
             </div>
-            <div class="text-gray-400">
+            <div class="text-gray-400 dark:text-gray-300">
               {{ session.ip_address }}
               <span v-if="session.is_current_device" class="text-primary">This device</span>
             </div>
@@ -60,7 +60,6 @@ import { DesktopComputerIcon, DeviceMobileIcon } from '@heroicons/vue/solid'
 import { useToast } from 'vue-toastification'
 
 import FormSection from '@/Components/Common/FormSection.vue'
-import TextInput from '@/Components/Form/TextInput.vue'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import InputError from '@/Components/Form/InputError.vue'
 

@@ -66,7 +66,6 @@ import { ref } from 'vue'
 
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import FormSection from '@/Components/Common/FormSection.vue'
-import TextInput from '@/Components/Form/TextInput.vue'
 import InputError from '@/Components/Form/InputError.vue'
 
 const form = useForm({
