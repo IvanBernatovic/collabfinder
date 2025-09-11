@@ -1,54 +1,69 @@
 <template>
-  <div class="bg-white p-6 pb-4 border-b border-gray-200">
+  <div class="bg-white dark:bg-gray-900 p-6 pb-4 border-b border-gray-200">
     <div class="flex justify-between items-start">
       <div class="mr-4">
-        <InertiaLink class="font-semibold text-[15px] text-black hover:underline" :href="`/projects/${project.id}`">{{
-          project.name }}
+        <InertiaLink class="font-semibold text-[15px] text-black dark:text-white hover:underline"
+          :href="`/projects/${project.id}`">{{
+            project.name }}
         </InertiaLink>
         <div class="flex mt-1 items-center">
           <div>
-            <AcademicCapIcon class="h-6 w-6 text-[#51CF66]" />
+            <AcademicCapIcon class="h-6 w-6 text-primary" />
           </div>
 
-          <p class="ml-2">{{
-            project.roles.map(role => role.title).join(', ')
-            }}</p>
+          <p class="ml-2">{{project.roles.map(role => role.title).join(', ')}}</p>
         </div>
       </div>
 
       <div class="actions">
-        <button :title="!saved ? 'Save project' : 'Unsave project'" v-if="!hideSaved"
-          @click="$emit('saveProject', project)">
-          <BookmarkIcon class="w-4 h-4" v-if="!saved" />
-          <BookmarkIconSolid class="w-4 h-4" v-if="saved" />
-        </button>
+        <UTooltip :text="!saved ? 'Save project' : 'Unsave project'" delay-duration="50" :content="{ side: 'top' }">
+          <button :title="!saved ? 'Save project' : 'Unsave project'" v-if="!hideSaved"
+            @click="$emit('saveProject', project)">
+            <BookmarkIcon class="size-4 cursor-pointer" v-if="!saved" />
+            <BookmarkIconSolid class="size-4 cursor-pointer" v-if="saved" />
+          </button>
+        </UTooltip>
 
         <InertiaLink :href="`/projects/${project.id}/edit`" :data="{ backLink }" v-if="project.user.id === user.id">
-          <PencilIcon class="w-4 h-4" />
+          <PencilIcon class="size-4 cursor-pointer" />
         </InertiaLink>
 
-        <button v-if="project.user.id === user.id" @click="$emit('deleteProject', project)">
-          <TrashIcon class="w-4 h-4" />
-        </button>
+        <UPopover :content="{ align: 'end' }" v-model:open="deletePopoverOpen">
+          <button v-if="project.user.id === user.id" @click="deletePopoverOpen = true" :title="'Delete project'">
+            <TrashIcon class="size-4 cursor-pointer" />
+          </button>
+
+          <template #content>
+            <div class="w-72 p-4">
+              <p class="text-sm mb-2">Are you sure you want to delete this project? This action cannot be undone.</p>
+              <div class="flex justify-end gap-2">
+                <UButton size="sm" label="Cancel" variant="outline" color="neutral" @click="closeDeletePopover" />
+                <UButton size="sm" label="Delete" variant="subtle" color="error"
+                  @click="$emit('deleteProject', project)" />
+              </div>
+            </div>
+          </template>
+        </UPopover>
       </div>
     </div>
 
     <div class="flex items-center justify-between mt-6">
       <div class="flex flex-wrap gap-2 mr-3">
-        <div class="bg-[#f1f1f1] text-[#3d3d3d] font-light px-2 py-0.5 rounded" v-for="tag in project.tags"
-          :key="tag.id">
+        <div
+          class="bg-[#f1f1f1] dark:bg-gray-700 text-[#3d3d3d] dark:text-gray-100 font-light dark:font-normal px-2 py-0.5 rounded-sm"
+          v-for="tag in project.tags" :key="tag.id">
           {{ tag.name }}
         </div>
       </div>
 
-      <div class="text-sm text-gray-600">
+      <div class="text-sm text-gray-600 dark:text-gray-200">
         <span class="whitespace-nowrap text-sm">{{ createdAtDiff }}</span>
       </div>
     </div>
 
-    <div class="mt-3 flex gap-3 items-center text-gray-500">
+    <div class="mt-3 flex gap-3 items-center text-gray-500 dark:text-gray-200">
       <InertiaLink :href="`/projects/${project.id}#comments`"
-        class="flex items-center hover:underline hover:cursor-pointer text-gray-500" title="Comments">
+        class="flex items-center hover:underline hover:cursor-pointer " title="Comments">
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="h-4 w-4">
@@ -61,7 +76,7 @@
       </InertiaLink>
 
       <!-- Applicants -->
-      <div class="flex items-center text-gray-500" title="Applicants">
+      <div class="flex items-center " title="Applicants">
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="h-4 w-4">
@@ -85,6 +100,7 @@ import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/vue/solid'
 
 import dayjs from '@/dayjs'
 import { useUser } from '@/helpers'
+import { ref } from 'vue'
 
 const props = defineProps({
   project: Object,
@@ -100,14 +116,9 @@ const props = defineProps({
 const user = useUser()
 
 const createdAtDiff = dayjs(props.project.created_at).fromNow()
-</script>
 
-<style lang="postcss" scoped>
-.actions {
-  @apply flex gap-1.5;
-
-  >* {
-    @apply text-gray-500 border border-gray-200 rounded p-1.5;
-  }
+const deletePopoverOpen = ref(false)
+const closeDeletePopover = () => {
+  deletePopoverOpen.value = false
 }
-</style>
+</script>

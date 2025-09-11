@@ -52,6 +52,10 @@ class ProjectController extends Controller
             'links' => [
                 'nextUrl' => $paginatedProjects->nextPageUrl(),
                 'previousUrl' => $paginatedProjects->previousPageUrl()
+            ],
+            'pageFilters' => [
+                'roles' => $rolesParam,
+                'tags' => $tagsParam,
             ]
         ]);
     }

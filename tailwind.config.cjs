@@ -39,6 +39,4 @@ module.exports = {
     backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['responsive', 'disabled']
   },
-
-  plugins: [require('@tailwindcss/typography')]
 }

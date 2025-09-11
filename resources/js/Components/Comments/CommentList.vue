@@ -11,7 +11,7 @@
         @deleted="handleCommentDeleted" @reply-added="$emit('commentAdded')" />
     </div>
 
-    <div v-else class="text-center py-8 text-gray-500">
+    <div v-else class="text-center py-8 text-gray-500 dark:text-gray-200">
       <p>No comments yet. Be the first to share your thoughts!</p>
     </div>
   </div>

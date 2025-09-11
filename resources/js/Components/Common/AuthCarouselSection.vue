@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex-grow h-screen items-center justify-center bg-gray-50 hidden md:flex"
-  >
+  <div class="grow h-screen items-center justify-center bg-gray-50 dark:bg-gray-800 hidden md:flex">
     <Illustration />
   </div>
 </template>

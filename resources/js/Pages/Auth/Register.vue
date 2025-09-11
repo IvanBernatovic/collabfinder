@@ -2,16 +2,13 @@
   <div class="flex">
     <AuthCarouselSection />
 
-    <section
-      class="flex-grow h-screen items-center flex justify-center"
-      id="login"
-    >
+    <section class="grow h-screen items-center flex justify-center" id="login">
       <div class="w-[365px]">
         <form @submit.prevent="submit">
           <div class="mb-[20px]">
-            <p class="text-sm text-gray-500">Start for free</p>
+            <p class="text-sm text-gray-500 dark:text-gray-200">Start for free</p>
             <h1 class="font-bold text-3xl py-3">Sign up</h1>
-            <p class="leading-5 text-gray-700">
+            <p class="leading-5 text-gray-700 dark:text-gray-100">
               Already a member?
               <Link href="/login" class="mx-auto">Sign in</Link>
             </p>
@@ -20,59 +17,29 @@
           <div class="py-6 flex flex-col gap-6">
             <form-group>
               <form-label for="name">Name</form-label>
-              <text-input
-                class="!p-[16px]"
-                v-model="form.name"
-                placeholder="Name"
-                id="name"
-                name="name"
-                required
-                minlength="2"
-                autocomplete="off"
-              />
+              <UInput size="xl" v-model="form.name" placeholder="Name" id="name" name="name" required minlength="2"
+                autocomplete="off" />
 
               <InputError :message="form.errors.name" />
             </form-group>
 
             <form-group>
               <form-label for="email">Email</form-label>
-              <text-input
-                class="!p-[16px]"
-                v-model="form.email"
-                placeholder="Email"
-                id="email"
-                name="email"
-                type="email"
-                required
-              />
+              <UInput size="xl" v-model="form.email" placeholder="Email" id="email" name="email" type="email"
+                required />
 
               <InputError :message="form.errors.email" />
             </form-group>
 
             <form-group>
               <div class="flex justify-between items-center pb-2">
-                <form-label class="pb-0" for="new-password"
-                  >Password</form-label
-                >
-                <button
-                  type="button"
-                  @click="togglePasswordType"
-                  class="text-sm text-primary"
-                >
+                <form-label class="pb-0" for="new-password">Password</form-label>
+                <button type="button" @click="togglePasswordType" class="text-sm text-primary">
                   {{ togglePasswordLabel }}
                 </button>
               </div>
-              <text-input
-                class="!p-[16px]"
-                v-model="form.password"
-                placeholder="Password"
-                :type="password_type"
-                autocomplete="new-password"
-                id="new-password"
-                name="new-password"
-                required
-                minlength="8"
-              />
+              <UInput size="xl" v-model="form.password" placeholder="Password" :type="password_type"
+                autocomplete="new-password" id="new-password" name="new-password" required minlength="8" />
 
               <InputError :message="form.errors.password" />
             </form-group>
@@ -82,7 +49,7 @@
                 >Password confirmation</form-label
               >
               <text-input
-                class="!p-[16px]"
+                class="p-[16px]!"
                 v-model="form.password_confirmation"
                 placeholder="Password confirmation"
                 :type="password_type"
@@ -97,31 +64,20 @@
 
             <FormGroup>
               <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  name="terms"
-                  v-model="form.terms"
-                  class="w-4 h-4 mr-2"
-                  required
-                />
+                <input type="checkbox" id="terms" name="terms" v-model="form.terms" class="w-4 h-4 mr-2" required />
 
-                <label class="text-gray-700" for="terms"
-                  >I agree with the
-                  <a href="/terms" target="blank">terms of service</a></label
-                >
+                <label class="text-gray-700 dark:text-gray-200" for="terms">I agree with the
+                  <a href="/terms" target="blank">terms of service</a></label>
               </div>
 
               <InputError :message="form.errors.terms_of_service" />
             </FormGroup>
           </div>
 
-          <primary-button class="w-full mb-1" :disabled="form.processing"
-            >Create your account</primary-button
-          >
+          <primary-button class="w-full mb-1" :disabled="form.processing">Create your account</primary-button>
         </form>
 
-        <p class="mt-2 text-gray-700 text-center">
+        <p class="mt-2 text-gray-700 dark:text-gray-200 text-center">
           Already a member?
           <Link href="/login" class="mx-auto">Sign in</Link>
         </p>

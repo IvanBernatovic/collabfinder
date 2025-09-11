@@ -1,29 +1,32 @@
 <template>
-  <div class="bg-gray-50 rounded-lg p-4 mb-4">
+  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-4">
     <div class="flex justify-between items-start mb-2">
       <div class="flex items-center">
         <img :src="comment.user.profile_photo_url" :alt="comment.user.name" class="w-8 h-8 rounded-full mr-3" />
         <div>
           <h4 class="font-semibold text-sm">{{ comment.user.name }}</h4>
-          <p class="text-xs text-gray-500">{{ formattedDate }}</p>
+          <p class="text-xs text-gray-500 dark:text-white">{{ formattedDate }}</p>
         </div>
       </div>
       <div v-if="canModify" class="flex gap-2">
-        <button @click="toggleEdit" class="text-blue-600 hover:text-blue-800 text-xs">
+        <button @click="toggleEdit"
+          class="text-blue-600 hover:text-blue-800 dark:text-blue-300 hover:dark:text-blue-500 text-xs">
           Edit
         </button>
-        <button @click="deleteComment" class="text-red-600 hover:text-red-800 text-xs">
+        <button @click="deleteComment"
+          class="text-red-600 hover:text-red-800 dark:text-red-300 hover:dark:text-red-500 text-xs">
           Delete
         </button>
       </div>
     </div>
 
     <div v-if="!isEditing">
-      <p class="text-gray-800">{{ comment.content }}</p>
+      <p class="text-gray-800 dark:text-gray-100">{{ comment.content }}</p>
 
       <!-- Action buttons -->
       <div class="flex gap-2 mt-3">
-        <button @click="toggleReply" class="text-blue-600 hover:text-blue-800 text-xs font-medium">
+        <button @click="toggleReply"
+          class="text-blue-500 dark:text-blue-300 hover:text-blue-700 hover:dark:text-blue-500 text-xs font-medium">
           {{ showReplyForm ? 'Cancel Reply' : 'Reply' }}
         </button>
         <span v-if="comment.replies && comment.replies.length > 0" class="text-xs text-gray-500">
@@ -38,11 +41,11 @@
           placeholder="Edit your comment..." required></textarea>
         <div class="flex gap-2 mt-2">
           <button type="submit" :disabled="editForm.processing"
-            class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50">
+            class="px-3 py-1 bg-blue-500 text-white rounded-sm text-sm hover:bg-blue-600 disabled:opacity-50">
             Save
           </button>
           <button type="button" @click="cancelEdit"
-            class="px-3 py-1 bg-gray-300 text-gray-700 rounded text-sm hover:bg-gray-400">
+            class="px-3 py-1 bg-gray-300 text-gray-700 rounded-sm text-sm hover:bg-gray-400">
             Cancel
           </button>
         </div>
@@ -57,7 +60,8 @@
 
     <!-- Replies -->
     <div v-if="comment.replies && comment.replies.length > 0" class="mt-4 ml-6 space-y-3">
-      <div v-for="reply in comment.replies" :key="reply.id" class="bg-white rounded-lg p-3 border border-gray-200">
+      <div v-for="reply in comment.replies" :key="reply.id"
+        class="bg-white dark:bg-gray-900 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-start mb-2">
           <div class="flex items-center">
             <img :src="reply.user.profile_photo_url" :alt="reply.user.name" class="w-6 h-6 rounded-full mr-2" />
@@ -67,21 +71,24 @@
             </div>
           </div>
           <div v-if="user.id === reply.user.id" class="flex gap-2">
-            <button @click="editReply(reply)" class="text-blue-600 hover:text-blue-800 text-xs">
+            <button @click="editReply(reply)"
+              class="text-blue-500 dark:text-blue-300 hover:text-blue-700 hover:dark:text-blue-500 text-xs">
               Edit
             </button>
-            <button @click="deleteReply(reply)" class="text-red-600 hover:text-red-800 text-xs">
+            <button @click="deleteReply(reply)"
+              class="text-red-600 hover:text-red-800 dark:text-red-300 hover:dark:text-red-500 text-xs">
               Delete
             </button>
           </div>
         </div>
 
         <div v-if="editingReplyId !== reply.id">
-          <p class="text-gray-800 text-sm">{{ reply.content }}</p>
+          <p class="text-gray-800 dark:text-gray-100 text-sm">{{ reply.content }}</p>
 
           <!-- Reply button for nested replies -->
           <div class="flex gap-2 mt-2">
-            <button @click="toggleReplyToReply(reply.id)" class="text-blue-600 hover:text-blue-800 text-xs font-medium">
+            <button @click="toggleReplyToReply(reply.id)"
+              class="text-blue-500 dark:text-blue-300 hover:text-blue-700 hover:dark:text-blue-500 text-xs">
               {{ showReplyToReplyForm === reply.id ? 'Cancel Reply' : 'Reply' }}
             </button>
           </div>
@@ -90,15 +97,15 @@
         <div v-else>
           <form @submit.prevent="updateReply(reply)" class="mt-2">
             <textarea v-model="replyEditContent"
-              class="w-full p-2 border border-gray-300 rounded-md resize-none text-sm" rows="2"
+              class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md resize-none text-sm" rows="2"
               placeholder="Edit your reply..." required></textarea>
             <div class="flex gap-2 mt-2">
               <button type="submit" :disabled="replyEditForm.processing"
-                class="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 disabled:opacity-50">
+                class="px-2 py-1 bg-blue-500 text-white rounded-sm text-sm hover:bg-blue-600 disabled:opacity-50">
                 Save
               </button>
               <button type="button" @click="cancelReplyEdit"
-                class="px-2 py-1 bg-gray-300 text-gray-700 rounded text-xs hover:bg-gray-400">
+                class="px-2 py-1 bg-gray-300 text-gray-700 rounded-sm text-xs hover:bg-gray-400">
                 Cancel
               </button>
             </div>

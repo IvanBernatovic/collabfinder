@@ -1,7 +1,5 @@
 <template>
-  <button
-    :type="type"
-    class="
+  <button :type="type" class="
       inline-flex
       items-center
       justify-center
@@ -15,14 +13,13 @@
       uppercase
       tracking-widest
       hover:bg-red-500
-      focus:outline-none
+      focus:outline-hidden
       focus:border-red-700
-      focus:ring focus:ring-red-200
+      focus:ring-3 focus:ring-red-200
       active:bg-red-600
       disabled:opacity-25
       transition
-    "
-  >
+    ">
     <slot></slot>
   </button>
 </template>

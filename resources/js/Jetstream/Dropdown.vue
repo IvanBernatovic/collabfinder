@@ -22,7 +22,7 @@
         style="display: none"
         @click="open = false"
       >
-        <div class="rounded-md shadow-xs" :class="contentClasses">
+        <div class="rounded-md shadow-2xs" :class="contentClasses">
           <slot name="content"></slot>
         </div>
       </div>

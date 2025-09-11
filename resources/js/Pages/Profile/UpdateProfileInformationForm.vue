@@ -1,32 +1,29 @@
 <template>
   <form-section>
-    <template #title>Profile Information</template>
+    <template #title>Profile Information & Display Settings</template>
 
     <form @submit.prevent="submit" class="flex flex-col gap-6">
       <div class="form-group">
+        <label for="mode" class="form-label">Theme</label>
+        <UColorModeSelect size="lg" />
+      </div>
+
+      <div class="form-group">
         <label for="name" class="form-label">Name</label>
-        <text-input name="name" id="name" v-model="form.name" minlength="2" />
+        <UInput name="name" id="name" v-model="form.name" minlength="2" size="lg" />
 
         <input-error :message="form.errors?.updateProfileInformation?.name" />
       </div>
 
       <div class="form-group">
         <label for="email" class="form-label">Email</label>
-        <text-input
-          name="email"
-          type="email"
-          id="email"
-          v-model="form.email"
-          required
-        />
+        <UInput name="email" type="email" id="email" v-model="form.email" required size="lg" />
 
         <input-error :message="form.errors?.updateProfileInformation?.email" />
       </div>
 
       <div>
-        <primary-button type="submit" :disabled="form.processing"
-          >Save</primary-button
-        >
+        <primary-button type="submit" :disabled="form.processing">Save</primary-button>
       </div>
     </form>
   </form-section>

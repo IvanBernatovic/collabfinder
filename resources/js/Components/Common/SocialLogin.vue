@@ -1,18 +1,14 @@
 <template>
   <div class="justify-center">
     <div class="py-10 flex w-2/3 mx-auto">
-      <div class="bg-gray-300 relative flex-grow line"></div>
-      <div class="px-5 text-gray-600">{{ text }}</div>
-      <div class="bg-gray-300 relative flex-grow line"></div>
+      <div class="bg-gray-300 dark:bg-gray-500 relative grow line"></div>
+      <div class="px-5 text-gray-600 dark:text-gray-200">{{ text }}</div>
+      <div class="bg-gray-300 dark:bg-gray-500 relative grow line"></div>
     </div>
 
     <div class="flex gap-x-2 justify-center text-gray-700">
-      <a
-        class="secondary-btn h-[36px] capitalize"
-        v-for="provider in socialProviders"
-        :key="provider"
-        :href="`auth/login/${provider}`"
-      >
+      <a class="secondary-btn h-[36px] capitalize" v-for="provider in socialProviders" :key="provider"
+        :href="`auth/login/${provider}`">
         <i :class="`fab fa-${provider} mr-2`"></i>
         {{ provider }}
       </a>

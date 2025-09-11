@@ -3,9 +3,7 @@
     <div class="flex justify-between items-center mb-6">
       <div>
         Showing:
-        <span class="text-primary font-medium"
-          >{{ projects.length }} projects</span
-        >
+        <span class="text-primary font-medium">{{ projects.length }} projects</span>
       </div>
 
       <DateFilter v-model="filters.period" @search="applyFilters" />
@@ -13,33 +11,18 @@
 
     <div class="sm:flex gap-6">
       <div class="sm:w-2/5">
-        <NewFilters
-          :roles="roles"
-          :tags="tags"
-          v-model:period="filters.period"
-          v-model:selected-roles="filters.roles"
-          v-model:selected-tags="filters.tags"
-          @apply-filters="applyFilters"
-        />
+        <NewFilters :roles="roles" :tags="tags" v-model:period="filters.period" v-model:selected-roles="filters.roles"
+          v-model:selected-tags="filters.tags" @apply-filters="applyFilters" />
       </div>
       <div class="sm:w-3/5">
         <div>
-          <Project
-            v-for="project in projects"
-            :key="project.id"
-            :project="project"
-            :saved="project.id in savedProjects"
-            @save-project="saveProject"
-            @delete-project="deleteProject"
-          />
+          <Project v-for="project in projects" :key="project.id" :project="project" :saved="project.id in savedProjects"
+            @save-project="saveProject" @delete-project="deleteProject" />
 
           <NoResults v-if="!projects.length" />
 
-          <SimplePagination
-            v-if="links.nextUrl || links.previousUrl"
-            :next-url="links.nextUrl"
-            :previous-url="links.previousUrl"
-          />
+          <SimplePagination v-if="links.nextUrl || links.previousUrl" :next-url="links.nextUrl"
+            :previous-url="links.previousUrl" />
         </div>
       </div>
     </div>
@@ -80,7 +63,8 @@ const props = defineProps({
   savedProjects: {
     type: Array,
     default: () => []
-  }
+  },
+  pageFilters: Object
 })
 
 const {
@@ -88,7 +72,8 @@ const {
   roles,
   tags,
   links,
-  savedProjects: savedProjectsProp
+  savedProjects: savedProjectsProp,
+  pageFilters
 } = toRefs(props)
 
 const [projects] = useImmer(projectsProps)
@@ -110,15 +95,8 @@ const toast = useToast()
 
 const setInitFiltersFromUrl = () => {
   const url = new URL(window.location)
-  const roles = url.searchParams
-    .getAll('roles[]')
-    .map(roleId => parseInt(roleId))
-
-  filters.roles = roles
-
-  const tags = url.searchParams.getAll('tags[]').map(tagId => parseInt(tagId))
-
-  filters.tags = tags
+  filters.roles = pageFilters.value.roles?.map(id => parseInt(id, 10)) || []
+  filters.tags = pageFilters.value.tags?.map(id => parseInt(id, 10)) || []
   filters.period = url.searchParams.get('period')
 }
 
@@ -149,7 +127,11 @@ const saveProject = async project => {
 }
 
 const deleteProject = async project => {
-  router.delete(`/projects/${project.id}`)
+  router.delete(`/projects/${project.id}`, {
+    onSuccess() {
+      toast.success('Project deleted.')
+    }
+  })
 }
 
 onMounted(() => {

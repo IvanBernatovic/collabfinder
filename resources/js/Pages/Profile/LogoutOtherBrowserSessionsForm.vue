@@ -3,69 +3,53 @@
     <form-section>
       <template #title>Active sessions</template>
       <div>
-        <p class="text-gray-600">
+        <p class="text-gray-600 dark:text-gray-300">
           Manage and logout your active sessions on other browsers and devices.
         </p>
 
-        <div
-          v-for="session in sessions"
-          class="flex py-4 items-center border-b border-gray-300 text-sm font-medium"
-        >
-          <desktop-computer-icon
-            class="w-10 h-10 mr-4 text-gray-500"
-            v-if="session.agent.is_desktop"
-          />
-          <device-mobile-icon
-            class="w-10 h-10 mr-4 text-gray-500"
-            v-if="!session.agent.is_desktop"
-          />
+        <div v-for="session in sessions"
+          class="flex py-4 items-center border-b border-gray-300 dark:border-gray-600 text-sm font-medium">
+          <desktop-computer-icon class="w-10 h-10 mr-4 text-gray-500" v-if="session.agent.is_desktop" />
+          <device-mobile-icon class="w-10 h-10 mr-4 text-gray-500" v-if="!session.agent.is_desktop" />
           <div class="flex flex-col justify-between h-11 flex-1">
             <div class="text-gray-800">
               {{ session.agent.platform }} - {{ session.agent.browser }}
             </div>
             <div class="text-gray-400">
               {{ session.ip_address }}
-              <span v-if="session.is_current_device" class="text-primary"
-                >This device</span
-              >
+              <span v-if="session.is_current_device" class="text-primary">This device</span>
             </div>
           </div>
         </div>
 
         <div class="mt-6">
-          <button class="secondary-btn" @click="confirmLogout">
-            Logout other sessions
-          </button>
+          <UModal v-model:open="confirmingLogout" title="Logout other browser sessions">
+            <button class="secondary-btn" @click="confirmLogout">
+              Logout other sessions
+            </button>
+            <template #body>
+              <form @submit.prevent="logoutOtherBrowserSessions">
+                <div class="form-group">
+                  <label class="form-label">Password</label>
+                  <UInput size="lg" type="password" v-model="form.password" required minlength="8" />
+
+                  <input-error :message="form.errors.password" />
+                </div>
+
+                <div class="flex gap-3 mt-6">
+                  <button class="secondary-btn" @click="closeModal" type="button">
+                    Cancel
+                  </button>
+                  <primary-button :disabled="form.processing">Logout other browser sessions</primary-button>
+                </div>
+              </form>
+            </template>
+          </UModal>
         </div>
       </div>
     </form-section>
 
-    <modal :is-open="confirmingLogout" @close="closeModal">
-      <template #title>Logout other browser sessions</template>
 
-      <form @submit.prevent="logoutOtherBrowserSessions" class="py-6">
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <text-input
-            type="password"
-            v-model="form.password"
-            required
-            minlength="8"
-          />
-
-          <input-error :message="form.errors.password" />
-        </div>
-
-        <div class="flex gap-3 mt-6">
-          <button class="secondary-btn" @click="closeModal" type="button">
-            Cancel
-          </button>
-          <primary-button :disabled="form.processing"
-            >Logout other browser sessions</primary-button
-          >
-        </div>
-      </form>
-    </modal>
   </div>
 </template>
 
@@ -76,7 +60,6 @@ import { DesktopComputerIcon, DeviceMobileIcon } from '@heroicons/vue/solid'
 import { useToast } from 'vue-toastification'
 
 import FormSection from '@/Components/Common/FormSection.vue'
-import Modal from '@/Components/Common/Modal.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import InputError from '@/Components/Form/InputError.vue'

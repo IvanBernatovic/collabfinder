@@ -5,55 +5,29 @@
 
       <form @submit.prevent="submit" class="flex flex-col gap-6">
         <div class="form-group">
-          <label for="current_password" class="form-label"
-            >Current password</label
-          >
-          <text-input
-            name="current_password"
-            id="current_password"
-            type="password"
-            v-model="form.current_password"
-            minlength="8"
-          />
+          <label for="current_password" class="form-label">Current password</label>
+          <UInput name="current_password" id="current_password" type="password" v-model="form.current_password"
+            minlength="8" size="lg" />
 
-          <input-error
-            :message="form.errors?.updatePassword?.current_password"
-          />
+          <input-error :message="form.errors?.updatePassword?.current_password" />
         </div>
 
         <div class="form-group">
           <label for="password" class="form-label">New password</label>
-          <text-input
-            name="password"
-            id="password"
-            type="password"
-            v-model="form.password"
-            minlength="8"
-          />
+          <UInput name="password" id="password" type="password" v-model="form.password" minlength="8" size="lg" />
 
           <input-error :message="form.errors?.updatePassword?.password" />
         </div>
 
         <div class="form-group">
-          <label for="password_confirmation" class="form-label"
-            >Confirm password</label
-          >
-          <text-input
-            name="password_confirmation"
-            id="password_confirmation"
-            type="password"
-            v-model="form.password_confirmation"
-            minlength="8"
-          />
-          <input-error
-            :message="form.errors?.updatePassword?.password_confirmation"
-          />
+          <label for="password_confirmation" class="form-label">Confirm password</label>
+          <UInput name="password_confirmation" id="password_confirmation" type="password"
+            v-model="form.password_confirmation" minlength="8" size="lg" />
+          <input-error :message="form.errors?.updatePassword?.password_confirmation" />
         </div>
 
         <div>
-          <primary-button type="submit" :disabled="form.processing"
-            >Save</primary-button
-          >
+          <primary-button type="submit" :disabled="form.processing">Save</primary-button>
         </div>
       </form>
     </form-section>

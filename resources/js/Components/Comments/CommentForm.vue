@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-white border border-gray-200 rounded-lg p-4" :class="{ 'mb-6': !parentId, 'mb-3': parentId }">
+  <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+    :class="{ 'mb-6': !parentId, 'mb-3': parentId }">
     <div class="flex justify-between items-center mb-3">
       <h3 class="text-lg font-semibold">{{ parentId ? 'Reply to Comment' : 'Add a Comment' }}</h3>
       <button v-if="parentId && showCancel" @click="cancelReply" class="text-gray-500 hover:text-gray-700 text-sm">
@@ -8,7 +9,7 @@
     </div>
     <form @submit.prevent="submitComment">
       <textarea v-model="form.content"
-        class="w-full p-3 border border-gray-300 rounded-md resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         :rows="parentId ? 3 : 4"
         :placeholder="parentId ? 'Write your reply...' : 'Share your thoughts about this project...'"
         required></textarea>

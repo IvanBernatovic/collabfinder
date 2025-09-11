@@ -1,7 +1,27 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import './vars.css';
+@import 'tailwindcss';
+@import './vars.css' layer(utilities);
+@import '@nuxt/ui';
+
+
+@config '../../tailwind.config.cjs';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+/* @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+} */
 
 body {
   font-family: 'Inter', sans-serif;
@@ -30,12 +50,16 @@ body {
   top: 0.7rem;
 }
 
-a {
+/* a .link {
   @apply text-primary;
+} */
+
+button {
+  @apply cursor-pointer;
 }
 
 .secondary-btn {
-  @apply px-4 py-2 flex items-center justify-center bg-white text-gray-700 leading-5 text-center box-border border border-gray-300 rounded-md cursor-pointer transition-colors hover:bg-gray-50;
+  @apply px-4 py-2 flex items-center justify-center bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-100 leading-5 text-center box-border border border-gray-300 dark:border-gray-700 rounded-md cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-800;
 }
 
 .form-group {
@@ -43,17 +67,62 @@ a {
 }
 
 .form-label {
-  @apply font-medium leading-[20px] pb-2 text-darkgrey;
+  @apply font-medium leading-[20px] pb-2 text-darkgrey dark:text-gray-300;
 }
 
 .side-link {
-  @apply p-2 text-[#495057] rounded font-medium;
+  @apply p-2 text-[#495057] dark:text-gray-100 rounded-sm font-medium;
 
   &.active {
-    @apply bg-[#E9ECEF];
+    @apply bg-[#E9ECEF] dark:bg-gray-600;
   }
 
   &:hover {
-    @apply bg-[#E9ECEF];
+    @apply bg-[#E9ECEF] dark:bg-gray-600;
   }
+}
+
+.editor-btn {
+  @apply flex size-6 text-black dark:text-gray-50 justify-center items-center rounded hover:cursor-pointer;
+}
+
+.ProseMirror {
+  ul {
+    @apply list-disc ml-4;
+  }
+
+  ol {
+    @apply list-decimal ml-4;
+  }
+}
+
+.actions {
+  @apply flex gap-1.5;
+
+  >* {
+    @apply text-gray-500 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-md p-1.5;
+  }
+}
+
+.nav__inner {
+  @apply grid bg-white dark:bg-gray-900 py-4 px-3 z-500 relative text-gray-900 dark:text-gray-100;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.actions-btn {
+  @apply text-black dark:text-white p-2 rounded-lg box-border border border-gray-500 hover:cursor-pointer;
+}
+
+.description {
+  ul {
+    @apply list-disc ml-4;
+  }
+
+  ol {
+    @apply list-decimal ml-4;
+  }
+}
+
+.social-icon-wrapper {
+  @apply inline-flex items-center justify-center text-white p-1.5 rounded;
 }

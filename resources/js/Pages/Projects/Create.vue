@@ -1,7 +1,7 @@
 <template>
   <div class="py-4 lg:w-2/3 mx-auto">
-    <div class="bg-white rounded-lg card-shadow">
-      <div class="p-6 border-b border-gray-200">
+    <div class="bg-white dark:bg-gray-900 text-black dark:text-gray-50 rounded-lg card-shadow">
+      <div class="p-6 border-b border-gray-200 dark:border-gray-500">
         <h1 class="text-xl font-semibold">Create project</h1>
       </div>
       <FormV2 :roles="roles" :tags="tags" @project-submit="submitNewProject">

@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
 
 import { createApp, h } from 'vue'
+import ui from '@nuxt/ui/vue-plugin'
 import { createInertiaApp } from '@inertiajs/vue3'
 import Toast from 'vue-toastification'
 
@@ -42,6 +43,7 @@ createInertiaApp({
         transition: 'Vue-Toastification__fade',
         timeout: 2500
       })
+      .use(ui)
       .mount(el)
 
     if (import.meta.env.VITE_APP_ENV === 'production') {
