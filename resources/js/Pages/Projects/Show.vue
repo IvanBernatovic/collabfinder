@@ -92,7 +92,7 @@ import dayjs from '@/dayjs'
 import PrimaryButton from '@/Components/Common/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Common/SecondaryButton.vue'
 import ProjectModal from '@/Components/Projects/ProjectModal.vue'
-import CommentList from '@/Components/Comments/CommentList.vue'
+import { CommentList, removeCommentById } from '@/Components/Comments'
 
 const props = defineProps({
   project: Object,
@@ -163,7 +163,7 @@ const handleCommentAdded = () => {
 }
 
 const handleCommentDeleted = (commentId) => {
-  // Remove the deleted comment from the local state
-  commentsData.value = commentsData.value.filter(comment => comment.id !== commentId)
+  // Remove the deleted comment from the local state using utility function
+  commentsData.value = removeCommentById(commentsData.value, commentId)
 }
 </script>

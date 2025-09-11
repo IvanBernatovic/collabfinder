@@ -21,6 +21,7 @@
 import { computed } from 'vue'
 import CommentForm from './CommentForm.vue'
 import CommentItem from './CommentItem.vue'
+import { filterParentComments } from './utils'
 
 const props = defineProps({
   comments: {
@@ -41,7 +42,7 @@ const emit = defineEmits(['commentAdded', 'commentDeleted'])
 
 // Filter to only show parent comments (replies are shown within CommentItem)
 const parentComments = computed(() => {
-  return props.comments.filter(comment => !comment.parent_id)
+  return filterParentComments(props.comments)
 })
 
 const handleCommentDeleted = (commentId) => {

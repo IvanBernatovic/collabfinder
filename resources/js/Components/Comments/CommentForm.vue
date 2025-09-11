@@ -1,6 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
-    :class="{ 'mb-6': !parentId, 'mb-3': parentId }">
+  <div class="bg-white dark:bg-gray-900 rounded-lg" :class="{ 'mb-6': !parentId, 'mb-3': parentId }">
     <div class="flex justify-between items-center mb-3">
       <h3 class="text-lg font-semibold">{{ parentId ? 'Reply to Comment' : 'Add a Comment' }}</h3>
       <button v-if="parentId && showCancel" @click="cancelReply" class="text-gray-500 hover:text-gray-700 text-sm">
@@ -31,6 +30,7 @@
 import { computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
+import { COMMENT_CONFIG, COMMENT_MESSAGES } from './constants'
 
 const props = defineProps({
   projectId: {
@@ -50,7 +50,6 @@ const props = defineProps({
 const emit = defineEmits(['commentAdded', 'cancel'])
 
 const toast = useToast()
-const maxChars = 1000
 
 const form = useForm({
   content: '',
@@ -58,7 +57,7 @@ const form = useForm({
 })
 
 const remainingChars = computed(() => {
-  return maxChars - form.content.length
+  return COMMENT_CONFIG.MAX_CHARS - form.content.length
 })
 
 const submitComment = () => {
@@ -69,11 +68,11 @@ const submitComment = () => {
     onSuccess: () => {
       form.reset()
       form.parent_id = props.parentId // Restore parent_id after reset
-      toast.success(props.parentId ? 'Reply added successfully!' : 'Comment added successfully!')
+      toast.success(props.parentId ? COMMENT_MESSAGES.REPLY_SUCCESS : COMMENT_MESSAGES.ADD_SUCCESS)
       emit('commentAdded')
     },
     onError: () => {
-      toast.error(props.parentId ? 'Failed to add reply' : 'Failed to add comment')
+      toast.error(props.parentId ? COMMENT_MESSAGES.REPLY_ERROR : COMMENT_MESSAGES.ADD_ERROR)
     }
   })
 }
