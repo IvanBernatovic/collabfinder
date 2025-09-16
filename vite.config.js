@@ -7,11 +7,9 @@ import ui from '@nuxt/ui/vite'
 
 export default defineConfig({
   plugins: [
-    laravel([
-      'resources/css/app.css',
-      'resources/js/app.js',
-      'resources/js/icons.js'
-    ]),
+    laravel({
+
+    }),
     vue({
       template: {
         // required for Laravel Vite plugin
